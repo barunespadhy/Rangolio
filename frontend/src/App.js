@@ -1,37 +1,36 @@
-import logo from './logo.svg';
-import { Button, Container, Row, Col } from "reactstrap";
 import './App.css';
-import DemoNavbar from './components/Navbars/DemoNavbar'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import HomePage from './components/views/home-page';
+import Header from './components/views/navbar';
+import DataService from './services/data-service'
 
 function App() {
+  const [userData, setUserData] = useState(null);
+  const [themeConfig, setThemeConfig] = useState(null);
+  const [globalTheme, setGlobalTheme] = useState("lightTheme");
+
+  useEffect(() => {
+    DataService.getData('user-data').then( response =>
+      setUserData(response.data)
+    )
+    DataService.getData('theme-config').then( response => 
+      setThemeConfig(response.data)
+    )
+  },[])
+
+  const themeSwitcher = (e) => {
+    e.target.checked ? setGlobalTheme("darkTheme") : setGlobalTheme("lightTheme");
+  }
+
   return (
-    <div className="App">
-      <DemoNavbar />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Button
-                    className="btn-icon btn-3 ml-1"
-                    color="primary"
-                    type="button"
-                  >
-                    <span className="btn-inner--icon mr-1">
-                      <i className="ni ni-bag-17" />
-                    </span>
-                    <span className="btn-inner--text">With icon</span>
-                    <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-                  </Button>
-        
-      </header>
+    <div>
+        <Router>
+          <Header ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />
+          <Routes>
+            <Route path="/" element={<HomePage GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />} />
+          </Routes>
+        </Router>
     </div>
   );
 }

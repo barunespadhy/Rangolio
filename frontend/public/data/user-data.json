@@ -1,0 +1,13 @@
+{
+    "name": "Jhon Doe",
+    "greetingLine": "Hi! My name is",
+    "tagLine": "Me like tech. Checkout my blog where I have nice stuff!",
+    "profile-photo": "",
+    "links": {
+        "instagram": ""
+    },
+    "contact":{
+        "email":"",
+        "phone": ""
+    }
+}

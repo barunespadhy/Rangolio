@@ -1,0 +1,17 @@
+{
+    "navbarColor": "bg-default",
+    "darkTheme": {
+        "theme": "Dark Mode",
+        "background": "bg-dark",
+        "textColor": "text-white",
+        "captionColor": "#8a8a8a",
+        "fontAwesomeIcon": "faSun"
+    },
+    "lightTheme":{
+        "theme": "Light Mode",
+        "background": "",
+        "textColor": "text-black",
+        "captionColor": "#605f5f",
+        "fontAwesomeIcon": "faMoon"
+    }
+}
