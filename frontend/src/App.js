@@ -1,8 +1,15 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {useEffect, useState} from 'react';
+
+//Import Views
 import HomePage from './components/views/home-page';
-import Header from './components/views/navbar';
+
+//Import 
+import Header from './components/views/shared/navbar';
+import Footer from './components/views/shared/footer';
+
+//Import Services
 import DataService from './services/data-service'
 
 function App() {
@@ -11,10 +18,10 @@ function App() {
   const [globalTheme, setGlobalTheme] = useState("lightTheme");
 
   useEffect(() => {
-    DataService.getData('user-data').then( response =>
+    DataService.getData('shared/user-data').then( response =>
       setUserData(response.data)
     )
-    DataService.getData('theme-config').then( response => 
+    DataService.getData('shared/theme-config').then( response => 
       setThemeConfig(response.data)
     )
   },[])
@@ -29,7 +36,9 @@ function App() {
           <Header ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />
           <Routes>
             <Route path="/" element={<HomePage GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />} />
+            <Route path="/" element={<Footer GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
           </Routes>
+          <Footer ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />
         </Router>
     </div>
   );

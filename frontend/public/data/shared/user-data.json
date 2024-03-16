@@ -1,8 +1,8 @@
 {
-    "name": "Jhon Doe",
+    "name": "John Doe",
     "greetingLine": "Hi! My name is",
     "tagLine": "Me like tech. Checkout my blog where I have nice stuff!",
-    "profile-photo": "",
+    "profilePhoto": "homepage/profile.jpg",
     "links": {
         "instagram": ""
     },
