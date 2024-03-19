@@ -4,9 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import "./assets/argon-design-system-react/src/assets/vendor/nucleo/css/nucleo.css";
-import "./assets/argon-design-system-react/src/assets/vendor/font-awesome/css/font-awesome.min.css";
-import "./assets/argon-design-system-react/src/assets/scss/argon-design-system-react.scss?v1.1.0";
+import "./assets/argon-design-system-react/vendor/nucleo/css/nucleo.css";
+import "./assets/argon-design-system-react/vendor/font-awesome/css/font-awesome.min.css";
+import "./assets/argon-design-system-react/scss/argon-design-system-react.scss?v1.1.0";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
