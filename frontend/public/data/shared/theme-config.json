@@ -1,0 +1,42 @@
+{
+    "darkTheme": {
+        "theme": "Dark Mode",
+        "background": "bg-dark",
+        "textColor": "text-white",
+        "captionColor": "#8a8a8a",
+        "fontAwesomeIcon": "faSun",
+        "borderColor": "white",
+        "categoryNavigator": "light",
+        "navBar": {
+            "navBarTheme": "navbar-dark",
+            "background": "bg-secondary",
+            "buttonColor": "light",
+            "shadow": "-webkit-box-shadow: 1px 28px 20px -22px rgba(0,0,0,0.75); -moz-box-shadow: 1px 28px 20px -22px rgba(0,0,0,0.75); box-shadow: 1px 28px 20px -22px rgba(0,0,0,0.75);"
+        },
+        "footer": {
+            "background": "bg-secondary",
+            "text": "bg-white",
+            "shadow": "1px -29px 20px -22px rgba(0,0,0,0.75)"
+        }
+    },
+    "lightTheme":{
+        "theme": "Light Mode",
+        "background": "bg-light",
+        "textColor": "text-black",
+        "captionColor": "#605f5f",
+        "fontAwesomeIcon": "faMoon",
+        "borderColor": "black",
+        "categoryNavigator": "dark",
+        "navBar": {
+            "navBarTheme": "navbar-light",
+            "background": "bg-primary",
+            "buttonColor": "light",
+            "shadow": "-webkit-box-shadow: 1px 28px 20px -22px rgba(0,0,0,0.75); -moz-box-shadow: 1px 28px 20px -22px rgba(0,0,0,0.75); box-shadow: 1px 28px 20px -22px rgba(0,0,0,0.75);"
+        },
+        "footer": {
+            "background": "bg-primary",
+            "text": "bg-white",
+            "shadow": "1px -29px 20px -22px rgba(0,0,0,0.75)"
+        }
+    }
+}

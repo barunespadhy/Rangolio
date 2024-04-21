@@ -1,0 +1,5 @@
+a {
+    text-decoration: none; /* Removes underline */
+    color: inherit;       /* Inherits color from parent */
+    border: none;         /* Removes any borders */
+}
