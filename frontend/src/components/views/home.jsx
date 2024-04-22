@@ -8,7 +8,7 @@ function HomePage(props) {
   if (GlobalTheme && ThemeConfig) 
   return (
     <Container fluid className={`p-0 ${ThemeConfig[GlobalTheme].background}`}>
-      <div className="d-flex flex-column justify-content-center align-items-center min-vh-83">
+      <div className="d-flex flex-column justify-content-center align-items-center min-vh-82">
       {UserData.profilePhoto !== "" ? <img style={{ width: '180px', height: '180px', objectFit: 'cover' }} className="rounded-circle" src={MediaService.getMedia(UserData.profilePhoto)} /> : ""}
         <h3 className={`${ThemeConfig[GlobalTheme].textColor}`}>
           <center>

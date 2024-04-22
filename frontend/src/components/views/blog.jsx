@@ -24,7 +24,7 @@ function Blog(props) {
 
   if (GlobalTheme && ThemeConfig) {
   return (
-    <Container fluid className={`min-vh-83 ${ThemeConfig[GlobalTheme].background}`}>
+    <Container fluid className={`min-vh-82 ${ThemeConfig[GlobalTheme].background}`}>
     <CategoryBar currentPage={blogData.parentCategory} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
       <Row className="mb-4">
         <Col className="p-0">

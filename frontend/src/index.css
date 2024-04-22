@@ -3,3 +3,7 @@ a {
     color: inherit;       /* Inherits color from parent */
     border: none;         /* Removes any borders */
 }
+
+.min-vh-82{
+    min-height: 82.2vh;
+}
