@@ -10,13 +10,11 @@
         "navBar": {
             "navBarTheme": "navbar-dark",
             "background": "bg-secondary",
-            "buttonColor": "light",
-            "shadow": "-webkit-box-shadow: 1px 28px 20px -22px rgba(0,0,0,0.75); -moz-box-shadow: 1px 28px 20px -22px rgba(0,0,0,0.75); box-shadow: 1px 28px 20px -22px rgba(0,0,0,0.75);"
+            "buttonColor": "light"
         },
         "footer": {
             "background": "bg-secondary",
-            "text": "bg-white",
-            "shadow": "1px -29px 20px -22px rgba(0,0,0,0.75)"
+            "text": "bg-white"
         }
     },
     "lightTheme":{
@@ -29,14 +27,12 @@
         "categoryNavigator": "dark",
         "navBar": {
             "navBarTheme": "navbar-light",
-            "background": "bg-primary",
-            "buttonColor": "light",
-            "shadow": "-webkit-box-shadow: 1px 28px 20px -22px rgba(0,0,0,0.75); -moz-box-shadow: 1px 28px 20px -22px rgba(0,0,0,0.75); box-shadow: 1px 28px 20px -22px rgba(0,0,0,0.75);"
+            "background": "bg-secondary",
+            "buttonColor": "light"
         },
         "footer": {
-            "background": "bg-primary",
-            "text": "bg-white",
-            "shadow": "1px -29px 20px -22px rgba(0,0,0,0.75)"
+            "background": "bg-secondary",
+            "text": "bg-white"
         }
     }
 }

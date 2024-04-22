@@ -53,7 +53,7 @@ function BlogList(props) {
       <Container fluid className={`p-0 ${ThemeConfig[GlobalTheme].background}`}>
       <CategoryBar currentPage={categoryID} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
         <Row className="justify-content-center align-items-center">
-          <Col className="d-flex flex-column align-items-center min-vh-100">
+          <Col className="d-flex flex-column align-items-center min-vh-83">
             <div className="w-100">
             <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{"width": "100%"}}>
               <CardBody>

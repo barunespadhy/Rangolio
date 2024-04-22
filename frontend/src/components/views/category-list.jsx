@@ -35,7 +35,7 @@ function Blogs(props) {
     return (
       <Container fluid className={`p-0 ${ThemeConfig[GlobalTheme].background}`}>
         <Row className="justify-content-center align-items-center">
-          <Col className="d-flex flex-column align-items-center min-vh-100">
+          <Col className="d-flex flex-column align-items-center min-vh-83">
             {/* Top Section - Categories */}
             <div className="w-100">
             <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{"width": "100%"}}>
@@ -51,6 +51,7 @@ function Blogs(props) {
               {categoryMetadata.length > 0 ? 
                 categoryMetadata.map((item, index) => (
                   <CardListViewer 
+                    key={item.id}
                     totalItems={categoryMetadata.length} 
                     cardType={"longCard"} 
                     resourceType={"categories"}
