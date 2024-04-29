@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import MediaService from '../../../services/media-service'
+import MediaService from '../../services/media-service'
 import {
   Spinner,
   Card,

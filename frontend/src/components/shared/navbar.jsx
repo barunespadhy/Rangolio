@@ -13,7 +13,7 @@ import {
   Button, ButtonGroup, Label, Input
 } from 'reactstrap';
 import { useState, useEffect } from 'react';
-import MediaService from '../../../services/media-service'
+import MediaService from '../../services/media-service'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon, faPen } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';

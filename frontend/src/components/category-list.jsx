@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 //import services
-import DataService from '../../services/data-service';
+import DataService from '../services/data-service';
 
 //import views
 import CardListViewer from './shared/card-list-viewer';

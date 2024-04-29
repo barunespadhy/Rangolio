@@ -4,5 +4,21 @@
     "coverImage": "category/520b7982-069e-4a48-9ef3-64507d86a579/media/technology.png",
     "tagLine": "Read articles about tech",
     "description": "I have been working in tech for long, and here are my thoughts of random stuff",
-    "featuredBlog": "b4d9e1a0-4a77-48eb-a04b-06ec23e2b73e"
+    "featuredBlog": "b4d9e1a0-4a77-48eb-a04b-06ec23e2b73e",
+    "blogMetadata": [{
+        "id": "72e4d550-a19b-4b62-bf5a-13f98813d31a",
+        "name": "Blog 1",
+        "description": "A subtitle for Blog 1",
+        "coverImage": "blogs/72e4d550-a19b-4b62-bf5a-13f98813d31a/media/blog1.png",
+        "tagLine": "Read more",
+        "parentCategory": "520b7982-069e-4a48-9ef3-64507d86a579"
+        },
+        {
+        "id": "b4d9e1a0-4a77-48eb-a04b-06ec23e2b73e",
+        "name": "Blog 2",
+        "description": "A subtitle for Blog 2",
+        "coverImage": "blogs/b4d9e1a0-4a77-48eb-a04b-06ec23e2b73e/media/blog2.png",
+        "tagLine": "Read more",
+        "parentCategory": "520b7982-069e-4a48-9ef3-64507d86a579"    
+    }]
 }

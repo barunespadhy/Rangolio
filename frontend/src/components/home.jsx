@@ -1,5 +1,5 @@
 import { Container, Spinner } from 'reactstrap';
-import MediaService from '../../services/media-service'
+import MediaService from '../services/media-service'
 
 function HomePage(props) {
   const UserData = props.UserData ? props.UserData : <Spinner> Loading... </Spinner>

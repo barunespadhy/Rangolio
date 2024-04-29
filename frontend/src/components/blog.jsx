@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import DataService from '../../services/data-service';
-import MediaService from '../../services/media-service'
+import DataService from '../services/data-service';
+import MediaService from '../services/media-service'
 import CategoryBar from './shared/category-bar';
 import {
   Container,Row, Col,Spinner, UncontrolledCollapse, Button, ButtonGroup, Card, CardBody
@@ -35,7 +35,7 @@ function Blog(props) {
           />
         </Col>
       </Row>
-      <Row className="mr-2 ml-2 mb-2 mt-1">
+      <Row className="mr-2 ml-2 mb-2 mt-1 blogContent">
         <Col>
           <h1 className={`${ThemeConfig[GlobalTheme].textColor}`}>{blogData.name}</h1>
           <h4 className={`${ThemeConfig[GlobalTheme].textColor}`}>{blogData.description}</h4>
@@ -55,6 +55,16 @@ function Blog(props) {
                   <ButtonGroup
                     className="my-2"
                   >
+                  <Button outline>
+                    <Link to="#" onClick={(e) => {
+                      e.preventDefault();
+                      navigator.clipboard.writeText(window.location.href)
+                      props.notificationToggler("Link copied")
+                      return false;
+                    }}>
+                      Copy Link
+                      </Link>
+                    </Button>
                     <Button outline>
                     <Link to="#" onClick={(e) => {
                       e.preventDefault();
@@ -96,7 +106,7 @@ function Blog(props) {
         </Col>
       </Row>
 
-      <Row className="mr-5 ml-5 mt-1">
+      <Row className="mr-5 ml-5 mt-1 blogContent">
         <Col>
           <p style={{marginLeft: '50px', marginRight: '50px'}} className={`${ThemeConfig[GlobalTheme].textColor}`}>
             {blogData.contentBody}

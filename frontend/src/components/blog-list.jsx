@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useEffect, useState } from 'react';
-import DataService from '../../services/data-service';
-import MediaService from '../../services/media-service';
+import DataService from '../services/data-service';
+import MediaService from '../services/media-service';
 import CardListViewer from './shared/card-list-viewer';
 import CategoryBar from './shared/category-bar';
 import {
@@ -25,16 +25,11 @@ function BlogList(props) {
   const GlobalTheme = props.GlobalTheme;
   const ThemeConfig = props.ThemeConfig;
 
-  const [blogMetadata, setBlogMetadata] = useState('loading');
   const [categoryData, setCategoryData] = useState('loading');
   const [featuredBlogData, setFeaturedBlogData] = useState('loading');
   const [currentPage, setCurrentPage] = useState('loading');
   
   useEffect(() => {
-    DataService.getData(`category/${categoryID}/blog-metadata`).then(response =>{
-          setBlogMetadata(response.data)
-      }
-    );
     DataService.getData(`category/${categoryID}/category-data`).then(response =>{
       setCategoryData(response.data);
       if (response.data.featuredBlog){
@@ -72,19 +67,19 @@ function BlogList(props) {
               <CardListViewer
                 key={featuredBlogData.id}
                 totalItems={featuredBlogData === 'nodata' ? 0 : 1}
-                cardType={"longCard"} 
+                cardType={"longCard"}
                 resourceType={"blog"}
-                textColor={ThemeConfig[GlobalTheme].textColor} 
-                bgColor={ThemeConfig[GlobalTheme].background} 
+                textColor={ThemeConfig[GlobalTheme].textColor}
+                bgColor={ThemeConfig[GlobalTheme].background}
                 itemObject={featuredBlogData}
               />
             }
             {
-              blogMetadata === 'loading' ? <Spinner /> :
-              blogMetadata.map((item, index) => (
+              categoryData === 'loading' ? <Spinner /> :
+              categoryData.blogMetadata.map((item, index) => (
                 <CardListViewer
                   key={item.id}
-                  totalItems={blogMetadata.length} 
+                  totalItems={categoryData.blogMetadata.length} 
                   cardType={"smallCard"} 
                   resourceType={"blog"}
                   textColor={ThemeConfig[GlobalTheme].textColor} 
