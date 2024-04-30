@@ -1,7 +1,7 @@
 {
     "name": "John Doe",
     "greetingLine": "Hi! My name is",
-    "tagLine": "Me like tech. Checkout my blog where I have nice stuff!",
+    "tagLine": "<span>Me like tech. Checkout my blog where I have nice stuff!</span>",
     "profilePhoto": "homepage/media/profile.png",
     "links": {
         "instagram": ""

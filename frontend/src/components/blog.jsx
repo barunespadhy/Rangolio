@@ -107,16 +107,10 @@ function Blog(props) {
       </Row>
 
       <Row className="mr-5 ml-5 mt-1 blogContent">
-        <Col>
-          <p style={{marginLeft: '50px', marginRight: '50px'}} className={`${ThemeConfig[GlobalTheme].textColor}`}>
-            {blogData.contentBody}
-          </p>
-          <p style={{marginLeft: '50px', marginRight: '50px'}} className={`${ThemeConfig[GlobalTheme].textColor} mt-1`}>
-            {blogData.contentBody}
-          </p>
-          <p style={{marginLeft: '50px', marginRight: '50px'}} className={`${ThemeConfig[GlobalTheme].textColor} mt-1`}>
-            {blogData.contentBody}
-          </p>
+        <Col style={{marginBottom: '25px'}}>
+          <div style={{marginLeft: '50px', marginRight: '50px'}} className={`${ThemeConfig[GlobalTheme].textColor}`} dangerouslySetInnerHTML={{ __html: blogData.contentBody }} />
+          <div style={{marginLeft: '50px', marginRight: '50px'}} className={`${ThemeConfig[GlobalTheme].textColor}`} dangerouslySetInnerHTML={{ __html: blogData.contentBody }} />
+          <div style={{marginLeft: '50px', marginRight: '50px'}} className={`${ThemeConfig[GlobalTheme].textColor}`} dangerouslySetInnerHTML={{ __html: blogData.contentBody }} />
         </Col>
       </Row>
     </Container>

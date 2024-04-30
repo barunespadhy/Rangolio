@@ -16,9 +16,7 @@ function HomePage(props) {
           </center>
         </h3>
         <h5 className={`${ThemeConfig[GlobalTheme].textColor}`}>
-          <center>
-          {`${UserData.tagLine}`}
-          </center>
+          <div dangerouslySetInnerHTML={{ __html: `${UserData.tagLine}` }} />
         </h5>
       </div>
     </Container>
