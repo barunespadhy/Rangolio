@@ -31,14 +31,6 @@ function Header(props) {
     props.ThemeSwitcher(themeSelected)
   }, [themeSelected])
 
-  const onExiting = () => {
-    setCollapseClasses('collapsing-out');
-  };
-
-  const onExited = () => {
-    setCollapseClasses('');
-  };
-
   if (GlobalTheme && ThemeConfig && UserData)
   return (
     <header className="header-global">
@@ -61,20 +53,6 @@ function Header(props) {
             </Button>
           </Link>
         </NavbarBrand>
-        <button
-          aria-controls="navbar-default"
-          aria-expanded={false}
-          aria-label="Toggle navigation"
-          className="navbar-toggler"
-          data-target="#navbar-default"
-          data-toggle="collapse"
-          id="navbar-default"
-          type="button"
-        >
-          <span className="navbar-toggler-icon" />
-        </button>
-
-        <UncontrolledCollapse navbar toggler="#navbar-default" className={collapseClasses} onExiting={onExiting} onExited={onExited}>
           <Nav className="ml-lg-auto" navbar>
           <NavItem>
           <ButtonGroup style={{marginTop: '15px', marginBottom: '15px'}}>
@@ -104,7 +82,6 @@ function Header(props) {
                 </ButtonGroup>
               </NavItem>
           </Nav>
-        </UncontrolledCollapse>
       </Container>
     </Navbar>
     </header>
