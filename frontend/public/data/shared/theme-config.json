@@ -1,4 +1,5 @@
 {
+    "defaultTheme": "darkTheme",
     "darkTheme": {
         "theme": "Dark Mode",
         "background": "bg-dark",

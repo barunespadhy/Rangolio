@@ -33,9 +33,9 @@ function Blogs(props) {
 
   if (GlobalTheme && ThemeConfig) {
     return (
-      <Container fluid className={`p-0 ${ThemeConfig[GlobalTheme].background}`}>
+      <Container fluid className={`p-0 mb-2 ${ThemeConfig[GlobalTheme].background}`}>
         <Row className="justify-content-center align-items-center">
-          <Col className="d-flex flex-column align-items-center min-vh-82">
+          <Col className="d-flex flex-column align-items-center">
             {/* Top Section - Categories */}
             <div className="w-100">
             <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{"width": "100%"}}>

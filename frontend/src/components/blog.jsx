@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import DataService from '../services/data-service';
 import MediaService from '../services/media-service'
 import CategoryBar from './shared/category-bar';
+
 import {
   Container,Row, Col,Spinner, UncontrolledCollapse, Button, ButtonGroup, Card, CardBody
 } from 'reactstrap';
@@ -24,7 +25,7 @@ function Blog(props) {
 
   if (GlobalTheme && ThemeConfig) {
   return (
-    <Container fluid className={`min-vh-82 ${ThemeConfig[GlobalTheme].background}`}>
+    <Container fluid className={`${ThemeConfig[GlobalTheme].background}`}>
     <CategoryBar currentPage={blogData.parentCategory} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
       <Row className="mb-4">
         <Col className="p-0">
@@ -37,7 +38,7 @@ function Blog(props) {
       </Row>
       <Row className="mr-2 ml-2 mb-2 mt-1 blogContent">
         <Col xs="3" className="d-none d-md-block"></Col>
-        <Col xs={`${console.log(window.screen.width) >= 765 ? '6':''}`}>
+        <Col xs={`${window.screen.width >= 765 ? '6':''}`}>
           <h1 className={`${ThemeConfig[GlobalTheme].textColor}`}>{blogData.name}</h1>
           <h4 className={`${ThemeConfig[GlobalTheme].textColor}`}>{blogData.description}</h4>
           <div>
@@ -113,7 +114,7 @@ function Blog(props) {
       <Row className="mr-2 ml-2 mt-1">
       <Col xs="3" className="d-none d-md-block"></Col>
 
-      <Col xs={`${console.log(window.screen.width) >= 765 ? '6':''}`} style={{marginBottom: '25px'}}>
+      <Col xs={`${window.screen.width >= 765 ? '6':''}`} style={{marginBottom: '25px'}}>
         <div className={`${ThemeConfig[GlobalTheme].textColor}`} dangerouslySetInnerHTML={{ __html: blogData.contentBody }} />
         <div className={`${ThemeConfig[GlobalTheme].textColor}`} dangerouslySetInnerHTML={{ __html: blogData.contentBody }} />
         <div className={`${ThemeConfig[GlobalTheme].textColor}`} dangerouslySetInnerHTML={{ __html: blogData.contentBody }} />

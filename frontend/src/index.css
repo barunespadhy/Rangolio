@@ -4,6 +4,8 @@ a {
     border: none;         /* Removes any borders */
 }
 
-.min-vh-82{
-    min-height: 82.2vh;
+.app-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Header size, flexible content, footer size */
+  height: 100vh;
 }

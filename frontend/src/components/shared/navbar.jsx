@@ -31,9 +31,13 @@ function Header(props) {
     props.ThemeSwitcher(themeSelected)
   }, [themeSelected])
 
+  useEffect(() => {
+    setThemeSelected(props.ThemeConfig.defaultTheme)
+  }, [])
+
   if (GlobalTheme && ThemeConfig && UserData)
   return (
-    <header className="header-global">
+    <header className="header-global" id="site-header">
     <Navbar className={`navbar-horizontal ${ThemeConfig[GlobalTheme].navBar['navBarTheme']} ${ThemeConfig[GlobalTheme].navBar['background']}`} 
             expand="lg">
       <Container>

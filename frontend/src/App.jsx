@@ -37,8 +37,10 @@ function App() {
     DataService.getData('shared/user-data').then( response =>
     setUserData(response.data)
     )
-    DataService.getData('shared/theme-config').then( response =>
-    setThemeConfig(response.data)
+    DataService.getData('shared/theme-config').then( response =>{
+        setThemeConfig(response.data)
+        setGlobalTheme(response.data.defaultTheme)
+      }
     )
   },[])
 
@@ -46,18 +48,21 @@ function App() {
     setGlobalTheme(theme);
   }
 
+  if (themeConfig)
   return (
-    <div>
+    <div className="app-container">
       <Router>
-        <Header ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />
+        <Header className="header" ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />
         <Notification isOpen={isOpen} notificationMessage={notificationMessage} />
-        <Routes>
-          <Route path="/" element={<Home GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />} />
-          <Route path="/categories" element={<CategoryList notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
-          <Route path="/categories/:categoryID" element={<BlogList notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
-          <Route path="/blog/:blogID" element={<Blog notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
-        </Routes>
-        <Footer ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />
+        <div className={`p-0 ${themeConfig[globalTheme].background}`}>
+          <Routes>
+            <Route path="/" element={<Home GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />} />
+            <Route path="/categories" element={<CategoryList notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
+            <Route path="/categories/:categoryID" element={<BlogList notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
+            <Route path="/blog/:blogID" element={<Blog notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
+          </Routes>
+        </div>
+        <Footer className="footer" ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />
       </Router>
     </div>
   );

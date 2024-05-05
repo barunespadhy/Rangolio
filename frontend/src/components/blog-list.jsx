@@ -45,10 +45,10 @@ function BlogList(props) {
 
   if (GlobalTheme && ThemeConfig) {
     return (
-      <Container fluid className={`p-0 ${ThemeConfig[GlobalTheme].background}`}>
+      <Container fluid className={` mb-2 p-0 ${ThemeConfig[GlobalTheme].background}`}>
       <CategoryBar currentPage={categoryID} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
         <Row className="justify-content-center align-items-center">
-          <Col className="d-flex flex-column align-items-center min-vh-82">
+          <Col className="d-flex flex-column align-items-center">
             <div className="w-100">
             <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{"width": "100%"}}>
               <CardBody>
