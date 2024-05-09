@@ -37,8 +37,9 @@ function CategoryBar(props) {
                     color={`${ThemeConfig[GlobalTheme].categoryNavigator}`}
                     outline
                     active={props.currentPage === item.id}
+
                   >
-                  <Link to={`/categories/${item.id}`}>
+                  <Link className="p-3" to={`/categories/${item.id}`}>
                     {item.name}
                   </Link></Button>
               )) : <Spinner />
