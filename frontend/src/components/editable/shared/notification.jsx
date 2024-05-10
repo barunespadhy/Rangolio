@@ -7,7 +7,7 @@ function Notification(props) {
       <Collapse isOpen={props.isOpen} {...props}>
         <Card>
           <CardBody>
-            <Alert>{props.notificationMessage}</Alert>
+            <Alert>{props.message}</Alert>
           </CardBody>
         </Card>
       </Collapse>

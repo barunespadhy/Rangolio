@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 //import services
-import DataService from '../services/data-service';
+import DataService from '../../services/data-service';
 
 //import views
 import CardListViewer from './shared/card-list-viewer';
@@ -15,7 +15,9 @@ import {
   CardImg,
   CardTitle,
   CardText,
-  CardBody
+  CardBody,
+  Button,
+  ButtonGroup
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
@@ -35,19 +37,20 @@ function Blogs(props) {
     return (
       <Container fluid className={`p-0 mb-2 ${ThemeConfig[GlobalTheme].background}`}>
         <Row className="justify-content-center align-items-center">
+
           <Col className="d-flex flex-column align-items-center">
-            {/* Top Section - Categories */}
             <div className="w-100">
             <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{"width": "100%"}}>
               <CardBody>
                 <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
-                  {"Categories"}
+                  {"Categories"}<Button className='mt-2' outline>Add New</Button>
                 </CardTitle>
               </CardBody>
             </Card>
             </div>
-            {/* Bottom Section - Category Metadata or Spinner */}
+            
             <div className="" style={{ width: '70%', margin: 'auto' }}>
+
               {categoryMetadata.length > 0 ? 
                 categoryMetadata.map((item, index) => (
                   <CardListViewer 
@@ -60,8 +63,13 @@ function Blogs(props) {
                     itemObject={item}
                   />
                 )) : <Spinner />}
+              <ButtonGroup className='mt-4'>
+                <Button outline>Save Data</Button>
+                <Button outline>Publish Data</Button>
+              </ButtonGroup>
             </div>
           </Col>
+          
         </Row>
       </Container>
     );

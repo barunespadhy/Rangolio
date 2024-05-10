@@ -4,21 +4,21 @@ import {useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 //Import Views
-import Home from './components/viewable/home';
-import CategoryList from './components/viewable/category-list';
-import BlogList from './components/viewable/blog-list';
-import Blog from './components/viewable/blog';
+import Home from './components/editable/home';
+import CategoryList from './components/editable/category-list';
+import BlogList from './components/editable/blog-list';
+import Blog from './components/editable/blog';
 
 
 //Import Shared Views
-import Header from './components/viewable/shared/navbar';
-import Footer from './components/viewable/shared/footer';
-import Notification from './components/viewable/shared/notification';
+import Header from './components/editable/shared/navbar';
+import Footer from './components/editable/shared/footer';
+import Notification from './components/editable/shared/notification';
 
 //Import Services
 import DataService from './services/data-service'
 
-function App() {
+function AppEditable() {
   const [userData, setUserData] = useState(null);
   const [themeConfig, setThemeConfig] = useState(null);
   const [globalTheme, setGlobalTheme] = useState("lightTheme");
@@ -68,4 +68,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppEditable;

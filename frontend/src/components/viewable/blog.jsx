@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 
-import DataService from '../services/data-service';
-import MediaService from '../services/media-service'
+import DataService from '../../services/data-service';
+import MediaService from '../../services/media-service'
 import CategoryBar from './shared/category-bar';
 
 import {

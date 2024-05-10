@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
-
+const ViewComponent = lazy(() => 
+  import.meta.env.VITE_APP_VIEW_TYPE === 'editableview' 
+    ? import('./AppEditable.jsx')
+    : import('./App.jsx')
+);
+console.log(import.meta.env.VITE_APP_VIEW_TYPE)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <ViewComponent />
   </React.StrictMode>,
 )

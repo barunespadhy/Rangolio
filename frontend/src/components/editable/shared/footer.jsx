@@ -19,8 +19,10 @@ const Footer = (props) => {
       <Container className='p-1'>
         <Row>
           <Col md="12">
-            <div className="text-center text-md-left mt-3">
-              {new Date().getFullYear()}, <a href="/">{ UserData ? UserData.name : <Spinner> Loading... </Spinner> }</a>
+            <div className="blogContent text-center text-md-left mt-3">
+              {new Date().getFullYear()}, <a className={`${ThemeConfig[GlobalTheme].linkBackground} ${ThemeConfig[GlobalTheme].linkTextColor}`} href="/">{ UserData ? UserData.name : <Spinner> Loading... </Spinner> }</a>
+              <br />
+              Built with <a className={`${ThemeConfig[GlobalTheme].linkBackground} ${ThemeConfig[GlobalTheme].linkTextColor}`} href="https://github.com/barunespadhy/rangolio">Rangolio</a>
             </div>
           </Col>
         </Row>

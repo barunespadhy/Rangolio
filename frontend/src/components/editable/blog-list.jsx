@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useEffect, useState } from 'react';
-import DataService from '../services/data-service';
-import MediaService from '../services/media-service';
+import DataService from '../../services/data-service';
+import MediaService from '../../services/media-service';
 import CardListViewer from './shared/card-list-viewer';
 import CategoryBar from './shared/category-bar';
 import {
@@ -14,7 +14,9 @@ import {
   CardImg,
   CardTitle,
   CardText,
-  CardBody
+  CardBody,
+  Button,
+  ButtonGroup
 } from 'reactstrap';
 import { Link, useParams } from 'react-router-dom';
 
@@ -53,34 +55,22 @@ function BlogList(props) {
             <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{"width": "100%"}}>
               <CardBody>
                 <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
-                  {`Blogs in ${categoryData.name}`}
+                  {`Blogs in ${categoryData.name}`}<Button className='mt-2' outline>Add New</Button>
                 </CardTitle>
               </CardBody>
             </Card>
             </div>
             <div className="" style={{ width: '70%', margin: 'auto', display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
             <h3 className={`${ThemeConfig[GlobalTheme].textColor}`}>
-            {`Featured`}
+            {`All blogs`}
             </h3>
-            {
-              featuredBlogData === 'loading' ? <Spinner /> :
-              <CardListViewer
-                key={featuredBlogData.id}
-                totalItems={featuredBlogData === 'nodata' ? 0 : 1}
-                cardType={"longCard"}
-                resourceType={"blog"}
-                textColor={ThemeConfig[GlobalTheme].textColor}
-                bgColor={ThemeConfig[GlobalTheme].background}
-                itemObject={featuredBlogData}
-              />
-            }
             {
               categoryData === 'loading' ? <Spinner /> :
               categoryData.blogMetadata.map((item, index) => (
                 <CardListViewer
                   key={item.id}
                   totalItems={categoryData.blogMetadata.length} 
-                  cardType={"smallCard"} 
+                  cardType={"longCard"} 
                   resourceType={"blog"}
                   textColor={ThemeConfig[GlobalTheme].textColor} 
                   bgColor={ThemeConfig[GlobalTheme].background} 
@@ -88,6 +78,10 @@ function BlogList(props) {
                 />
               ))
             }
+              <ButtonGroup>
+                <Button outline>Save Data</Button>
+                <Button outline>Publish Data</Button>
+              </ButtonGroup>
             </div>
           </Col>
         </Row>

@@ -1,7 +1,7 @@
 a {
-    text-decoration: none; /* Removes underline */
-    color: inherit;       /* Inherits color from parent */
-    border: none;         /* Removes any borders */
+  text-decoration: none !important; /* Removes underline */
+  color: inherit !important;       /* Inherits color from parent */
+  border: none !important;         /* Removes any borders */
 }
 
 .app-container {
@@ -11,20 +11,31 @@ a {
 }
 
 .blogContent a{
-    border-radius: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
-    transition-duration: 0.1s;
-
+  border-radius: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  transition-duration: 0.1s;
 }
 
 .blogContent a:hover{
-    border-radius: 5px;
-    padding-left: 15px;
-    padding-right: 15px;
-    transition-duration: 0.1s;
+  border-radius: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  transition-duration: 0.1s;
 }
 
 .blogContent{
-    font-size: 20px
+  font-size: 20px
+}
+
+.tiptap blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid grey;
+}
+
+.tiptap.ProseMirror {
+  margin-top: 20px;
+  border: solid grey;
+  border-radius: 10px;
+  padding: 1em;
 }

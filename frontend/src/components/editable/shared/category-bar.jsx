@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import DataService from '../../services/data-service';
+import DataService from '../../../services/data-service';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button, Spinner, ListGroup, ListGroupItem, ButtonGroup } from 'reactstrap';
 

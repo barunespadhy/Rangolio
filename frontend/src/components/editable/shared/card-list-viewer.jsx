@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import MediaService from '../../services/media-service'
+import MediaService from '../../../services/media-service'
 import {
   Spinner,
   Card,
   CardImg,
   CardTitle,
   CardText,
-  CardBody
+  CardBody,
+  Input, InputGroup, InputGroupText
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
@@ -20,19 +21,37 @@ function CardListViewer(props) {
   <Card className={`my-2 ${props.bgColor}`} style={{"width": props.cardType === "smallCard" ? "18rem": "100%"}}>
     {itemObject.coverImage !== "" ? <CardImg src={MediaService.getMedia(itemObject.coverImage)} style={{ "height": "180px", "objectFit": "cover" }} top width="100%" /> : ""}
     <CardBody>
-      <Link to={`/${props.resourceType}/${itemObject.id}`}>
       <CardTitle className={`${props.textColor}`} tag="h5">
-        {itemObject.name}
+        <InputGroup>
+          <InputGroupText>
+              Name
+          </InputGroupText>
+          <Input defaultValue={itemObject.name} />
+        </InputGroup>
       </CardTitle>
       <CardText className={`${props.textColor}`}>
-        {itemObject.description}
+        <InputGroup>
+          <InputGroupText>
+              Description
+          </InputGroupText>
+          <Input defaultValue={itemObject.description} />
+        </InputGroup>
       </CardText>
       <CardText>
         <small className={`${props.textColor}`}>
-            {itemObject.tagLine}
+          <InputGroup>
+            <InputGroupText>
+              Tagline
+            </InputGroupText>
+            <Input defaultValue={itemObject.tagLine} />
+          </InputGroup>
         </small>
       </CardText>
+      <CardText>
+      <Link className={`${props.textColor}`} to={`/${props.resourceType}/${itemObject.id}`}>
+        Open this resource
       </Link>
+      </CardText>
     </CardBody>
   </Card>
   )

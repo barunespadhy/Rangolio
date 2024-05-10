@@ -1,13 +1,6 @@
 {
     "name": "John Doe",
-    "greetingLine": "Hi! My name is",
-    "tagLine": "<span>Me like tech. Checkout my blog where I have nice stuff!</span>",
+    "introContent": "<span>Write something about yourself here!</span>",
     "profilePhoto": "homepage/media/profile.png",
-    "links": {
-        "instagram": ""
-    },
-    "contact":{
-        "email":"",
-        "phone": ""
-    }
+    "builtWith": true
 }
