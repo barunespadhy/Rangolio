@@ -53,8 +53,8 @@ function App() {
     <div className="app-container">
       <Router>
         <Header className="header" ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />
-        <Notification isOpen={isOpen} message={notificationMessage} />
         <div className={`p-0 ${themeConfig[globalTheme].background}`}>
+          <Notification isOpen={isOpen} message={notificationMessage} />
           <Routes>
             <Route path="/" element={<Home GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />} />
             <Route path="/categories" element={<CategoryList notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />

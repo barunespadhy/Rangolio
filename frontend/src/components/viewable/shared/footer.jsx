@@ -16,7 +16,7 @@ const Footer = (props) => {
 
   if (UserData)
   return (
-    <footer className={`footer p-4 text-white ${ThemeConfig ? ThemeConfig[GlobalTheme].footer['background'] : ""}`} id="site-footer">
+    <footer className={`footer p-4 ${ThemeConfig ? ThemeConfig[GlobalTheme].footer['background'] + ' ' + ThemeConfig[GlobalTheme].footer['text'] : ""}`} id="site-footer">
       <Container className='p-1'>
         <Row>
           <Col md="12">

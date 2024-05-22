@@ -1,10 +1,7 @@
 import axios from 'axios'
-import Config from '../config.json';
-
-const filePostfix = Config.localBackendMode ? ".json" : ""
 
 const getData = (endPoint) => {
-  return axios.get(`${Config.baseUrl}/data/${endPoint}${filePostfix}`)
+  return axios.get(`/data/${endPoint}.json`)
 }
 
 export default { getData }

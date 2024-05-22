@@ -6,7 +6,6 @@ const ViewComponent = lazy(() =>
     ? import('./AppEditable.jsx')
     : import('./App.jsx')
 );
-console.log(import.meta.env.VITE_APP_VIEW_TYPE)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

@@ -38,7 +38,7 @@ function Blog(props) {
   };
 
   useEffect(() => {
-    DataService.getData(`blogs/${blogID}/blog-data`).then(response =>{
+    DataService.getData(`blog/${blogID}/blog-data`).then(response =>{
         setBlogData(response.data)
         const parsedContent = parse(response.data.contentBody, { replace });
         setBlogContent(parsedContent);

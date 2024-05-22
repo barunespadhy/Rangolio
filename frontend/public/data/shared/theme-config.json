@@ -8,8 +8,8 @@
         "linkTextColor": "text-black",
         "captionColor": "#8a8a8a",
         "fontAwesomeIcon": "faSun",
-        "borderColor": "white",
-        "categoryNavigator": "light",
+        "borderColor": "secondary",
+        "buttonColor": "light",
         "navBar": {
             "navBarTheme": "navbar-dark",
             "background": "bg-secondary",
@@ -17,7 +17,7 @@
         },
         "footer": {
             "background": "bg-secondary",
-            "text": "bg-white"
+            "text": "text-white"
         }
     },
     "lightTheme":{
@@ -28,8 +28,8 @@
         "linkTextColor": "text-white",
         "captionColor": "#605f5f",
         "fontAwesomeIcon": "faMoon",
-        "borderColor": "black",
-        "categoryNavigator": "dark",
+        "borderColor": "secondary",
+        "buttonColor": "dark",
         "navBar": {
             "navBarTheme": "navbar-light",
             "background": "bg-secondary",

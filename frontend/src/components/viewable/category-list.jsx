@@ -38,7 +38,7 @@ function Blogs(props) {
           <Col className="d-flex flex-column align-items-center">
             {/* Top Section - Categories */}
             <div className="w-100">
-            <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{"width": "100%"}}>
+            <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{width: "100%", border: "none"}}>
               <CardBody>
                 <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
                   {"Categories"}
@@ -57,6 +57,7 @@ function Blogs(props) {
                     resourceType={"categories"}
                     textColor={ThemeConfig[GlobalTheme].textColor} 
                     bgColor={ThemeConfig[GlobalTheme].background} 
+                    borderColor={ThemeConfig[GlobalTheme].borderColor}
                     itemObject={item}
                   />
                 )) : <Spinner />}

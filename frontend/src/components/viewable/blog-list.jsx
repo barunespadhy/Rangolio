@@ -32,8 +32,9 @@ function BlogList(props) {
   useEffect(() => {
     DataService.getData(`category/${categoryID}/category-data`).then(response =>{
       setCategoryData(response.data);
+      console.log(response.data)
       if (response.data.featuredBlog){
-        DataService.getData(`blogs/${response.data.featuredBlog}/blog-data`).then(response =>
+        DataService.getData(`blog/${response.data.featuredBlog}/blog-data`).then(response =>
           setFeaturedBlogData(response.data)
         );
       }
@@ -50,7 +51,7 @@ function BlogList(props) {
         <Row className="justify-content-center align-items-center">
           <Col className="d-flex flex-column align-items-center">
             <div className="w-100">
-            <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{"width": "100%"}}>
+            <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{width: "100%", border: "none"}}>
               <CardBody>
                 <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
                   {`Blogs in ${categoryData.name}`}
@@ -71,6 +72,7 @@ function BlogList(props) {
                 resourceType={"blog"}
                 textColor={ThemeConfig[GlobalTheme].textColor}
                 bgColor={ThemeConfig[GlobalTheme].background}
+                borderColor={ThemeConfig[GlobalTheme].borderColor}
                 itemObject={featuredBlogData}
               />
             }
@@ -84,6 +86,7 @@ function BlogList(props) {
                   resourceType={"blog"}
                   textColor={ThemeConfig[GlobalTheme].textColor} 
                   bgColor={ThemeConfig[GlobalTheme].background} 
+                  borderColor={ThemeConfig[GlobalTheme].borderColor}
                   itemObject={item}
                 />
               ))

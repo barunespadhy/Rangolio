@@ -34,10 +34,9 @@ function CategoryBar(props) {
                   <Button 
                     key={item.id}
                     className="btn-lg"
-                    color={`${ThemeConfig[GlobalTheme].categoryNavigator}`}
+                    color={`${ThemeConfig[GlobalTheme].buttonColor}`}
                     outline
                     active={props.currentPage === item.id}
-
                   >
                   <Link className="p-3" to={`/categories/${item.id}`}>
                     {item.name}

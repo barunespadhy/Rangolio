@@ -37,13 +37,12 @@ function Blogs(props) {
     return (
       <Container fluid className={`p-0 mb-2 ${ThemeConfig[GlobalTheme].background}`}>
         <Row className="justify-content-center align-items-center">
-
           <Col className="d-flex flex-column align-items-center">
             <div className="w-100">
-            <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{"width": "100%"}}>
+            <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{width: "100%", border: "none"}}>
               <CardBody>
                 <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
-                  {"Categories"}<Button className='mt-2' outline>Add New</Button>
+                  {"Categories"}<Button className='mt-2' color={ThemeConfig[GlobalTheme].buttonColor} outline>Add New</Button>
                 </CardTitle>
               </CardBody>
             </Card>
@@ -60,12 +59,13 @@ function Blogs(props) {
                     resourceType={"categories"}
                     textColor={ThemeConfig[GlobalTheme].textColor} 
                     bgColor={ThemeConfig[GlobalTheme].background} 
+                    borderColor={ThemeConfig[GlobalTheme].borderColor}
                     itemObject={item}
                   />
                 )) : <Spinner />}
               <ButtonGroup className='mt-4'>
-                <Button outline>Save Data</Button>
-                <Button outline>Publish Data</Button>
+                <Button color={ThemeConfig[GlobalTheme].buttonColor} outline>Save Data</Button>
+                <Button color={ThemeConfig[GlobalTheme].buttonColor} outline>Publish Data</Button>
               </ButtonGroup>
             </div>
           </Col>

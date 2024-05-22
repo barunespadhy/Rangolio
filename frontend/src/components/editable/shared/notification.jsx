@@ -7,7 +7,7 @@ function Notification(props) {
       <Collapse isOpen={props.isOpen} {...props}>
         <Card>
           <CardBody>
-            <Alert>{props.message}</Alert>
+            <Alert color={props.message.color}>{props.message.message}</Alert>
           </CardBody>
         </Card>
       </Collapse>

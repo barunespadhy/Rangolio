@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import parse from 'html-react-parser';
+import { useEffect, useState, useRef } from 'react';
 
 import DataService from '../../services/data-service';
 import MediaService from '../../services/media-service'
@@ -7,11 +6,15 @@ import CategoryBar from './shared/category-bar';
 import EditorComponent from './shared/tiptap';
 
 import {
-  Container,Row, Col,Spinner, UncontrolledCollapse, Button, ButtonGroup, Card, CardBody
+  Container,Row, Col,Spinner, UncontrolledCollapse, Button, ButtonGroup, Card, CardBody, Input, InputGroup, InputGroupText
 } from 'reactstrap';
 import { Link, useParams } from 'react-router-dom';
 
 function Blog(props) {
+
+  const nameField = useRef(null);
+  const descriptionField = useRef(null);
+  const tagLineField = useRef(null);
 
   const { blogID } = useParams();
 
@@ -19,40 +22,25 @@ function Blog(props) {
   const ThemeConfig = props.ThemeConfig;
 
   const [blogData, setBlogData] = useState([]);
-  const [blogContent, setBlogContent] = useState()
+  const [blogContent, setBlogContent] = useState();
 
-  const replace = (node) => {
-    if (node.type === 'tag') {
-      if (node.name === 'a') {
-        const newClasses = `${ThemeConfig[GlobalTheme].linkBackground} ${ThemeConfig[GlobalTheme].linkTextColor}`;
-        const existingClasses = node.attribs.class ? `${node.attribs.class} ` : '';
-        node.attribs.class = `${existingClasses}${newClasses}`;
-        node.attribs.rel = 'noopener noreferrer';
-        node.attribs.target = '_blank';
-      }
-      if (node.name === 'img') {
-        const newClasses = `img-fluid mt-2 mb-2 rounded`;
-        const existingClasses = node.attribs.class ? `${node.attribs.class} ` : '';
-        node.attribs.class = `${existingClasses}${newClasses}`;
-      }
-    }
-  };
+  const setInfo = (event) => {
+    let localEditedBlogData = {...blogData};
+    localEditedBlogData["name"] = nameField.current.value;
+    localEditedBlogData["description"] = descriptionField.current.value;
+    localEditedBlogData["tagLine"] = tagLineField.current.value;
+    localEditedBlogData["contentBody"] = blogContent
+    setBlogData(localEditedBlogData);
+    props.notificationToggler('Data saved!');
+  }
 
   useEffect(() => {
-    DataService.getData(`blogs/${blogID}/blog-data`).then(response =>{
+    DataService.getData(`blog/${blogID}/blog-data`).then(response =>{
         setBlogData(response.data)
-        const parsedContent = parse(response.data.contentBody, { replace });
-        setBlogContent(parsedContent);
+        setBlogContent(response.data.contentBody)
       }
     );
   }, []);
-
-  useEffect(() => {
-    if (blogData.contentBody){
-      const parsedContent = parse(blogData.contentBody, { replace });
-      setBlogContent(parsedContent);
-    }
-  }, [GlobalTheme])
 
   if (GlobalTheme && ThemeConfig && blogData) {
   return (
@@ -70,68 +58,24 @@ function Blog(props) {
       <Row className="mr-2 ml-2 mb-2 mt-1 blogContent">
         <Col xs="3" className="d-none d-md-block"></Col>
         <Col xs={`${window.screen.width >= 765 ? '6':''}`}>
-          <h1 className={`${ThemeConfig[GlobalTheme].textColor}`}>{blogData.name}</h1>
-          <h4 className={`${ThemeConfig[GlobalTheme].textColor}`}>{blogData.description}</h4>
-          <div>
-            <Button
-              color="primary"
-              id="toggler"
-              style={{
-                marginBottom: '1rem'
-              }}
-            >
-              Share
-            </Button>
-            <UncontrolledCollapse toggler="#toggler">
-              <Card style={{overflowX: 'auto'}}>
-                <CardBody>
-                  <ButtonGroup
-                    vertical
-                    className="my-2"
-                  >
-                  <Button outline>
-                    <Link className="p-3" to="#" onClick={(e) => {
-                      e.preventDefault();
-                      navigator.clipboard.writeText(window.location.href).then(() => {
-                        props.notificationToggler("Link copied")
-                      })
-                      return false;
-                    }}>
-                      Copy Link
-                      </Link>
-                    </Button>
-                    <Button outline>
-                    <Link className="p-3" to="#" onClick={(e) => {
-                      e.preventDefault();
-                      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, 'facebook-share-dialog', 'width=800,height=600');
-                      return false;
-                    }}>
-                      Facebook
-                      </Link>
-                    </Button>
-                    <Button outline>
-                    <Link className="p-3" to="#" onClick={(e) => {
-                      e.preventDefault();
-                      window.open(`https://www.reddit.com/submit?url=${window.location.href}&title=${blogData.name}`, 'facebook-share-dialog', 'width=800,height=600');
-                      return false;
-                    }}>
-                      Reddit
-                      </Link>
-                    </Button>
-                    <Button outline>
-                    <Link className="p-3" to="#" onClick={(e) => {
-                      e.preventDefault();
-                      window.open(`https://twitter.com/intent/tweet?text=Check%20out%20this%20article!&url=${window.location.href}`, 'facebook-share-dialog', 'width=800,height=600');
-                      return false;
-                    }}>
-                      X
-                    </Link>
-                    </Button>
-                  </ButtonGroup>
-                </CardBody>
-              </Card>
-            </UncontrolledCollapse>
-          </div>
+          <InputGroup className="mb-3">
+            <InputGroupText>
+                Name
+            </InputGroupText>
+            <Input innerRef={nameField} defaultValue={blogData.name} />
+          </InputGroup>
+          <InputGroup className="mb-3">
+            <InputGroupText>
+                Description
+            </InputGroupText>
+            <Input innerRef={descriptionField} defaultValue={blogData.description} />
+          </InputGroup>
+          <InputGroup>
+            <InputGroupText>
+                Tagline
+            </InputGroupText>
+            <Input innerRef={tagLineField} defaultValue={blogData.tagLine} />
+          </InputGroup>
         </Col>
         <Col xs="3" className="d-none d-md-block"></Col>
       </Row>
@@ -141,15 +85,14 @@ function Blog(props) {
           <hr style={{"borderColor": `${ThemeConfig[GlobalTheme].borderColor}`}} />
         </Col>
       </Row>
-
       <Row className="mr-2 ml-2 mt-1">
       <Col xs="3" className="d-none d-md-block"></Col>
 
         <Col className={`blogContent ${ThemeConfig[GlobalTheme].textColor}`} style={{marginBottom: '25px'}}>
-          <EditorComponent content={blogData.contentBody}/>
+          <EditorComponent setContent={setBlogContent} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} content={blogData.contentBody}/>
           <ButtonGroup className='mt-4'>
-            <Button outline>Save Data</Button>
-            <Button outline>Publish Data</Button>
+            <Button onClick={(event) => setInfo(event)} color={ThemeConfig[GlobalTheme].buttonColor} outline>Save Data</Button>
+            <Button color={ThemeConfig[GlobalTheme].buttonColor} outline>Publish Data</Button>
           </ButtonGroup>
         </Col>
 

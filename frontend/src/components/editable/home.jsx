@@ -1,12 +1,34 @@
 import { Container, Spinner, Input, InputGroup, InputGroupText, Button, ButtonGroup } from 'reactstrap';
+import {useEffect, useState, useRef} from 'react';
 import EditorComponent from './shared/tiptap';
 import MediaService from '../../services/media-service'
 
 function HomePage(props) {
+  const [introContent, setIntroContent] = useState("")
+  const [saveKeyReady, setSaveKeyReady] = useState(true)
+  const nameField = useRef(null)
   const UserData = props.UserData ? props.UserData : <Spinner> Loading... </Spinner>
   const GlobalTheme = props.GlobalTheme;
   const ThemeConfig = props.ThemeConfig;
-  if (GlobalTheme && ThemeConfig) 
+
+  const setInfo = async () => {
+    let response = await props.setInfo('/data/shared/update/user-data/', {
+      "name": nameField.current.value,
+      "intro_content": introContent,
+      "profile_photo": ""
+    })
+    console.log(response)
+    if (response === 200)
+      props.notificationToggler("Data saved successfully!")
+    if ([500, 404, 403].includes(response))
+      props.notificationToggler("Something failed!", "danger")
+  }
+
+  useEffect(() => {
+    setIntroContent(UserData.introContent)
+  }, [UserData])
+
+  if (GlobalTheme && ThemeConfig)
   return (
     <Container fluid className={`p-0 mt-5 ${ThemeConfig[GlobalTheme].background}`}>
       <div className="d-flex flex-column justify-content-center align-items-center min-vh-82">
@@ -17,13 +39,13 @@ function HomePage(props) {
               <InputGroupText>
                 Name
               </InputGroupText>
-              <Input defaultValue={UserData.name} />
+              <Input innerRef={nameField} defaultValue={UserData.name} />
             </InputGroup>
-            <EditorComponent content={UserData.introContent}/>
+            <EditorComponent GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} content={UserData.introContent} setContent={setIntroContent}/>
           </>
-          <ButtonGroup className='mt-4'>
-            <Button outline>Save Data</Button>
-            <Button outline>Publish Data</Button>
+          <ButtonGroup className={`mt-4`}>
+            <Button onClick={() => setInfo()} color={ThemeConfig[GlobalTheme].buttonColor} outline>Save Data</Button>
+            <Button color={ThemeConfig[GlobalTheme].buttonColor} outline>Publish Data</Button>
           </ButtonGroup>
         </div>
       </div>

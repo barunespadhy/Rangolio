@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import {
   Button, ButtonGroup, Label, Input } from 'reactstrap';
 import { Color } from '@tiptap/extension-color'
@@ -17,19 +17,34 @@ import { faBold, faItalic,
 		 faAlignCenter, faAlignRight, 
 		 faAlignJustify, faHighlighter, 
 		 faStrikethrough, faCode, 
-		 faParagraph, faListUl, 
+		 faListUl, faLink,
 		 faListOl, faQuoteLeft, 
 		 faQuoteRight, faRulerHorizontal, 
-		 faRotateLeft, faRotateRight, 
-		 faBars, faLink } from '@fortawesome/free-solid-svg-icons';
+		 faRotateLeft, faRotateRight } from '@fortawesome/free-solid-svg-icons';
 
 const MenuBar = (props) => {
   const { editor } = useCurrentEditor()
 
+  useEffect(() => {
+    if (editor){
+      const handleChange = () => {
+        props.setContent(editor.getHTML())
+      }
+      editor.on('update', handleChange)
+      return () => {
+        editor.on('update', handleChange)
+      }
+    }
+  },[editor])
+  
+  const GlobalTheme = props.GlobalTheme;
+  const ThemeConfig = props.ThemeConfig;
+
+
   const setLink = useCallback(() => {
     const previousUrl = editor.getAttributes('link').href
     const url = window.prompt('URL', previousUrl)
-
+    
     // cancelled
     if (url === null) {
       return
@@ -54,8 +69,9 @@ const MenuBar = (props) => {
 
   return (
     <>
-	  <ButtonGroup>
-	    <Button 
+	  <ButtonGroup className='mt-2'>
+	    <Button
+        color={ThemeConfig[GlobalTheme].buttonColor}  
 	      onClick={() => editor.chain().focus().setTextAlign('left').run()}
 	      outline
 	      active={editor.isActive('left')}
@@ -63,6 +79,7 @@ const MenuBar = (props) => {
           <FontAwesomeIcon icon={faAlignLeft}/>
         </Button>
         <Button 
+        color={ThemeConfig[GlobalTheme].buttonColor} 
 	      onClick={() => editor.chain().focus().setTextAlign('center').run()}
 	      outline
 	      active={editor.isActive('center')}
@@ -70,6 +87,7 @@ const MenuBar = (props) => {
           <FontAwesomeIcon icon={faAlignCenter}/>
         </Button>
         <Button 
+        color={ThemeConfig[GlobalTheme].buttonColor} 
 	      onClick={() => editor.chain().focus().setTextAlign('right').run()}
 	      outline
 	      active={editor.isActive('right')}
@@ -77,15 +95,17 @@ const MenuBar = (props) => {
           <FontAwesomeIcon icon={faAlignRight}/>
         </Button>
         <Button 
+        color={ThemeConfig[GlobalTheme].buttonColor} 
 	      onClick={() => editor.chain().focus().setTextAlign('justify').run()}
 	      outline
 	      active={editor.isActive('justify')}
 	     >
           <FontAwesomeIcon icon={faAlignJustify}/>
         </Button>
-	  </ButtonGroup>
-      <ButtonGroup style={{marginLeft: '10px'}}>
+	  </ButtonGroup >
+      <ButtonGroup className='mt-2' style={{marginLeft: '10px'}}>
 	    <Button
+        color={ThemeConfig[GlobalTheme].buttonColor} 
 	      onClick={() => editor.chain().focus().toggleBold().run()}
 	      disabled={
 	        !editor.can()
@@ -100,6 +120,7 @@ const MenuBar = (props) => {
 	      <FontAwesomeIcon icon={faBold}/>
 	    </Button>
 	    <Button
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().toggleItalic().run()}
           disabled={
             !editor.can()
@@ -114,6 +135,7 @@ const MenuBar = (props) => {
           <FontAwesomeIcon icon={faItalic}/>
         </Button>
         <Button
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().toggleUnderline().run()}
           outline
           active={editor.isActive('underline')}
@@ -121,6 +143,7 @@ const MenuBar = (props) => {
           <FontAwesomeIcon icon={faUnderline}/>
         </Button>
         <Button 
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().toggleHighlight().run()}
           outline
           active={editor.isActive('highlight')}
@@ -128,6 +151,7 @@ const MenuBar = (props) => {
           <FontAwesomeIcon icon={faHighlighter}/>
         </Button>
         <Button
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().toggleStrike().run()}
           disabled={
             !editor.can()
@@ -143,6 +167,8 @@ const MenuBar = (props) => {
         </Button>
 	  </ButtonGroup>
 	  <Button 
+      className='mt-2'
+      color={ThemeConfig[GlobalTheme].buttonColor} 
 	    onClick={setLink}
 	    style={{marginLeft: '10px'}}
 	    outline
@@ -151,6 +177,8 @@ const MenuBar = (props) => {
         <FontAwesomeIcon icon={faLink}/>
       </Button>
       <Button
+        className='mt-2'
+        color={ThemeConfig[GlobalTheme].buttonColor} 
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         style={{marginLeft: '10px'}}
         outline
@@ -158,15 +186,17 @@ const MenuBar = (props) => {
       >
         <FontAwesomeIcon icon={faCode}/>
       </Button>
-      <ButtonGroup style={{marginLeft: '10px'}}>
+      <ButtonGroup className='mt-2' style={{marginLeft: '10px'}}>
         <Button
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().setParagraph().run()}
           outline
           active={editor.isActive('paragraph')}
         >
           p
         </Button>
-	    <Button
+	      <Button
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           outline
           active={editor.isActive('heading', { level: 1 })}
@@ -174,6 +204,7 @@ const MenuBar = (props) => {
         h1
         </Button>
         <Button
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
           outline
           active={editor.isActive('heading', { level: 2 })}
@@ -181,6 +212,7 @@ const MenuBar = (props) => {
         h2
         </Button>
         <Button
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
           outline
           active={editor.isActive('heading', { level: 3 })}
@@ -188,6 +220,7 @@ const MenuBar = (props) => {
         h3
         </Button>
         <Button
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
           outline
           active={editor.isActive('heading', { level: 4 })}
@@ -195,6 +228,7 @@ const MenuBar = (props) => {
         h4
         </Button>
         <Button
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
           outline
           active={editor.isActive('heading', { level: 5 })}
@@ -202,6 +236,7 @@ const MenuBar = (props) => {
         h5
         </Button>
         <Button
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
           outline
           active={editor.isActive('heading', { level: 6 })}
@@ -209,8 +244,9 @@ const MenuBar = (props) => {
         h6
         </Button>
 	  </ButtonGroup>
-	  <ButtonGroup style={{marginLeft: '10px'}}>
+	  <ButtonGroup className='mt-2' style={{marginLeft: '10px'}}>
 	    <Button
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           outline
           active={editor.isActive('bulletList')}
@@ -218,6 +254,7 @@ const MenuBar = (props) => {
           <FontAwesomeIcon icon={faListUl}/>
         </Button>
         <Button
+          color={ThemeConfig[GlobalTheme].buttonColor} 
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           outline
           active={editor.isActive('orderedList')}
@@ -226,6 +263,8 @@ const MenuBar = (props) => {
         </Button>
 	  </ButtonGroup>
       <Button
+        className='mt-2'
+        color={ThemeConfig[GlobalTheme].buttonColor} 
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         style={{marginLeft: '10px'}}
         outline
@@ -234,14 +273,17 @@ const MenuBar = (props) => {
         <FontAwesomeIcon icon={faQuoteLeft}/> <FontAwesomeIcon icon={faQuoteRight}/>
       </Button>
       <Button 
+        className='mt-2'
+        color={ThemeConfig[GlobalTheme].buttonColor} 
       	onClick={() => editor.chain().focus().setHorizontalRule().run()}
       	outline
       	style={{marginLeft: '10px'}}
       >
         <FontAwesomeIcon icon={faRulerHorizontal}/>
       </Button>
-      <ButtonGroup style={{marginLeft: '10px'}}>
+      <ButtonGroup className='mt-2' style={{marginLeft: '10px'}}>
       <Button
+        color={ThemeConfig[GlobalTheme].buttonColor} 
         onClick={() => editor.chain().focus().undo().run()}
         disabled={
           !editor.can()
@@ -254,6 +296,7 @@ const MenuBar = (props) => {
         <FontAwesomeIcon icon={faRotateLeft}/>
       </Button>
       <Button
+        color={ThemeConfig[GlobalTheme].buttonColor} 
         onClick={() => editor.chain().focus().redo().run()}
         disabled={
           !editor.can()
@@ -296,8 +339,11 @@ const extensions = [
 ]
 
 export default (props) => {
-  if (props.content)
+  const GlobalTheme = props.GlobalTheme;
+  const ThemeConfig = props.ThemeConfig;
+
+  if (props.content && GlobalTheme && ThemeConfig)
   return (
-    <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={props.content}></EditorProvider>
+    <EditorProvider slotBefore={<MenuBar setContent={props.setContent} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>} extensions={extensions} content={props.content}></EditorProvider>
   )
 }
