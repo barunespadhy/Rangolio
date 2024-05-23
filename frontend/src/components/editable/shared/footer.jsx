@@ -18,7 +18,7 @@ const Footer = (props) => {
   const ThemeConfig = props.ThemeConfig;
   const UserData = props.UserData;
 
-  const setInfo = async (color, colorArea) => {
+  const setInfo = async (colorArea, color) => {
     let localThemeConfig = {...ThemeConfig}
     localThemeConfig[GlobalTheme].footer[colorArea] = `${color}`
     let response = await props.setInfo('/data/shared/update/theme-config/', GlobalTheme === "darkTheme" ? {
@@ -42,39 +42,39 @@ const Footer = (props) => {
               </Button>
               <Button
                 color='primary'
-                onClick={() => setInfo('bg-primary', 'background')}/>
+                onClick={() => setInfo('background', 'bg-primary')}/>
               <Button
                 color='secondary'
-                onClick={() => setInfo('bg-secondary', 'background')}/>
+                onClick={() => setInfo('background', 'bg-secondary')}/>
               <Button
                 color='success'
-                onClick={() => setInfo('bg-success', 'background')}/>
+                onClick={() => setInfo('background', 'bg-success')}/>
               <Button
                 color='danger'
-                onClick={() => setInfo('bg-danger', 'background')}/>
+                onClick={() => setInfo('background', 'bg-danger')}/>
               <Button
                 color='warning'
-                onClick={() => setInfo('bg-warning', 'background')}/>
+                onClick={() => setInfo('background', 'bg-warning')}/>
               <Button
                 color='info'
-                onClick={() => setInfo('bg-info', 'background')}/>
+                onClick={() => setInfo('background', 'bg-info')}/>
               <Button
                 color='light'
-                onClick={() => setInfo('bg-light', 'background')}/>
+                onClick={() => setInfo('background', 'bg-light')}/>
               <Button
                 color='dark'
-                onClick={() => setInfo('bg-dark', 'background')}/>
+                onClick={() => setInfo('background', 'bg-dark')}/>
             </ButtonGroup>
             <ButtonGroup style={{marginTop: '15px', marginBottom: '15px'}}>
               <Button disabled color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ""}`}>      
                 <FontAwesomeIcon icon={faBrush} /> Set footer text color
               </Button>
               <Button
-                color='dark'
-                onClick={() => setInfo('text-light', 'text')}>White on black</Button>
-              <Button
                 color='light'
-                onClick={() => setInfo('text-black', 'text')}>Black on white</Button>
+                onClick={() => setInfo('text', 'text-white')}>White</Button>
+              <Button
+                color='dark'
+                onClick={() => setInfo('text', 'text-black')}>Black</Button>
             </ButtonGroup>
           <Col md="12">
             <div className="blogContent text-center text-md-left mt-3">

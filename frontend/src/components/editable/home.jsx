@@ -1,4 +1,4 @@
-import { Container, Spinner, Input, InputGroup, InputGroupText, Button, ButtonGroup } from 'reactstrap';
+import { Container, Spinner, Input, InputGroup, InputGroupText, Button, ButtonGroup, FormFeedback } from 'reactstrap';
 import {useEffect, useState, useRef} from 'react';
 import EditorComponent from './shared/tiptap';
 import MediaService from '../../services/media-service'
@@ -6,6 +6,7 @@ import MediaService from '../../services/media-service'
 function HomePage(props) {
   const [introContent, setIntroContent] = useState("")
   const [saveKeyReady, setSaveKeyReady] = useState(true)
+  const [nameFieldInvalid, setNameFieldInvalid] = useState(false)
   const nameField = useRef(null)
   const UserData = props.UserData ? props.UserData : <Spinner> Loading... </Spinner>
   const GlobalTheme = props.GlobalTheme;
@@ -20,8 +21,18 @@ function HomePage(props) {
     console.log(response)
     if (response === 200)
       props.notificationToggler("Data saved successfully!")
-    if ([500, 404, 403].includes(response))
+    if ([500, 404, 403, 400].includes(response))
       props.notificationToggler("Something failed!", "danger")
+  }
+
+  const showError = (elementValue, fieldType) => {
+    console.log(elementValue)
+    if (fieldType === 'nameField'){
+      if (elementValue === '')
+        setNameFieldInvalid(true)
+      else
+        setNameFieldInvalid(false)
+    }
   }
 
   useEffect(() => {
@@ -39,7 +50,10 @@ function HomePage(props) {
               <InputGroupText>
                 Name
               </InputGroupText>
-              <Input innerRef={nameField} defaultValue={UserData.name} />
+              <Input invalid={nameFieldInvalid} innerRef={nameField} defaultValue={UserData.name} onChange={() => showError(nameField.current.value, 'nameField')}/>
+              {nameFieldInvalid ? <FormFeedback tooltip className="mt-1">
+                This field cannot be empty
+              </FormFeedback>:''}
             </InputGroup>
             <EditorComponent GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} content={UserData.introContent} setContent={setIntroContent}/>
           </>

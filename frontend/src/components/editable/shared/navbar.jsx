@@ -26,13 +26,19 @@ function Header(props) {
 
   const [collapseClasses, setCollapseClasses] = useState('');
   const [themeSelected, setThemeSelected] = useState('lightTheme');
+  const [defaultThemeConfig, setDefaultThemeConfig] = useState('lightTheme');
 
-  const setInfo = async (color, colorArea) => {
+  const setInfo = async (colorArea, color, defaultThemeConfig) => {
     let localThemeConfig = {...ThemeConfig}
-    localThemeConfig[GlobalTheme].navBar[colorArea] = `${color}`
+
+    if (colorArea && color)
+      localThemeConfig[GlobalTheme].navBar[colorArea] = `${color}`
+
     let response = await props.setInfo('/data/shared/update/theme-config/', GlobalTheme === "darkTheme" ? {
+      "default_theme": defaultThemeConfig,
       "dark_theme": JSON.stringify(localThemeConfig[GlobalTheme]),
     }:{
+      "default_theme": defaultThemeConfig,
       "light_theme": JSON.stringify(localThemeConfig[GlobalTheme]),
     })
     if (response === 200)
@@ -47,6 +53,7 @@ function Header(props) {
 
   useEffect(() => {
     setThemeSelected(props.ThemeConfig.defaultTheme)
+    setDefaultThemeConfig(props.ThemeConfig.defaultTheme)
   }, [])
 
   if (GlobalTheme && ThemeConfig && UserData)
@@ -102,41 +109,52 @@ function Header(props) {
               </Button>
               <Button
                 color='primary'
-                onClick={() => setInfo('bg-primary', 'background')}/>
+                onClick={() => setInfo('background', 'bg-primary', ThemeConfig['defaultTheme'])}/>
               <Button
                 color='secondary'
-                onClick={() => setInfo('bg-secondary', 'background')}/>
+                onClick={() => setInfo('background', 'bg-secondary', ThemeConfig['defaultTheme'])}/>
               <Button
                 color='success'
-                onClick={() => setInfo('bg-success', 'background')}/>
+                onClick={() => setInfo('background', 'bg-success', ThemeConfig['defaultTheme'])}/>
               <Button
                 color='danger'
-                onClick={() => setInfo('bg-danger', 'background')}/>
+                onClick={() => setInfo('background', 'bg-danger', ThemeConfig['defaultTheme'])}/>
               <Button
                 color='warning'
-                onClick={() => setInfo('bg-warning', 'background')}/>
+                onClick={() => setInfo('background', 'bg-warning', ThemeConfig['defaultTheme'])}/>
               <Button
                 color='info'
-                onClick={() => setInfo('bg-info', 'background')}/>
+                onClick={() => setInfo('background', 'bg-info', ThemeConfig['defaultTheme'])}/>
               <Button
                 color='light'
-                onClick={() => setInfo('bg-light', 'background')}/>
+                onClick={() => setInfo('background', 'bg-light', ThemeConfig['defaultTheme'])}/>
               <Button
                 color='dark'
-                onClick={() => setInfo('bg-dark', 'background')}/>
+                onClick={() => setInfo('background', 'bg-dark', ThemeConfig['defaultTheme'])}/>
             </ButtonGroup>
             <ButtonGroup style={{marginTop: '15px', marginBottom: '15px'}}>
               <Button disabled color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ""}`}>      
                 <FontAwesomeIcon icon={faBrush} /> Set button color
               </Button>
               <Button
-                color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ""}`}
-                outline
-                onClick={() => setInfo('light', 'buttonColor')}>White</Button>
+                color='light'
+                onClick={() => setInfo('buttonColor', 'light', ThemeConfig['defaultTheme'])}>White</Button>
+              <Button
+                color='dark'
+                onClick={() => setInfo('buttonColor', 'black', ThemeConfig['defaultTheme'])}>Black</Button>
+            </ButtonGroup>
+            <ButtonGroup style={{marginTop: '15px', marginBottom: '15px'}}>
+              <Button disabled color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ""}`}>      
+                <FontAwesomeIcon icon={faBrush} /> Default Theme
+              </Button>
               <Button
                 color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ""}`}
                 outline
-                onClick={() => setInfo('black', 'buttonColor')}>Black</Button>
+                onClick={() => setInfo(null, null, 'lightTheme')}>Light Theme</Button>
+              <Button
+                color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ""}`}
+                outline
+                onClick={() => setInfo(null, null, 'darkTheme')}>Dark Theme</Button>
             </ButtonGroup>
           </NavItem>
         </Nav>

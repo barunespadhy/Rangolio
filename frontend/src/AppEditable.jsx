@@ -60,7 +60,6 @@ function AppEditable() {
           "darkTheme": JSON.parse(responseData["dark_theme"]),
           "lightTheme": JSON.parse(responseData["light_theme"])
         })
-        setGlobalTheme(responseData["default_theme"])
       }
     )
   }
