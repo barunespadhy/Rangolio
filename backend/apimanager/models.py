@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from .initialize_data import userdata
 
@@ -10,7 +11,7 @@ class UserData(models.Model):
 	light_theme		= models.CharField(default=userdata["light_theme"], null=False, blank=False, max_length=1500)
 
 class Category(models.Model):
-	category_id		= models.SlugField()
+	category_id		= models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	featured_id		= models.CharField(null=True, blank=True, max_length=500)
 	name			= models.CharField(null=False, blank=False, max_length=200)
 	description 	= models.CharField(null=False, blank=False, max_length=200)
@@ -19,7 +20,7 @@ class Category(models.Model):
 
 
 class Blog(models.Model):
-	blog_id			= models.SlugField()
+	blog_id			= models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	name			= models.CharField(null=False, blank=False, max_length=200)
 	description 	= models.CharField(null=False, blank=False, max_length=200)
 	tagline			= models.CharField(null=False, blank=False, max_length=200)
