@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 //import services
-import DataService from '../../services/data-service';
+import EditableDataService from '../../services/editable-data-service';
 
 //import views
 import CardListViewer from './shared/card-list-viewer';
@@ -26,14 +26,80 @@ function Blogs(props) {
   const ThemeConfig = props.ThemeConfig;
 
   const [categoryMetadata, setCategoryMetadata] = useState([]);
+  const [idsToUpdate, setIdsToUpdate] = useState({});
 
   useEffect(() => {
-    DataService.getData('category/category-metadata').then(response =>
-      setCategoryMetadata(response.data)
-    );
+    setCategoryData()
   }, []);
 
-  if (GlobalTheme && ThemeConfig) {
+  const setCategoryData = () => {
+    EditableDataService.getData('/data/category/').then(response => {
+        let responseData = response.data
+        let localCategoryMetadata = []
+        for (let eachResponse of responseData){
+          localCategoryMetadata.push({
+            "id": eachResponse["category_id"],
+            "name": eachResponse["name"],
+            "featuredBlog": eachResponse["featured_id"],
+            "description": eachResponse["description"],
+            "tagLine": eachResponse["tagline"],
+            "coverImage": eachResponse["cover_image"]
+          })
+        }
+        setCategoryMetadata(localCategoryMetadata)
+      }
+    );
+  }
+
+  const addToIdsToUpdate = (resourceObject) => {
+    let localIdsToUpdate = {...idsToUpdate}
+    localIdsToUpdate[resourceObject.id]={
+      "name": resourceObject.name,
+      "featured_blog": resourceObject.featuredBlog,
+      "description": resourceObject.description,
+      "tagline": resourceObject.tagLine,
+      "cover_image": resourceObject.coverImage
+    }
+    setIdsToUpdate(localIdsToUpdate)
+  }
+
+  const deleteResource = (id) => {
+    EditableDataService.deleteData(`/data/category/delete/${id}/`).then(response => {
+      props.notificationToggler('Category delete successfully')
+      setCategoryData()
+    }).catch(error => {
+      props.notificationToggler('Failed to delete category', 'danger');
+    });
+  }
+
+  const addNewCategory = () => {
+    EditableDataService.createData('/data/category/create/', {
+      "name": "Enter a blog name",
+      "featured_blog": "",
+      "description": "Enter description",
+      "tagline": "Enter category tagline",
+      "cover_image": ""
+    }).then(response => {
+        props.notificationToggler('Category created successfully')
+        setCategoryData()
+      }
+    ).catch(error => {
+      props.notificationToggler('Failed to add category', 'danger');
+    });
+  }
+
+  const updateInfo = () => {
+    for (let id of Object.keys(idsToUpdate)) {
+      EditableDataService.updateData(`/data/category/update/${id}/`, idsToUpdate[id]).then(response=>{
+        props.notificationToggler('Category data updated successfully')
+      }).catch(error => {
+        props.notificationToggler('Failed to update category data', 'danger');
+      });
+    }
+    setCategoryData()
+  }
+
+  if (GlobalTheme && ThemeConfig && categoryMetadata.length > 0) {
     return (
       <Container fluid className={`p-0 mb-2 ${ThemeConfig[GlobalTheme].background}`}>
         <Row className="justify-content-center align-items-center">
@@ -42,7 +108,8 @@ function Blogs(props) {
             <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{width: "100%", border: "none"}}>
               <CardBody>
                 <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
-                  {"Categories"}<Button className='mt-2' color={ThemeConfig[GlobalTheme].buttonColor} outline>Add New</Button>
+                  {"Categories"}
+                  <Button className='mt-2' color={ThemeConfig[GlobalTheme].buttonColor} outline onClick={() => addNewCategory()}>Add New</Button>
                 </CardTitle>
               </CardBody>
             </Card>
@@ -54,17 +121,21 @@ function Blogs(props) {
                 categoryMetadata.map((item, index) => (
                   <CardListViewer 
                     key={item.id}
-                    totalItems={categoryMetadata.length} 
-                    cardType={"longCard"} 
+                    id = {item.id}
+                    totalItems={categoryMetadata.length}
+                    addToIdsToUpdate={addToIdsToUpdate}
+                    cardType={"longCard"}
+                    deleteResource={deleteResource}
                     resourceType={"categories"}
                     textColor={ThemeConfig[GlobalTheme].textColor} 
                     bgColor={ThemeConfig[GlobalTheme].background} 
                     borderColor={ThemeConfig[GlobalTheme].borderColor}
+                    buttonColor={ThemeConfig[GlobalTheme].buttonColor}
                     itemObject={item}
                   />
                 )) : <Spinner />}
               <ButtonGroup className='mt-4'>
-                <Button color={ThemeConfig[GlobalTheme].buttonColor} outline>Save Data</Button>
+                <Button onClick={() => updateInfo()} color={ThemeConfig[GlobalTheme].buttonColor} outline>Save Data</Button>
                 <Button color={ThemeConfig[GlobalTheme].buttonColor} outline>Publish Data</Button>
               </ButtonGroup>
             </div>

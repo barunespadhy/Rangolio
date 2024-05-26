@@ -18,4 +18,12 @@ const updateData = (endPoint, data) => {
   return axios.patch(endPoint, data);
 };
 
-export default { getData, updateData };
+const createData = (endPoint, data) => {
+  return axios.post(endPoint, data);
+};
+
+const deleteData = (endPoint) => {
+  return axios.delete(endPoint);
+};
+
+export default { getData, updateData, createData, deleteData };

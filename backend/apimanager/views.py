@@ -62,7 +62,6 @@ class ThemeDataListAPIView(generics.ListAPIView):
 class CategoryCreateAPIView(generics.CreateAPIView):
     queryset            = Category.objects.all()
     serializer_class    = CategorySerializer
-    lookup_field        = 'category_id'
 
 class CategoryUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset            = Category.objects.all()
