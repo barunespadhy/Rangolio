@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import DataService from '../../../services/data-service';
+import EditableDataService from '../../../services/editable-data-service';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button, Spinner, ListGroup, ListGroupItem, ButtonGroup } from 'reactstrap';
 
@@ -7,10 +7,26 @@ function CategoryBar(props) {
 
   const [categoryMetadata, setCategoryMetadata] = useState([]);
 
-  useEffect(() => {
-    DataService.getData('category/category-metadata').then(response =>
-      setCategoryMetadata(response.data)
+  const setCategoryData = () => {
+    EditableDataService.getData('/data/category/').then(response => {
+        let responseData = response.data
+        let localCategoryMetadata = []
+        for (let eachResponse of responseData){
+          localCategoryMetadata.push({
+            "id": eachResponse["category_id"],
+            "name": eachResponse["name"],
+            "featuredBlog": eachResponse["featured_id"],
+            "description": eachResponse["description"],
+            "tagLine": eachResponse["tagline"],
+            "coverImage": eachResponse["cover_image"]
+          })
+        }
+        setCategoryMetadata(localCategoryMetadata)
+      }
     );
+  }
+  useEffect(() => {
+    setCategoryData();
   }, []);
 
   const rowStyle = {

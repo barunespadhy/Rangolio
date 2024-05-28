@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useEffect, useState } from 'react';
-import DataService from '../../services/data-service';
+import EditableDataService from '../../services/editable-data-service';
 import MediaService from '../../services/media-service';
 import CardListViewer from './shared/card-list-viewer';
 import CategoryBar from './shared/category-bar';
@@ -26,76 +26,75 @@ function BlogList(props) {
   const ThemeConfig = props.ThemeConfig;
 
   const [categoryData, setCategoryData] = useState('loading');
-  const [featuredBlogData, setFeaturedBlogData] = useState('loading');
   const [currentPage, setCurrentPage] = useState('loading');
-  
+
   useEffect(() => {
-    DataService.getData(`category/${categoryID}/category-data`).then(response =>{
-      setCategoryData(response.data);
-      console.log(response.data)
-      if (response.data.featuredBlog){
-        DataService.getData(`blog/${response.data.featuredBlog}/blog-data`).then(response =>
-          setFeaturedBlogData(response.data)
-        );
+    EditableDataService.getData(`/data/category/${categoryID}/`).then(response => {
+        let responseData = response.data
+        let blogMetadata = []
+        console.log(responseData)
+        let localCategoryData = {
+                "id": responseData["category_id"],
+                "name": responseData["name"],
+                "coverImage": responseData["cover_image"],
+                "tagLine": responseData["tagline"],
+                "description": responseData["description"],
+                "featuredBlog": responseData["featured_id"],
+                "blogMetadata": responseData["blog_metadata"]
+            }
+        for (let eachBlog of responseData["blog_metadata"]){
+          blogMetadata.push({
+            "id": eachBlog["blog_id"],
+            "name": eachBlog["name"],
+            "description": eachBlog["description"],
+            "tagLine": eachBlog["tagline"],
+            "coverImage": eachBlog["cover_image"],
+            "parentCategory": eachBlog["parent_category"]
+          })
+        }
+        localCategoryData.blogMetadata = blogMetadata
+        setCategoryData(localCategoryData)
       }
-      else
-        setFeaturedBlogData("nodata")
-    }
     );
   }, [categoryID]);
 
   if (GlobalTheme && ThemeConfig) {
-    return (
-      <Container fluid className={` mb-2 p-0 ${ThemeConfig[GlobalTheme].background}`}>
-      <CategoryBar currentPage={categoryID} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
-        <Row className="justify-content-center align-items-center">
-          <Col className="d-flex flex-column align-items-center">
-            <div className="w-100">
-            <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{width: "100%", border: "none"}}>
-              <CardBody>
-                <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
-                  {`Blogs in ${categoryData.name}`}
-                </CardTitle>
-              </CardBody>
-            </Card>
-            </div>
-            <div className="" style={{ width: '70%', margin: 'auto', display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-            <h3 className={`${ThemeConfig[GlobalTheme].textColor}`}>
-            {`Featured`}
-            </h3>
-            {
-              featuredBlogData === 'loading' ? <Spinner /> :
-              <CardListViewer
-                key={featuredBlogData.id}
-                totalItems={featuredBlogData === 'nodata' ? 0 : 1}
-                cardType={"longCard"}
-                resourceType={"blog"}
-                textColor={ThemeConfig[GlobalTheme].textColor}
-                bgColor={ThemeConfig[GlobalTheme].background}
-                borderColor={ThemeConfig[GlobalTheme].borderColor}
-                itemObject={featuredBlogData}
-              />
-            }
-            {
-              categoryData === 'loading' ? <Spinner /> :
+return (
+  <Container fluid className={`mb-2 p-0 ${ThemeConfig[GlobalTheme].background}`}>
+    <CategoryBar currentPage={categoryID} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} />
+    <Row className="justify-content-center align-items-center">
+      <Col className="d-flex flex-column align-items-center">
+        <div className="w-100">
+          <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{ width: "100%", border: "none" }}>
+            <CardBody>
+              <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
+                {`Blogs in ${categoryData.name}`}
+              </CardTitle>
+            </CardBody>
+          </Card>
+        </div>
+        <div className="" style={{ width: '70%', margin: 'auto', display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+          <h3 className={`${ThemeConfig[GlobalTheme].textColor}`}>
+            {categoryData === 'loading' ? <Spinner /> :
               categoryData.blogMetadata.map((item, index) => (
                 <CardListViewer
-                  key={item.id}
-                  totalItems={categoryData.blogMetadata.length} 
-                  cardType={"smallCard"} 
+                  key={item.blog_id} // Ensuring keys are unique and correct
+                  totalItems={categoryData.blogMetadata.length}
+                  cardType={"smallCard"}
                   resourceType={"blog"}
-                  textColor={ThemeConfig[GlobalTheme].textColor} 
-                  bgColor={ThemeConfig[GlobalTheme].background} 
+                  textColor={ThemeConfig[GlobalTheme].textColor}
+                  bgColor={ThemeConfig[GlobalTheme].background}
                   borderColor={ThemeConfig[GlobalTheme].borderColor}
                   itemObject={item}
                 />
               ))
             }
-            </div>
-          </Col>
-        </Row>
-      </Container>
-    );
+          </h3>
+        </div>
+      </Col>
+    </Row>
+  </Container>
+);
   } else {
     return null;
   }

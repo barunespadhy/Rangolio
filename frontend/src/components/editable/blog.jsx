@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 
-import DataService from '../../services/data-service';
+import EditableDataService from '../../services/editable-data-service';
 import MediaService from '../../services/media-service'
 import CategoryBar from './shared/category-bar';
 import EditorComponent from './shared/tiptap';
@@ -25,21 +25,37 @@ function Blog(props) {
   const [blogContent, setBlogContent] = useState();
 
   const setInfo = (event) => {
-    let localEditedBlogData = {...blogData};
-    localEditedBlogData["name"] = nameField.current.value;
-    localEditedBlogData["description"] = descriptionField.current.value;
-    localEditedBlogData["tagLine"] = tagLineField.current.value;
-    localEditedBlogData["contentBody"] = blogContent
-    setBlogData(localEditedBlogData);
-    props.notificationToggler('Data saved!');
+    EditableDataService.updateData(`/data/blog/update/${blogID}/`,{
+      "name": nameField.current.value,
+      "description": descriptionField.current.value,
+      "tagline": tagLineField.current.value,
+      "content_body": blogContent
+    }).then(response => {
+      props.notificationToggler('Blog data saved!');
+      getInfo()
+    }).catch(error => {
+      props.notificationToggler('Failed to update blog!', 'danger');
+    });
+  }
+
+  const getInfo = () => {
+    EditableDataService.getData(`/data/blog/${blogID}/`).then(response => {
+        let responseData = response.data
+        setBlogData({
+          "id": responseData["blog_id"],
+          "name": responseData["name"],
+          "description": responseData["description"],
+          "tagLine": responseData["tagline"],
+          "coverImage": responseData["cover_image"],
+          "parentCategory": responseData["parent_category"]
+        })
+        setBlogContent(responseData["content_body"])
+      }
+    );
   }
 
   useEffect(() => {
-    DataService.getData(`blog/${blogID}/blog-data`).then(response =>{
-        setBlogData(response.data)
-        setBlogContent(response.data.contentBody)
-      }
-    );
+      getInfo()
   }, []);
 
   if (GlobalTheme && ThemeConfig && blogData) {
@@ -89,7 +105,7 @@ function Blog(props) {
       <Col xs="3" className="d-none d-md-block"></Col>
 
         <Col className={`blogContent ${ThemeConfig[GlobalTheme].textColor}`} style={{marginBottom: '25px'}}>
-          <EditorComponent setContent={setBlogContent} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} content={blogData.contentBody}/>
+          <EditorComponent setContent={setBlogContent} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} content={blogContent}/>
           <ButtonGroup className='mt-4'>
             <Button onClick={(event) => setInfo(event)} color={ThemeConfig[GlobalTheme].buttonColor} outline>Save Data</Button>
             <Button color={ThemeConfig[GlobalTheme].buttonColor} outline>Publish Data</Button>

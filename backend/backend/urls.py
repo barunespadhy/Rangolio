@@ -31,7 +31,7 @@ from apimanager.views import (
     BlogUpdateAPIView,
     BlogRetrieveAPIView,
     BlogDeleteAPIView,
-    BlogsByCategoryAPIView
+    BlogsByCategoryAPIView,
 )
 
 urlpatterns = [

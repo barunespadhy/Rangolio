@@ -24,6 +24,7 @@ from .serializers import (
     ThemeDataSerializer,
 	CategorySerializer,
     BlogSerializer,
+    UnifiedCategoryBlogSerializer,
     MediaSerializer
 )
 ################################################################
@@ -76,6 +77,16 @@ class CategoryDeleteAPIView(generics.DestroyAPIView):
     queryset            = Category.objects.all()
     serializer_class    = CategorySerializer
     lookup_field        = 'category_id'
+
+class BlogsByCategoryAPIView(APIView):
+    def get(self, request, category_id):
+        try:
+            category = Category.objects.get(category_id=category_id)
+        except Category.DoesNotExist:
+            return Response({'message': 'Category not found'}, status=404)
+
+        serializer = UnifiedCategoryBlogSerializer(category)
+        return Response(serializer.data)
 ################################################################
 
 #Blog related views##################################################
@@ -94,15 +105,14 @@ class BlogRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class    = BlogSerializer
     lookup_field        = 'blog_id'
 
-class BlogsByCategoryAPIView(APIView):
+class CategoryDetailView(APIView):
     def get(self, request, category_id):
         try:
             category = Category.objects.get(category_id=category_id)
         except Category.DoesNotExist:
             return Response({'message': 'Category not found'}, status=404)
-        
-        blogs = category.blogs.all()
-        serializer = BlogSerializer(blogs, many=True)
+
+        serializer = UnifiedCategoryBlogSerializer(category)
         return Response(serializer.data)
 
 class BlogDeleteAPIView(generics.DestroyAPIView):
