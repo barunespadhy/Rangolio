@@ -96,5 +96,5 @@ class MediaSerializer(serializers.Serializer):
     media = serializers.ListField(
         child=serializers.FileField(max_length=100000, allow_empty_file=False, use_url=False)
     )
-    resource_type = serializers.CharField(allow_blank=False)
-    resource_id		= serializers.CharField(allow_blank=False)
+    resource_type = serializers.CharField(max_length=255, allow_blank=False)
+    resource_id		= serializers.CharField(max_length=255, allow_blank=False)

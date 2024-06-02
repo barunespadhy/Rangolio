@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
   Button, ButtonGroup, Label, Input } from 'reactstrap';
 import { Color } from '@tiptap/extension-color'
@@ -8,7 +8,6 @@ import Highlight from '@tiptap/extension-highlight'
 import TextAlign from '@tiptap/extension-text-align'
 import Underline from '@tiptap/extension-underline'
 import Blockquote from '@tiptap/extension-blockquote'
-import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
 import { EditorProvider, useCurrentEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -21,7 +20,11 @@ import { faBold, faItalic,
 		 faListUl, faLink,
 		 faListOl, faQuoteLeft,
 		 faQuoteRight, faRulerHorizontal, 
-		 faRotateLeft, faRotateRight } from '@fortawesome/free-solid-svg-icons';
+		 faRotateLeft, faRotateRight, faImage } from '@fortawesome/free-solid-svg-icons';
+
+
+import CustomImageExtension from './tiptap-custom-extensions/custom-image-extension.jsx'
+import MediaUpload from './media-upload.jsx'
 
 const MenuBar = (props) => {
   const { editor } = useCurrentEditor()
@@ -310,6 +313,14 @@ const MenuBar = (props) => {
         <FontAwesomeIcon icon={faRotateRight}/>
       </Button>
       </ButtonGroup>
+      <Button
+        className='mt-2 ms-2'
+        color={ThemeConfig[GlobalTheme].buttonColor}
+        onClick={() => props.toggle()}
+        outline
+      >
+        <FontAwesomeIcon icon={faImage}/>
+      </Button>
     </>
   )
 }
@@ -329,12 +340,7 @@ const extensions = [
   }),
   Underline,
   Blockquote,
-  Image.configure({
-    allowBase64: true,
-    HTMLAttributes: {
-      class: 'mx-auto d-block',
-    },
-  }),
+  CustomImageExtension,
   TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),
@@ -349,8 +355,14 @@ export default (props) => {
   const GlobalTheme = props.GlobalTheme;
   const ThemeConfig = props.ThemeConfig;
 
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
+
   if (props.content && GlobalTheme && ThemeConfig)
   return (
-    <EditorProvider slotBefore={<MenuBar setContent={props.setContent} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>} extensions={extensions} content={props.content}></EditorProvider>
+    <>
+      <MediaUpload notificationToggler={props.notificationToggler} modal={modal} toggle={toggle} resourceType={props.resourceType} resourceId={props.resourceId}></MediaUpload>
+      <EditorProvider slotBefore={<MenuBar modal={modal} toggle={toggle} setContent={props.setContent} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>} extensions={extensions} content={props.content}></EditorProvider>
+    </>
   )
 }

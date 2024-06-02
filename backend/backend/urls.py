@@ -32,6 +32,7 @@ from apimanager.views import (
     BlogRetrieveAPIView,
     BlogDeleteAPIView,
     BlogsByCategoryAPIView,
+    MediaUpload
 )
 
 urlpatterns = [
@@ -49,4 +50,5 @@ urlpatterns = [
     path('data/blog/<slug:blog_id>/', BlogRetrieveAPIView.as_view(), name='blog-retrieve-view'),
     path('data/blog/update/<slug:blog_id>/', BlogUpdateAPIView.as_view(), name='blog-update-view'),
     path('data/blog/delete/<slug:blog_id>/', BlogDeleteAPIView.as_view(), name='blog-delete-view'),
+    path('data/upload/', MediaUpload.as_view(), name='media-upload'),
 ]

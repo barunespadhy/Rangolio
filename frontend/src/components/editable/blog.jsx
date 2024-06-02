@@ -138,7 +138,7 @@ function Blog(props) {
       <Col xs="3" className="d-none d-md-block"></Col>
 
         <Col className={`blogContent ${ThemeConfig[GlobalTheme].textColor}`} style={{marginBottom: '25px'}}>
-          <EditorComponent setContent={setBlogContent} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} content={blogContent}/>
+          <EditorComponent notificationToggler={props.notificationToggler} setContent={setBlogContent} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} content={blogContent} resourceType='blog' resourceId={blogData.id}/>
           <ButtonGroup className='mt-4'>
             <Button onClick={(event) => setInfo(event)} color={ThemeConfig[GlobalTheme].buttonColor} outline>Save Data</Button>
             <Button color={ThemeConfig[GlobalTheme].buttonColor} outline>Publish Data</Button>

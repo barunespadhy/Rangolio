@@ -1,17 +1,10 @@
 #######################Django related imports####################
-import os
-import subprocess
-import ast
-import shutil
-from django.shortcuts import render
-from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.generics import GenericAPIView
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework import generics, permissions, views, serializers, status
+from django.core.files.storage import default_storage
+from rest_framework import generics, status
+import random
 #################################################################
 #API related imports
 from .models import (
@@ -110,24 +103,22 @@ class BlogDeleteAPIView(generics.DestroyAPIView):
     lookup_field        = 'blog_id'
 ####################################################################
 
-'''
-class MediaView(APIView):
+
+class MediaUpload(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
-        file_serializer = FileSerializer(data=request.data)
+        file_serializer = MediaSerializer(data=request.data)
         if file_serializer.is_valid():
-            files = dict((f, f) for f in request.FILES.getlist('file'))
-            nodeName = file_serializer.validated_data['nodeName']
-            preferredFormat = file_serializer.validated_data['preferredFormat']
-            for f in files.values():
-                fileHandlerObject = FileHandler(f, preferredFormat, nodeName)
-                fileProcessed = fileHandlerObject.handleUploadedFile()
-                if not fileProcessed[0]:
-                    return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-                else:
-                    return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+            files = request.FILES.getlist('media')
+            resource_type = file_serializer.validated_data['resource_type']
+            resource_id = file_serializer.validated_data['resource_id']
+            file_path_base = f'static/rangolio_data'
 
+            for f in files:
+                file_unique_slug = ''.join(random.choices('ABCDEabcde1234', k=5))
+                file_path = f"{file_path_base}/{resource_type}/{resource_id}/media/{file_unique_slug+resource_id+f.name}"
+                default_storage.save(file_path, f)
 
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
@@ -135,6 +126,7 @@ class MediaView(APIView):
 
 
 
+'''
 class ETLFunctions(GenericAPIView):
 
     serializer_class = ETLData
