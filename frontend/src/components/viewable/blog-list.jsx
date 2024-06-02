@@ -11,14 +11,17 @@ import {
   Card,
   Row,
   Col,
-  CardImg,
+  Button,
   CardTitle,
-  CardText,
   CardBody
 } from 'reactstrap';
-import { Link, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { faLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function BlogList(props) {
+
+  let navigate = useNavigate();
 
   const { categoryID } = useParams();
 
@@ -47,7 +50,8 @@ function BlogList(props) {
   if (GlobalTheme && ThemeConfig) {
     return (
       <Container fluid className={` mb-2 p-0 ${ThemeConfig[GlobalTheme].background}`}>
-      <CategoryBar currentPage={categoryID} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
+        <Col xs="3" className="d-none d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories`)} className="ms-5 mt-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
+        <CategoryBar currentPage={categoryID} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
         <Row className="justify-content-center align-items-center">
           <Col className="d-flex flex-column align-items-center">
             <div className="w-100">

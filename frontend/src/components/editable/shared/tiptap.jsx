@@ -8,6 +8,7 @@ import Highlight from '@tiptap/extension-highlight'
 import TextAlign from '@tiptap/extension-text-align'
 import Underline from '@tiptap/extension-underline'
 import Blockquote from '@tiptap/extension-blockquote'
+import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
 import { EditorProvider, useCurrentEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -18,7 +19,7 @@ import { faBold, faItalic,
 		 faAlignJustify, faHighlighter, 
 		 faStrikethrough, faCode, 
 		 faListUl, faLink,
-		 faListOl, faQuoteLeft, 
+		 faListOl, faQuoteLeft,
 		 faQuoteRight, faRulerHorizontal, 
 		 faRotateLeft, faRotateRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -328,6 +329,12 @@ const extensions = [
   }),
   Underline,
   Blockquote,
+  Image.configure({
+    allowBase64: true,
+    HTMLAttributes: {
+      class: 'mx-auto d-block',
+    },
+  }),
   TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),

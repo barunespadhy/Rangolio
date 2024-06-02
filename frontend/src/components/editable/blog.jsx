@@ -4,13 +4,19 @@ import EditableDataService from '../../services/editable-data-service';
 import MediaService from '../../services/media-service'
 import CategoryBar from './shared/category-bar';
 import EditorComponent from './shared/tiptap';
+import ModalComponent from './shared/modal-component';
+
+import { faLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
   Container,Row, Col,Spinner, UncontrolledCollapse, Button, ButtonGroup, Card, CardBody, Input, InputGroup, InputGroupText
 } from 'reactstrap';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Blog(props) {
+
+  let navigate = useNavigate();
 
   const nameField = useRef(null);
   const descriptionField = useRef(null);
@@ -23,6 +29,11 @@ function Blog(props) {
 
   const [blogData, setBlogData] = useState([]);
   const [blogContent, setBlogContent] = useState();
+  const [modal, setModal] = useState(false);
+  const [modalText, setModalText] = useState(false);
+  const [modalTitle, setModalTitle] = useState(false);
+
+  const toggle = () => setModal(!modal);
 
   const setInfo = (event) => {
     EditableDataService.updateData(`/data/blog/update/${blogID}/`,{
@@ -36,6 +47,22 @@ function Blog(props) {
     }).catch(error => {
       props.notificationToggler('Failed to update blog!', 'danger');
     });
+  }
+
+  const showModal = () => {
+    setModalTitle('Confirm')
+    setModalText('Are you sure that you wish to delete this blog?')
+    toggle()
+  }
+
+  const deleteResource = () => {
+     EditableDataService.deleteData(`/data/blog/delete/${blogData.id}/`).then(response => {
+         props.notificationToggler('Blog successfully deleted')
+         navigate(`/categories/${blogData.parentCategory}`);
+      }).catch(error => {
+        props.notificationToggler('Failed to delete blog', 'danger');
+      });
+    toggle()
   }
 
   const getInfo = () => {
@@ -61,19 +88,25 @@ function Blog(props) {
   if (GlobalTheme && ThemeConfig && blogData) {
   return (
     <Container fluid className={`${ThemeConfig[GlobalTheme].background}`}>
-    <CategoryBar currentPage={blogData.parentCategory} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
+      <ModalComponent modalText={modalText} modalTitle={modalTitle} modal={modal} toggle={toggle} confirmAction={deleteResource}/>
+      <Col xs="3" className="d-none d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/${blogData.parentCategory}`)} className="ms-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
+      <CategoryBar currentPage={blogData.parentCategory} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
       <Row className="mb-4">
         <Col className="p-0">
-          <img
-            src={MediaService.getMedia(blogData.coverImage)}
-            alt="Banner"
-            style={{ width: '100%', height: 'auto', maxHeight: '20vh', objectFit: 'cover' }}
-          />
+          {
+            blogData.coverImage !== "" ?
+            <img
+              src={MediaService.getMedia(blogData.coverImage)}
+              alt="Banner"
+              style={{ width: '100%', height: 'auto', maxHeight: '20vh', objectFit: 'cover' }}
+            />:""
+          }
         </Col>
       </Row>
       <Row className="mr-2 ml-2 mb-2 mt-1 blogContent">
         <Col xs="3" className="d-none d-md-block"></Col>
         <Col xs={`${window.screen.width >= 765 ? '6':''}`}>
+          <Button color='danger' onClick={() => showModal()} className="mb-5">Delete Blog</Button>
           <InputGroup className="mb-3">
             <InputGroupText>
                 Name

@@ -116,7 +116,7 @@ function CardListViewer(props) {
             <Link className={`${props.textColor}`} to={`/${props.resourceType}/${itemObject.id}`}>
               Open this resource
             </Link>
-            <Button color={props.buttonColor} onClick={() => showModal()} outline className="m-1">Delete</Button>
+            <Button color='danger' onClick={() => showModal()} className="m-2">Delete Blog</Button>
             </CardText>
           </CardBody>
         </Card>
@@ -128,13 +128,13 @@ function CardListViewer(props) {
           {itemObject.coverImage !== "" ? <CardImg src={MediaService.getMedia(itemObject.coverImage)} style={{ "height": "180px", "objectFit": "cover" }} top width="100%" /> : ""}
           <CardBody>
             <Link to={`/${props.resourceType}/${itemObject.id}`}>
-            <CardTitle className={`${props.textColor}`} tag="h5">
+            <CardTitle className={`${props.textColor}`} tag="h3">
               {itemObject.name}
             </CardTitle>
-            <CardText className={`${props.textColor}`}>
+            <CardText className={`${props.textColor}`} tag="h5">
               {itemObject.description}
             </CardText>
-            <CardText>
+            <CardText tag="h6">
               <small className={`${props.textColor}`}>
                   {itemObject.tagLine}
               </small>

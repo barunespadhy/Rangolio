@@ -93,7 +93,6 @@ class BlogsByCategoryAPIView(APIView):
 class BlogCreateAPIView(generics.CreateAPIView):
     queryset            = Blog.objects.all()
     serializer_class    = BlogSerializer
-    lookup_field        = 'blog_id'
 
 class BlogUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset            = Blog.objects.all()
@@ -104,16 +103,6 @@ class BlogRetrieveAPIView(generics.RetrieveAPIView):
     queryset            = Blog.objects.all()
     serializer_class    = BlogSerializer
     lookup_field        = 'blog_id'
-
-class CategoryDetailView(APIView):
-    def get(self, request, category_id):
-        try:
-            category = Category.objects.get(category_id=category_id)
-        except Category.DoesNotExist:
-            return Response({'message': 'Category not found'}, status=404)
-
-        serializer = UnifiedCategoryBlogSerializer(category)
-        return Response(serializer.data)
 
 class BlogDeleteAPIView(generics.DestroyAPIView):
     queryset            = Blog.objects.all()

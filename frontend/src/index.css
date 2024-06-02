@@ -39,3 +39,10 @@ a {
   border-radius: 10px;
   padding: 1em;
 }
+
+.blogContent img {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;
+  width: 50%;
+}

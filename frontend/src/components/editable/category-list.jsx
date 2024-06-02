@@ -19,9 +19,13 @@ import {
   Button,
   ButtonGroup
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { faLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Blogs(props) {
+
+  let navigate = useNavigate();
   const GlobalTheme = props.GlobalTheme;
   const ThemeConfig = props.ThemeConfig;
 
@@ -65,7 +69,7 @@ function Blogs(props) {
 
   const deleteResource = (id) => {
     EditableDataService.deleteData(`/data/category/delete/${id}/`).then(response => {
-      props.notificationToggler('Category delete successfully')
+      props.notificationToggler('Category successfully deleted')
       setCategoryData()
     }).catch(error => {
       props.notificationToggler('Failed to delete category', 'danger');
@@ -74,10 +78,10 @@ function Blogs(props) {
 
   const addNewCategory = () => {
     EditableDataService.createData('/data/category/create/', {
-      "name": "Enter a blog name",
+      "name": "Enter name",
       "featured_blog": "",
       "description": "Enter description",
-      "tagline": "Enter category tagline",
+      "tagline": "Enter tagline",
       "cover_image": ""
     }).then(response => {
         props.notificationToggler('Category created successfully')
@@ -99,9 +103,10 @@ function Blogs(props) {
     setCategoryData()
   }
 
-  if (GlobalTheme && ThemeConfig && categoryMetadata.length > 0) {
+  if (GlobalTheme && ThemeConfig) {
     return (
       <Container fluid className={`p-0 mb-2 ${ThemeConfig[GlobalTheme].background}`}>
+        <Col xs="3" className="d-none d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/`)} className="ms-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
         <Row className="justify-content-center align-items-center">
           <Col className="d-flex flex-column align-items-center">
             <div className="w-100">

@@ -45,8 +45,8 @@ urlpatterns = [
     path('data/category/<slug:category_id>/', BlogsByCategoryAPIView.as_view(), name='blogs-by-category-view'),
     path('data/category/update/<slug:category_id>/', CategoryUpdateAPIView.as_view(), name='category-update-view'),
     path('data/category/delete/<slug:category_id>/', CategoryDeleteAPIView.as_view(), name='category-delete-view'),
+    path('data/blog/create/', BlogCreateAPIView.as_view(), name='blog-create-view'),
     path('data/blog/<slug:blog_id>/', BlogRetrieveAPIView.as_view(), name='blog-retrieve-view'),
-    path('data/blog/create/<slug:blog_id>/', BlogCreateAPIView.as_view(), name='blog-create-view'),
     path('data/blog/update/<slug:blog_id>/', BlogUpdateAPIView.as_view(), name='blog-update-view'),
     path('data/blog/delete/<slug:blog_id>/', BlogDeleteAPIView.as_view(), name='blog-delete-view'),
 ]

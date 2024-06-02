@@ -8,10 +8,13 @@ import CategoryBar from './shared/category-bar';
 import {
   Container,Row, Col,Spinner, UncontrolledCollapse, Button, ButtonGroup, Card, CardBody
 } from 'reactstrap';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { faLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Blog(props) {
 
+  let navigate = useNavigate();
   const { blogID } = useParams();
 
   const GlobalTheme = props.GlobalTheme;
@@ -56,14 +59,18 @@ function Blog(props) {
   if (GlobalTheme && ThemeConfig) {
   return (
     <Container fluid className={`${ThemeConfig[GlobalTheme].background}`}>
-    <CategoryBar currentPage={blogData.parentCategory} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
+      <Col xs="3" className="d-none d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/${blogData.parentCategory}`)} className="ms-5 mt-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
+      <CategoryBar currentPage={blogData.parentCategory} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
       <Row className="mb-4">
         <Col className="p-0">
-          <img
-            src={MediaService.getMedia(blogData.coverImage)}
-            alt="Banner"
-            style={{ width: '100%', height: 'auto', maxHeight: '20vh', objectFit: 'cover' }}
-          />
+          {
+            blogData.coverImage !== "" ?
+            <img
+              src={MediaService.getMedia(blogData.coverImage)}
+              alt="Banner"
+              style={{ width: '100%', height: 'auto', maxHeight: '20vh', objectFit: 'cover' }}
+            />:""
+          }
         </Col>
       </Row>
       <Row className="mr-2 ml-2 mb-2 mt-1 blogContent">
@@ -142,13 +149,13 @@ function Blog(props) {
       </Row>
 
       <Row className="mr-2 ml-2 mt-1">
-      <Col xs="3" className="d-none d-md-block"></Col>
+      <Col xs="4" className="d-none d-md-block"></Col>
 
         <Col style={{marginBottom: '25px'}}>
           <div className={`blogContent ${ThemeConfig[GlobalTheme].textColor}`}>{blogContent}</div>
         </Col>
 
-      <Col xs="3" className="d-none d-md-block"></Col>
+      <Col xs="4" className="d-none d-md-block"></Col>
       </Row>
     </Container>
   );

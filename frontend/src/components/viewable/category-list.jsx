@@ -15,11 +15,15 @@ import {
   CardImg,
   CardTitle,
   CardText,
-  CardBody
+  CardBody,
+  Button
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { faLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Blogs(props) {
+  let navigate = useNavigate();
   const GlobalTheme = props.GlobalTheme;
   const ThemeConfig = props.ThemeConfig;
 
@@ -34,10 +38,12 @@ function Blogs(props) {
   if (GlobalTheme && ThemeConfig) {
     return (
       <Container fluid className={`p-0 mb-2 ${ThemeConfig[GlobalTheme].background}`}>
+
         <Row className="justify-content-center align-items-center">
           <Col className="d-flex flex-column align-items-center">
             {/* Top Section - Categories */}
             <div className="w-100">
+              <Col xs="3" className="d-none d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/`)} className="ms-5 mt-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
             <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{width: "100%", border: "none"}}>
               <CardBody>
                 <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
