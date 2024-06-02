@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
 
 import EditableDataService from '../../services/editable-data-service';
-import MediaService from '../../services/media-service'
+import EditableMediaService from '../../services/editable-media-service'
 import CategoryBar from './shared/category-bar';
 import EditorComponent from './shared/tiptap';
 import ModalComponent from './shared/modal-component';
+import MediaUpload from './shared/media-upload'
 
 import { faLeftLong } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,18 +30,22 @@ function Blog(props) {
 
   const [blogData, setBlogData] = useState([]);
   const [blogContent, setBlogContent] = useState();
+  const [coverImage, setCoverImage] = useState(false)
   const [modal, setModal] = useState(false);
   const [modalText, setModalText] = useState(false);
   const [modalTitle, setModalTitle] = useState(false);
+  const [fileModal, setFileModal] = useState(false);
 
   const toggle = () => setModal(!modal);
+  const toggleFileModal = () => setFileModal(!fileModal);
 
   const setInfo = (event) => {
     EditableDataService.updateData(`/data/blog/update/${blogID}/`,{
       "name": nameField.current.value,
       "description": descriptionField.current.value,
       "tagline": tagLineField.current.value,
-      "content_body": blogContent
+      "content_body": blogContent,
+      "cover_image": coverImage ? coverImage !== '-' ? coverImage : '' : blogData.coverImage
     }).then(response => {
       props.notificationToggler('Blog data saved!');
       getInfo()
@@ -85,10 +90,18 @@ function Blog(props) {
       getInfo()
   }, []);
 
+  useEffect(() => {
+    if (coverImage){
+      setInfo()
+      if (coverImage !== '-') toggleFileModal()
+    }
+  }, [coverImage])
+
   if (GlobalTheme && ThemeConfig && blogData) {
   return (
     <Container fluid className={`${ThemeConfig[GlobalTheme].background}`}>
       <ModalComponent modalText={modalText} modalTitle={modalTitle} modal={modal} toggle={toggle} confirmAction={deleteResource}/>
+      <MediaUpload setMedia={setCoverImage} notificationToggler={props.notificationToggler} modal={fileModal} toggle={toggleFileModal} resourceType='homepage' resourceId='homepage'></MediaUpload>
       <Col xs="3" className="d-none d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/${blogData.parentCategory}`)} className="ms-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
       <CategoryBar currentPage={blogData.parentCategory} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
       <Row className="mb-4">
@@ -96,7 +109,7 @@ function Blog(props) {
           {
             blogData.coverImage !== "" ?
             <img
-              src={MediaService.getMedia(blogData.coverImage)}
+              src={EditableMediaService.getMedia(blogData.coverImage)}
               alt="Banner"
               style={{ width: '100%', height: 'auto', maxHeight: '20vh', objectFit: 'cover' }}
             />:""
@@ -105,8 +118,25 @@ function Blog(props) {
       </Row>
       <Row className="mr-2 ml-2 mb-2 mt-1 blogContent">
         <Col xs="3" className="d-none d-md-block"></Col>
+
         <Col xs={`${window.screen.width >= 765 ? '6':''}`}>
           <Button color='danger' onClick={() => showModal()} className="mb-5">Delete Blog</Button>
+          <ButtonGroup className="mb-5 ms-5">
+            <Button
+              outline
+              color={ThemeConfig[GlobalTheme].buttonColor}
+              onClick={() => toggleFileModal()}
+            >
+              Set Profile Photo
+            </Button>
+            <Button
+              outline
+              color={ThemeConfig[GlobalTheme].buttonColor}
+              onClick={() => setCoverImage('-')}
+            >
+              Remove Profile Photo
+            </Button>
+          </ButtonGroup>
           <InputGroup className="mb-3">
             <InputGroupText>
                 Name

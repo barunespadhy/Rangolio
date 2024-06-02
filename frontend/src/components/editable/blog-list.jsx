@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { useEffect, useState } from 'react';
 import EditableDataService from '../../services/editable-data-service';
-import MediaService from '../../services/media-service';
 import CardListViewer from './shared/card-list-viewer';
 import CategoryBar from './shared/category-bar';
 import {
@@ -20,6 +19,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { faLeftLong } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import EditableMediaService from "../../services/editable-media-service.jsx";
 
 function BlogList(props) {
 

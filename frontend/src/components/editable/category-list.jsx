@@ -136,6 +136,7 @@ function Blogs(props) {
                     bgColor={ThemeConfig[GlobalTheme].background} 
                     borderColor={ThemeConfig[GlobalTheme].borderColor}
                     buttonColor={ThemeConfig[GlobalTheme].buttonColor}
+                    notificationToggler={props.notificationToggler}
                     itemObject={item}
                   />
                 )) : <Spinner />}

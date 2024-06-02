@@ -1,12 +1,15 @@
 import { Container, Spinner, Input, InputGroup, InputGroupText, Button, ButtonGroup, FormFeedback } from 'reactstrap';
 import {useEffect, useState, useRef} from 'react';
 import EditorComponent from './shared/tiptap';
-import MediaService from '../../services/media-service'
+import MediaUpload from './shared/media-upload'
+import EditableMediaService from '../../services/editable-media-service'
 
 function HomePage(props) {
   const [introContent, setIntroContent] = useState("")
+  const [profilePhoto, setProfilePhoto] = useState(false)
   const [saveKeyReady, setSaveKeyReady] = useState(true)
   const [nameFieldInvalid, setNameFieldInvalid] = useState(false)
+  const [modal, setModal] = useState(false)
   const nameField = useRef(null)
   const UserData = props.UserData ? props.UserData : <Spinner> Loading... </Spinner>
   const GlobalTheme = props.GlobalTheme;
@@ -16,7 +19,7 @@ function HomePage(props) {
     let response = await props.setInfo('/data/shared/update/user-data/', {
       "name": nameField.current.value,
       "intro_content": introContent,
-      "profile_photo": ""
+      "profile_photo": profilePhoto ? profilePhoto !== '-' ? profilePhoto : '' : UserData.profilePhoto
     })
     console.log(response)
     if (response === 200)
@@ -24,6 +27,8 @@ function HomePage(props) {
     if ([500, 404, 403, 400].includes(response))
       props.notificationToggler("Something failed!", "danger")
   }
+
+  const toggle = () => {setModal(!modal)}
 
   const showError = (elementValue, fieldType) => {
     console.log(elementValue)
@@ -39,11 +44,35 @@ function HomePage(props) {
     setIntroContent(UserData.introContent)
   }, [UserData])
 
+  useEffect(() => {
+    if (profilePhoto){
+      setInfo()
+      if (profilePhoto !== '-') toggle()
+    }
+  }, [profilePhoto])
+
   if (GlobalTheme && ThemeConfig)
   return (
     <Container fluid className={`p-0 mt-5 ${ThemeConfig[GlobalTheme].background}`}>
+      <MediaUpload setMedia={setProfilePhoto} notificationToggler={props.notificationToggler} modal={modal} toggle={toggle} resourceType='homepage' resourceId='homepage'></MediaUpload>
       <div className="d-flex flex-column justify-content-center align-items-center min-vh-82">
-      {UserData.profilePhoto !== "" ? <img style={{ width: '180px', height: '180px', objectFit: 'cover' }} className="rounded-circle" src={MediaService.getMedia(UserData.profilePhoto)} /> : ""}
+      {UserData.profilePhoto !== "" ? <img style={{ width: '180px', height: '180px', objectFit: 'cover' }} className="rounded-circle" src={EditableMediaService.getMedia(UserData.profilePhoto)} /> : ""}
+      <ButtonGroup className='mt-4'>
+        <Button
+          outline
+          color={ThemeConfig[GlobalTheme].buttonColor}
+          onClick={() => toggle()}
+        >
+          Set Profile Photo
+        </Button>
+        <Button
+          outline
+          color={ThemeConfig[GlobalTheme].buttonColor}
+          onClick={() => setProfilePhoto('-')}
+        >
+          Remove Profile Photo
+        </Button>
+      </ButtonGroup>
         <div className={`mt-5 ${ThemeConfig[GlobalTheme].textColor}`}>
           <>
             <InputGroup className='mb-5'>

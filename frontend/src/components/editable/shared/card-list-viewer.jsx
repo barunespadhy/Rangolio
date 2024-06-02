@@ -1,16 +1,16 @@
 import { useEffect, useState, useRef } from 'react';
-import MediaService from '../../../services/media-service'
+import EditableMediaService from '../../../services/editable-media-service'
 import {
-  Spinner,
   Card,
   CardImg,
   CardTitle,
   CardText,
   CardBody,
-  Input, InputGroup, InputGroupText, FormFeedback, Button
+  Input, InputGroup, InputGroupText, FormFeedback, Button, ButtonGroup
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ModalComponent from './modal-component';
+import MediaUpload from './media-upload.jsx'
 
 function CardListViewer(props) {
 
@@ -52,7 +52,6 @@ function CardListViewer(props) {
       "featuredBlog": "",
       "description": descriptionField.current.value,
       "tagLine": taglineField.current.value,
-      "coverImage": ""
     })
   }
 
@@ -66,7 +65,7 @@ function CardListViewer(props) {
     props.deleteResource(props.id)
     toggle()
   }
-  
+
   const itemObject = props.itemObject
 
   if (props.totalItems > 0 && itemObject && Object.keys(itemObject).length !== 0){
@@ -75,7 +74,6 @@ function CardListViewer(props) {
         <>
         <ModalComponent modalText={modalText} modalTitle={modalTitle} modal={modal} toggle={toggle} confirmAction={deleteResource}/>
         <Card color={props.borderColor} outline className={`my-2 ${props.bgColor}`} style={{"width": props.cardType === "smallCard" ? "18rem": "100%"}}>
-          {itemObject.coverImage !== "" ? <CardImg src={MediaService.getMedia(itemObject.coverImage)} style={{ "height": "180px", "objectFit": "cover" }} top width="100%" /> : ""}
           <CardBody>
             <CardTitle className={`mb-3 ${props.textColor}`} tag="h5">
               <InputGroup>
@@ -125,7 +123,7 @@ function CardListViewer(props) {
     else
       return (
         <Card color={props.borderColor} outline className={`my-2 ${props.bgColor}`} style={{"width": props.cardType === "smallCard" ? "18rem": "100%"}}>
-          {itemObject.coverImage !== "" ? <CardImg src={MediaService.getMedia(itemObject.coverImage)} style={{ "height": "180px", "objectFit": "cover" }} top width="100%" /> : ""}
+          {itemObject.coverImage !== "" ? <CardImg src={EditableMediaService.getMedia(itemObject.coverImage)} style={{ "height": "180px", "objectFit": "cover" }} top width="100%" /> : ""}
           <CardBody>
             <Link to={`/${props.resourceType}/${itemObject.id}`}>
             <CardTitle className={`${props.textColor}`} tag="h3">

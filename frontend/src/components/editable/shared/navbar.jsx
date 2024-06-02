@@ -13,7 +13,7 @@ import {
   Button, ButtonGroup, Label, Input
 } from 'reactstrap';
 import { useState, useEffect } from 'react';
-import MediaService from '../../../services/media-service'
+import EditableMediaService from '../../../services/editable-media-service'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon, faPen, faBrush } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -69,7 +69,7 @@ function Header(props) {
                 <img 
                   style={{ width: '40px', height: '40px', objectFit: 'cover', 'marginRight': '10px' }} 
                   className="rounded-circle" 
-                  src={MediaService.getMedia(UserData.profilePhoto)} 
+                  src={EditableMediaService.getMedia(UserData.profilePhoto)} 
                 /> : ""
             }
             <Button color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ""}`} size="lg">
