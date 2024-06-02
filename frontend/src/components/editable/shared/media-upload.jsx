@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import FileComponent from './file-component.jsx';
+import MediaLister from './media-lister.jsx';
 import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
 function MediaUpload(props) {
@@ -36,9 +37,7 @@ function MediaUpload(props) {
           <div  className="mt-3">
             { action === 'insert' ?
               <div>
-                <h4>
-                  Choose media to insert
-                </h4>
+                <MediaLister setMedia={props.setMedia} notificationToggler={props.notificationToggler} resourceType={props.resourceType} resourceId={props.resourceId} />
               </div>:
               <div>
                 <FileComponent notificationToggler={props.notificationToggler} resourceType={props.resourceType} resourceId={props.resourceId} />

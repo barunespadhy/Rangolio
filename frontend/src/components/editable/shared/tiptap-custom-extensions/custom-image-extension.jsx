@@ -24,7 +24,7 @@ function ImageNode(props) {
   return (
     <NodeViewWrapper className={className} data-drag-handle>
       <div className="image-container">
-        <img onClick={() => onEditAlt()} className='mx-auto d-block' src={src} alt={alt} />
+        <img className='mx-auto d-block' src={src} alt={alt} />
         <div className="image-overlay">
           <span className="image-text mx-auto d-block">
             { alt ?

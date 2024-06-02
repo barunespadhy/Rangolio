@@ -16,8 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from django.conf.urls import include
-from .views import my_form
+from django.conf import settings
+from django.conf.urls.static import static
 from apimanager.views import (
     UserDataUpdateAPIView,
     UserDataListAPIView,
@@ -32,7 +32,8 @@ from apimanager.views import (
     BlogRetrieveAPIView,
     BlogDeleteAPIView,
     BlogsByCategoryAPIView,
-    MediaUpload
+    MediaUpload,
+    ListMedia
 )
 
 urlpatterns = [
@@ -51,4 +52,6 @@ urlpatterns = [
     path('data/blog/update/<slug:blog_id>/', BlogUpdateAPIView.as_view(), name='blog-update-view'),
     path('data/blog/delete/<slug:blog_id>/', BlogDeleteAPIView.as_view(), name='blog-delete-view'),
     path('data/upload/', MediaUpload.as_view(), name='media-upload'),
+    path('data/media/<str:resource_type>/<str:resource_id>/', ListMedia.as_view(), name='list-media'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

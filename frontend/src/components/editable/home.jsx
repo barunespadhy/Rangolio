@@ -55,7 +55,7 @@ function HomePage(props) {
                 This field cannot be empty
               </FormFeedback>:''}
             </InputGroup>
-            <EditorComponent GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} content={UserData.introContent} setContent={setIntroContent}/>
+            <EditorComponent notificationToggler={props.notificationToggler} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} content={UserData.introContent} setContent={setIntroContent} resourceType='homepage' resourceId='homepage'/>
           </>
           <ButtonGroup className={`mt-4`}>
             <Button onClick={() => setInfo()} color={ThemeConfig[GlobalTheme].buttonColor} outline>Save Data</Button>

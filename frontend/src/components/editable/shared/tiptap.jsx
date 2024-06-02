@@ -29,6 +29,16 @@ import MediaUpload from './media-upload.jsx'
 const MenuBar = (props) => {
   const { editor } = useCurrentEditor()
 
+  const addMedia = (url) => {
+    editor.commands.setImage({
+      src: url,
+    });
+  };
+
+  if (!editor) {
+    return null
+  }
+
   useEffect(() => {
     if (editor){
       const handleChange = () => {
@@ -321,6 +331,7 @@ const MenuBar = (props) => {
       >
         <FontAwesomeIcon icon={faImage}/>
       </Button>
+      <MediaUpload setMedia={addMedia} notificationToggler={props.notificationToggler} modal={props.modal} toggle={props.toggle} resourceType={props.resourceType} resourceId={props.resourceId}></MediaUpload>
     </>
   )
 }
@@ -361,8 +372,7 @@ export default (props) => {
   if (props.content && GlobalTheme && ThemeConfig)
   return (
     <>
-      <MediaUpload notificationToggler={props.notificationToggler} modal={modal} toggle={toggle} resourceType={props.resourceType} resourceId={props.resourceId}></MediaUpload>
-      <EditorProvider slotBefore={<MenuBar modal={modal} toggle={toggle} setContent={props.setContent} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>} extensions={extensions} content={props.content}></EditorProvider>
+      <EditorProvider slotBefore={<MenuBar resourceType={props.resourceType} resourceId={props.resourceId} modal={modal} toggle={toggle} notificationToggler={props.notificationToggler} setContent={props.setContent} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>} extensions={extensions} content={props.content}></EditorProvider>
     </>
   )
 }

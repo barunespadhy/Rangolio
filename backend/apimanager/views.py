@@ -1,10 +1,13 @@
 #######################Django related imports####################
+import os
+import random
+from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.files.storage import default_storage
-from rest_framework import generics, status
-import random
+from django.conf import settings
+from django.http import JsonResponse
 #################################################################
 #API related imports
 from .models import (
@@ -113,77 +116,50 @@ class MediaUpload(APIView):
             files = request.FILES.getlist('media')
             resource_type = file_serializer.validated_data['resource_type']
             resource_id = file_serializer.validated_data['resource_id']
-            file_path_base = f'static/rangolio_data'
+            file_path_base = f'rangolio_data'
 
             for f in files:
-                file_unique_slug = ''.join(random.choices('ABCDEabcde1234', k=5))
-                file_path = f"{file_path_base}/{resource_type}/{resource_id}/media/{file_unique_slug+resource_id+f.name}"
+                file_unique_slug = ''.join(random.choices('ABCDEabcde12345', k=6))
+                if resource_id != resource_type:
+                    file_path = f"{file_path_base}/{resource_type}/{resource_id}/media/{file_unique_slug+resource_id+f.name}"
+                else:
+                    file_path = f"{file_path_base}/{resource_type}/media/{file_unique_slug+resource_id+f.name}"
                 default_storage.save(file_path, f)
 
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class ListMedia(APIView):
+    def get(self, request, resource_type, resource_id, format=None):
+        if resource_id != resource_type:
+            media_folder = os.path.join(settings.MEDIA_ROOT, 'rangolio_data', resource_type, resource_id, 'media')
+        else:
+            media_folder = os.path.join(settings.MEDIA_ROOT, 'rangolio_data', resource_type, 'media')
 
+        if not os.path.exists(media_folder):
+            return Response({'error': 'Media directory not found'}, status=status.HTTP_404_NOT_FOUND)
 
-'''
-class ETLFunctions(GenericAPIView):
+        media_files = [f for f in os.listdir(media_folder) if f.endswith(('.png', '.jpg', '.jpeg'))]
+        if resource_id != resource_type:
+            media_urls = [request.build_absolute_uri(f'{settings.MEDIA_URL}rangolio_data/{resource_type}/{resource_id}/media/' + f) for f in media_files]
+        else:
+            media_urls = [request.build_absolute_uri(f'{settings.MEDIA_URL}rangolio_data/{resource_type}/media/' + f) for f in media_files]
 
-    serializer_class = ETLData
+        return Response({'media': media_urls}, status=status.HTTP_200_OK)
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        data = serializer.data
-        if data['operation'] == "create-folder":
-            os.mkdir('../Analysis/'+data['postData'])
-            with open('../Analysis/'+data['postData']+'/'+data['postData']+'-run.log', 'w') as fp:
-                pass
-            fp.close()
+    def delete(self, request, resource_type, resource_id, format=None):
+        if resource_id != resource_type:
+            media_folder = os.path.join(settings.MEDIA_ROOT, 'rangolio_data', resource_type, resource_id, 'media')
+        else:
+            media_folder = os.path.join(settings.MEDIA_ROOT, 'rangolio_data', resource_type, 'media')
+        file_name = request.query_params.get('file')
+        if not file_name or not file_name.endswith(('.png', '.jpg', '.jpeg')):
+            return Response({'error': 'Invalid or no file name provided'}, status=status.HTTP_400_BAD_REQUEST)
 
-        if data['operation'] == "rename-folder":
-            os.rename('../Analysis/'+data['oldTitle'], '../Analysis/'+data['postData'])
-
-        if data['operation'] == "create-partition-file":
-            print(os.getcwd())
-            print(os.listdir(os.getcwd()))
-            partInfo = (data['postData'].split('|'))
-            with open(f'"{partInfo[0]}.part"', "w") as fpp:
-                pass
-            fpp.close()
-            partitionFile = open(f'"{partInfo[0]}.part"', "w+")
-            partitionFile.write(partInfo[1])
-            partitionFile.close()
-
-        if data['operation'] == "move-file":
-            pass
-                
-        return Response("Success", status=status.HTTP_200_OK)
-
-class BioTools(APIView):
-    def get(self, request):
-        params = request.GET.get('function', '')
-        params = params.split(";")
-        output = subprocess.check_output(f'seqmagick extract-ids ../Analysis/"{params[1]}"/"{(params[2])[:-1]}"', shell=True)
-        outgroups = (output.decode("utf-8")).split('\n')
-        outgroups = outgroups[:len(outgroups)-1]
-        return Response({'outgroups': outgroups})
-
-class CommandRunner(GenericAPIView):
-
-    serializer_class = InterimData
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        data = serializer.data
-        runLogFile = f'../Analysis/{data["nodeName"]}/{data["nodeName"]}-run.log'
-        
-        try:
-            commands = ast.literal_eval(data['finalParameter'])
-            for key, value in commands.items():
-                process = subprocess.Popen(value+f" > {runLogFile}", shell=True)
-        except:
-            process = subprocess.Popen(data['finalParameter']+f" > {runLogFile}", shell=True)
-        return Response("Command successfully sent for execution", status=status.HTTP_200_OK)
-'''
+        file_path = os.path.join(media_folder, file_name)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            return Response({'message': 'File deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response({'error': 'File not found'}, status=status.HTTP_404_NOT_FOUND)
