@@ -1,8 +1,3 @@
-from django.contrib.auth import get_user_model, authenticate, login, logout
-from django.contrib.auth.models import User
-from django.db.models import Q
-from django.urls import reverse
-from django.utils import timezone
 from rest_framework import serializers
 from .models import (
 	UserData, 
@@ -59,7 +54,7 @@ class BlogSerializer(serializers.ModelSerializer):
 
 
 class UnifiedCategoryBlogSerializer(serializers.ModelSerializer):
-	blog_metadata = serializers.SerializerMethodField()  # Custom field for related blogs
+	blog_metadata = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Category
@@ -74,22 +69,18 @@ class UnifiedCategoryBlogSerializer(serializers.ModelSerializer):
 		]
 
 	def get_blog_metadata(self, obj):
-		# Serializes all blogs related to the category, assuming `blogs` as the related_name
 		blogs = obj.blogs.all()
 		return [{
-			'blog_id': blog.blog_id,  # Using UUID
+			'blog_id': blog.blog_id,
 			'name': blog.name,
 			'description': blog.description,
 			'cover_image': blog.cover_image,
 			'tagline': blog.tagline,
 			'parent_category': blog.parent_category.category_id
-			# Assuming parent_category is a reference to a Category object
 		} for blog in blogs]
 
 	def to_representation(self, instance):
 		representation = super().to_representation(instance)
-		# Set a featured blog based on some logic, e.g., the first blog
-		representation['featured_id'] = instance.blogs.first().blog_id if instance.blogs.exists() else None
 		return representation
 
 class MediaSerializer(serializers.Serializer):

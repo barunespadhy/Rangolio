@@ -139,6 +139,22 @@ function CardListViewer(props) {
             </CardText>
             </Link>
           </CardBody>
+          <ButtonGroup>
+            <Button
+              outline
+              active={itemObject.id === props.featuredBlog}
+              onClick={() => props.updateFeaturedBlog(itemObject.id)}
+            >
+              Set this as featured
+            </Button>
+            <Button
+              outline
+              onClick={() => props.updateFeaturedBlog('')}
+            >
+              Unset featured blog
+            </Button>
+          </ButtonGroup>
+
         </Card>
       )
   }

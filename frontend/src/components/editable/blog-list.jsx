@@ -81,6 +81,15 @@ function BlogList(props) {
       });
   }
 
+  const updateFeaturedBlog = (featuredId) => {
+    EditableDataService.updateData(`/data/category/update/${categoryID}/`, {"featured_id": featuredId}).then(response=>{
+      if (featuredId)
+        props.notificationToggler('Blog set as featured')
+      else props.notificationToggler('Featured blog removed')
+      loadBlogs()
+    })
+  }
+
   if (GlobalTheme && ThemeConfig) {
 return (
   <Container fluid className={`mb-2 p-0 ${ThemeConfig[GlobalTheme].background}`}>
@@ -105,6 +114,8 @@ return (
                 <CardListViewer
                   key={item.blog_id} // Ensuring keys are unique and correct
                   totalItems={categoryData.blogMetadata.length}
+                  featuredBlog={categoryData.featuredBlog}
+                  updateFeaturedBlog={updateFeaturedBlog}
                   cardType={"smallCard"}
                   resourceType={"blog"}
                   textColor={ThemeConfig[GlobalTheme].textColor}

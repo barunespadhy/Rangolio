@@ -79,7 +79,7 @@ function Blogs(props) {
   const addNewCategory = () => {
     EditableDataService.createData('/data/category/create/', {
       "name": "Enter name",
-      "featured_blog": "",
+      "featured_id": "",
       "description": "Enter description",
       "tagline": "Enter tagline",
       "cover_image": ""
