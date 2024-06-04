@@ -34,16 +34,9 @@ function BlogList(props) {
   
   useEffect(() => {
     DataService.getData(`category/${categoryID}/category-data`).then(response =>{
-      setCategoryData(response.data);
-      console.log(response.data)
-      if (response.data.featuredBlog){
-        DataService.getData(`blog/${response.data.featuredBlog}/blog-data`).then(response =>
-          setFeaturedBlogData(response.data)
-        );
+        setCategoryData(response.data);
+        setFeaturedBlogData(response.data.blogMetadata.find(blog => blog.id === response.data.featuredBlog))
       }
-      else
-        setFeaturedBlogData("nodata")
-    }
     );
   }, [categoryID]);
 
@@ -63,38 +56,39 @@ function BlogList(props) {
               </CardBody>
             </Card>
             </div>
-            <div className="" style={{ width: '70%', margin: 'auto', display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-            <h3 className={`${ThemeConfig[GlobalTheme].textColor}`}>
-            {`Featured`}
-            </h3>
-            {
-              featuredBlogData === 'loading' ? <Spinner /> :
-              <CardListViewer
-                key={featuredBlogData.id}
-                totalItems={featuredBlogData === 'nodata' ? 0 : 1}
-                cardType={"longCard"}
-                resourceType={"blog"}
-                textColor={ThemeConfig[GlobalTheme].textColor}
-                bgColor={ThemeConfig[GlobalTheme].background}
-                borderColor={ThemeConfig[GlobalTheme].borderColor}
-                itemObject={featuredBlogData}
-              />
-            }
-            {
-              categoryData === 'loading' ? <Spinner /> :
-              categoryData.blogMetadata.map((item, index) => (
+            <div className="container">
+              {
+                featuredBlogData ?
                 <CardListViewer
-                  key={item.id}
-                  totalItems={categoryData.blogMetadata.length} 
-                  cardType={"smallCard"} 
+                  key={featuredBlogData.id}
+                  totalItems={featuredBlogData === 'nodata' ? 0 : 1}
+                  cardType={"longCard"}
                   resourceType={"blog"}
-                  textColor={ThemeConfig[GlobalTheme].textColor} 
-                  bgColor={ThemeConfig[GlobalTheme].background} 
+                  textColor={ThemeConfig[GlobalTheme].textColor}
+                  bgColor={ThemeConfig[GlobalTheme].background}
                   borderColor={ThemeConfig[GlobalTheme].borderColor}
-                  itemObject={item}
-                />
-              ))
-            }
+                  itemObject={featuredBlogData}
+                /> : ''
+              }
+              <div className="row">
+                {categoryData === 'loading' ? <Spinner /> :
+                  categoryData.blogMetadata.map((item, index) => (
+                    <div className="col-3" key={item.id}>
+                      <div className={`p-2 ${ThemeConfig[GlobalTheme].textColor}`}>
+                        <CardListViewer
+                          totalItems={categoryData.blogMetadata.length}
+                          cardType={"smallCard"}
+                          resourceType={"blog"}
+                          textColor={ThemeConfig[GlobalTheme].textColor}
+                          bgColor={ThemeConfig[GlobalTheme].background}
+                          borderColor={ThemeConfig[GlobalTheme].borderColor}
+                          itemObject={item}
+                        />
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
             </div>
           </Col>
         </Row>

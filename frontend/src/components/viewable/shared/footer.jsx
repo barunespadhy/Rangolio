@@ -23,7 +23,9 @@ const Footer = (props) => {
             <div className="blogContent text-center text-md-left mt-3">
               {new Date().getFullYear()}, <a className={`${ThemeConfig[GlobalTheme].linkBackground} ${ThemeConfig[GlobalTheme].linkTextColor}`} href="/">{ UserData ? UserData.name : <Spinner> Loading... </Spinner> }</a>
               <br />
-              { UserData.builtWith ? <span>Built with <a target="_blank" className={`${ThemeConfig[GlobalTheme].linkBackground} ${ThemeConfig[GlobalTheme].linkTextColor}`} href="https://github.com/barunespadhy/rangolio">Rangolio</a></span>:""}
+              <div className='m-2'>
+                { UserData.builtWith ? <span>Built with <a target="_blank" className={`${ThemeConfig[GlobalTheme].linkBackground} ${ThemeConfig[GlobalTheme].linkTextColor}`} href="https://github.com/barunespadhy/rangolio">Rangolio</a></span>:""}
+              </div>
             </div>
           </Col>
         </Row>

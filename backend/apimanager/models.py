@@ -6,6 +6,7 @@ class UserData(models.Model):
 	name			= models.CharField(default=userdata["name"], null=False, blank=False, max_length=200)
 	intro_content	= models.CharField(default=userdata["intro_content"], null=False, blank=False, max_length=100000)
 	profile_photo 	= models.CharField(null=True, blank=True, max_length=500)
+	built_with 		= models.BooleanField(default=True)
 	default_theme	= models.CharField(default=userdata["default_theme"], null=False, blank=False, max_length=200)
 	dark_theme		= models.CharField(default=userdata["dark_theme"], null=False, blank=False, max_length=1500)
 	light_theme		= models.CharField(default=userdata["light_theme"], null=False, blank=False, max_length=1500)

@@ -127,14 +127,14 @@ function Blog(props) {
               color={ThemeConfig[GlobalTheme].buttonColor}
               onClick={() => toggleFileModal()}
             >
-              Set Profile Photo
+              Set Cover Image
             </Button>
             <Button
               outline
               color={ThemeConfig[GlobalTheme].buttonColor}
               onClick={() => setCoverImage('-')}
             >
-              Remove Profile Photo
+              Remove Cover Image
             </Button>
           </ButtonGroup>
           <InputGroup className="mb-3">

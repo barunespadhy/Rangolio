@@ -13,6 +13,7 @@ class UserDataSerializer(serializers.ModelSerializer):
 			'name',
 			'intro_content',
 			'profile_photo',
+			'built_with'
 		]
 
 class ThemeDataSerializer(serializers.ModelSerializer):

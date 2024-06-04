@@ -34,8 +34,10 @@ function App() {
   }
 
   useEffect(() => {
-    DataService.getData('shared/user-data').then( response =>
-    setUserData(response.data)
+    DataService.getData('shared/user-data').then( response =>{
+        setUserData(response.data)
+        document.title = response.data.name
+      }
     )
     DataService.getData('shared/theme-config').then( response =>{
         setThemeConfig(response.data)

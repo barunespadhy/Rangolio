@@ -49,8 +49,10 @@ function AppEditable() {
         setUserData({
           "name": responseData["name"],
           "introContent": responseData["intro_content"],
-          "profilePhoto": responseData["profile_photo"]
+          "profilePhoto": responseData["profile_photo"],
+          "builtWith": responseData["built_with"]
         })
+        document.title = responseData.name
       }
     )
     EditableDataService.getData('/data/shared/theme-config/').then( response =>{

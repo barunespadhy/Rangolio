@@ -30,12 +30,12 @@ function BlogList(props) {
   const ThemeConfig = props.ThemeConfig;
 
   const [categoryData, setCategoryData] = useState('loading');
+  const [featuredBlogData, setFeaturedBlogData] = useState(null);
 
   const loadBlogs = () => {
     EditableDataService.getData(`/data/category/${categoryID}/`).then(response => {
         let responseData = response.data
         let blogMetadata = []
-        console.log(responseData)
         let localCategoryData = {
           "id": responseData["category_id"],
           "name": responseData["name"],
@@ -46,17 +46,18 @@ function BlogList(props) {
           "blogMetadata": responseData["blog_metadata"]
         }
         for (let eachBlog of responseData["blog_metadata"]){
-        blogMetadata.push({
-        "id": eachBlog["blog_id"],
-        "name": eachBlog["name"],
-        "description": eachBlog["description"],
-        "tagLine": eachBlog["tagline"],
-        "coverImage": eachBlog["cover_image"],
-        "parentCategory": eachBlog["parent_category"]
-        })
+          blogMetadata.push({
+          "id": eachBlog["blog_id"],
+          "name": eachBlog["name"],
+          "description": eachBlog["description"],
+          "tagLine": eachBlog["tagline"],
+          "coverImage": eachBlog["cover_image"],
+          "parentCategory": eachBlog["parent_category"]
+          })
         }
         localCategoryData.blogMetadata = blogMetadata
         setCategoryData(localCategoryData)
+        setFeaturedBlogData(blogMetadata.find(blog => blog.id === localCategoryData.featuredBlog))
       }
       );
   }
@@ -107,25 +108,41 @@ return (
             </CardBody>
           </Card>
         </div>
-        <div className="" style={{ width: '70%', margin: 'auto', display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-          <h3 className={`${ThemeConfig[GlobalTheme].textColor}`}>
+        <div className="container">
+          {
+            featuredBlogData ?
+            <CardListViewer
+              key={featuredBlogData.id}
+              totalItems={featuredBlogData === 'nodata' ? 0 : 1}
+              cardType={"longCard"}
+              resourceType={"blog"}
+              textColor={ThemeConfig[GlobalTheme].textColor}
+              bgColor={ThemeConfig[GlobalTheme].background}
+              borderColor={ThemeConfig[GlobalTheme].borderColor}
+              itemObject={featuredBlogData}
+            /> : ''
+          }
+          <div className="row">
             {categoryData === 'loading' ? <Spinner /> :
               categoryData.blogMetadata.map((item, index) => (
-                <CardListViewer
-                  key={item.blog_id} // Ensuring keys are unique and correct
-                  totalItems={categoryData.blogMetadata.length}
-                  featuredBlog={categoryData.featuredBlog}
-                  updateFeaturedBlog={updateFeaturedBlog}
-                  cardType={"smallCard"}
-                  resourceType={"blog"}
-                  textColor={ThemeConfig[GlobalTheme].textColor}
-                  bgColor={ThemeConfig[GlobalTheme].background}
-                  borderColor={ThemeConfig[GlobalTheme].borderColor}
-                  itemObject={item}
-                />
+                <div className="col-3" key={item.blog_id}>
+                  <div className={`p-2 ${ThemeConfig[GlobalTheme].textColor}`}>
+                    <CardListViewer
+                      totalItems={categoryData.blogMetadata.length}
+                      featuredBlog={categoryData.featuredBlog}
+                      updateFeaturedBlog={updateFeaturedBlog}
+                      cardType={"smallCard"}
+                      resourceType={"blog"}
+                      textColor={ThemeConfig[GlobalTheme].textColor}
+                      bgColor={ThemeConfig[GlobalTheme].background}
+                      borderColor={ThemeConfig[GlobalTheme].borderColor}
+                      itemObject={item}
+                    />
+                  </div>
+                </div>
               ))
             }
-          </h3>
+          </div>
         </div>
       </Col>
     </Row>
