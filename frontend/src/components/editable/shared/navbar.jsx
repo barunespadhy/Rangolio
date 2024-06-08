@@ -152,6 +152,7 @@ function Header(props) {
                 outline
                 onClick={() => setInfo(null, null, 'darkTheme')}>Dark Theme</Button>
             </ButtonGroup>
+            <Button color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ""}`} className='ms-5' outline>Publish Data</Button>
           </NavItem>
         </Nav>
       </Container>

@@ -65,7 +65,7 @@ function Blog(props) {
       <Row className="mb-4">
         <Col className="p-0">
           {
-            blogData.coverImage !== "" ?
+            blogData.coverImage ?
             <img
               src={MediaService.getMedia(blogData.coverImage)}
               alt="Banner"

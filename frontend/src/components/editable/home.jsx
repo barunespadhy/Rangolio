@@ -7,7 +7,6 @@ import EditableMediaService from '../../services/editable-media-service'
 function HomePage(props) {
   const [introContent, setIntroContent] = useState("")
   const [profilePhoto, setProfilePhoto] = useState(false)
-  const [saveKeyReady, setSaveKeyReady] = useState(true)
   const [nameFieldInvalid, setNameFieldInvalid] = useState(false)
   const [modal, setModal] = useState(false)
   const nameField = useRef(null)
@@ -61,7 +60,7 @@ function HomePage(props) {
             <Row className='d-md-block'>
               <Col xs="4" className="d-none d-md-block"></Col>
               {UserData.profilePhoto !== "" && (
-                <center><img style={{ width: '180px', height: '180px', objectFit: 'cover' }} className="rounded-circle" src={EditableMediaService.getMedia(UserData.profilePhoto)} alt="Profile Photo" /></center>
+                <center><img style={{ width: '180px', height: '180px', objectFit: 'cover' }} className="mt-5 mb-2 rounded-circle" src={EditableMediaService.getMedia(UserData.profilePhoto)} alt="Profile Photo" /></center>
               )}
             <Col xs="4" className="d-none d-md-block"></Col>
             </Row>
@@ -97,10 +96,7 @@ function HomePage(props) {
               </FormFeedback>}
             </InputGroup>
             <EditorComponent notificationToggler={props.notificationToggler} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} content={UserData.introContent} setContent={setIntroContent} resourceType='homepage' resourceId='homepage' />
-            <ButtonGroup className={`mt-4`}>
-              <Button onClick={() => setInfo()} color={ThemeConfig[GlobalTheme].buttonColor} outline>Save Data</Button>
-              <Button color={ThemeConfig[GlobalTheme].buttonColor} outline>Publish Data</Button>
-            </ButtonGroup>
+            <Button className='mt-3 mb-2' onClick={() => setInfo()} color={ThemeConfig[GlobalTheme].buttonColor} outline>Save Data</Button>
           </Col>
           <Col xs="3" className="d-none d-md-block"></Col>
 

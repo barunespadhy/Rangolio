@@ -140,10 +140,7 @@ function Blogs(props) {
                     itemObject={item}
                   />
                 )) : <Spinner />}
-              <ButtonGroup className='mt-4'>
-                <Button onClick={() => updateInfo()} color={ThemeConfig[GlobalTheme].buttonColor} outline>Save Data</Button>
-                <Button color={ThemeConfig[GlobalTheme].buttonColor} outline>Publish Data</Button>
-              </ButtonGroup>
+                <Button className='mt-3 mb-2' onClick={() => updateInfo()} color={ThemeConfig[GlobalTheme].buttonColor} outline>Save Data</Button>
             </div>
           </Col>
           
