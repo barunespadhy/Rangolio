@@ -181,6 +181,20 @@ class ListMedia(APIView):
         else:
             return Response({'error': 'File not found'}, status=status.HTTP_404_NOT_FOUND)
 
+class PublishMethods(APIView):
+    def get(self, request, format=None):
+        deployment_methods = [
+            {
+                "key_name": "server_deploy",
+                "name": "Server Deploy"
+            },
+            {
+                "key_name": "github_deploy",
+                "name": "Github Deploy"
+            }
+        ]
+        return Response(deployment_methods, status=status.HTTP_200_OK)
+
 class Publish(APIView):
     def get(self, request, deploy_type, format=None):
         storage = CustomStorage()
@@ -232,7 +246,6 @@ class Publish(APIView):
 
 
     def create_blog_data_json(self, instance, storage):
-        print(instance)
         if not instance.exists():
             pass
         else:

@@ -34,6 +34,7 @@ from apimanager.views import (
     BlogsByCategoryAPIView,
     MediaUpload,
     ListMedia,
+    PublishMethods,
     Publish
 )
 
@@ -54,6 +55,7 @@ urlpatterns = [
     path('data/blog/delete/<slug:blog_id>/', BlogDeleteAPIView.as_view(), name='blog-delete-view'),
     path('data/upload/', MediaUpload.as_view(), name='media-upload'),
     path('data/media/<str:resource_type>/<str:resource_id>/', ListMedia.as_view(), name='list-media'),
+    path('data/publish/methods/', PublishMethods.as_view(), name='publish-methods'),
     path('data/publish/<str:deploy_type>/', Publish.as_view(), name='publish'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

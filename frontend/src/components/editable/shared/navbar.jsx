@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import { useState, useEffect } from 'react';
 import EditableMediaService from '../../../services/editable-media-service'
+import Publish from './publish'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon, faPen, faBrush } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -23,6 +24,9 @@ function Header(props) {
   const [collapseClasses, setCollapseClasses] = useState('');
   const [themeSelected, setThemeSelected] = useState('lightTheme');
   const [defaultThemeConfig, setDefaultThemeConfig] = useState('lightTheme');
+  const [modal, setModal] = useState(false)
+
+  const toggle = () => {setModal(!modal)}
 
   const setInfo = async (colorArea, color, defaultThemeConfig) => {
     let localThemeConfig = {...ThemeConfig}
@@ -58,6 +62,7 @@ function Header(props) {
     <Navbar className={`navbar-horizontal ${ThemeConfig[GlobalTheme].navBar['navBarTheme']} ${ThemeConfig[GlobalTheme].navBar['background']}`} 
             expand="lg">
       <Container>
+        <Publish notificationToggler={props.notificationToggler} modal={modal} toggle={toggle} />
         <NavbarBrand>
           <Link to="/">
             {
@@ -152,7 +157,14 @@ function Header(props) {
                 outline
                 onClick={() => setInfo(null, null, 'darkTheme')}>Dark Theme</Button>
             </ButtonGroup>
-            <Button color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ""}`} className='ms-5' outline>Publish Data</Button>
+            <Button
+              color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ""}`}
+              className='ms-5'
+              outline
+              onClick={() => toggle()}
+            >
+              Publish Data
+            </Button>
           </NavItem>
         </Nav>
       </Container>
