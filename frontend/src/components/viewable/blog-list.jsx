@@ -42,19 +42,19 @@ function BlogList(props) {
 
   if (GlobalTheme && ThemeConfig) {
     return (
-      <Container fluid className={` mb-2 p-0 ${ThemeConfig[GlobalTheme].background}`}>
-        <Col xs="3" className="d-none d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories`)} className="ms-5 mt-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
-        <CategoryBar currentPage={categoryID} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
+      <Container fluid className={`mb-2 p-0 ${ThemeConfig[GlobalTheme].background}`}>
+        <Col className="d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/`)} className="ms-5 mt-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
+        <CategoryBar currentPage={categoryID} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} />
         <Row className="justify-content-center align-items-center">
           <Col className="d-flex flex-column align-items-center">
             <div className="w-100">
-            <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{width: "100%", border: "none"}}>
-              <CardBody>
-                <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
-                  {`Blogs in ${categoryData.name}`}
-                </CardTitle>
-              </CardBody>
-            </Card>
+              <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{ width: "100%", border: "none" }}>
+                <CardBody>
+                  <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
+                    {`Blogs in ${categoryData.name}`}
+                  </CardTitle>
+                </CardBody>
+              </Card>
             </div>
             <div className="container">
               {
@@ -70,13 +70,14 @@ function BlogList(props) {
                   itemObject={featuredBlogData}
                 /> : ''
               }
-              <div className="row">
+              <Row>
                 {categoryData === 'loading' ? <Spinner /> :
                   categoryData.blogMetadata.map((item, index) => (
-                    <div className="col-3" key={item.id}>
-                      <div className={`p-2 ${ThemeConfig[GlobalTheme].textColor}`}>
+                    <Col key={item.blog_id}>
+                      <div className={`p-2 ml-2 ${ThemeConfig[GlobalTheme].textColor}`}>
                         <CardListViewer
                           totalItems={categoryData.blogMetadata.length}
+                          featuredBlog={categoryData.featuredBlog}
                           cardType={"smallCard"}
                           resourceType={"blog"}
                           textColor={ThemeConfig[GlobalTheme].textColor}
@@ -85,10 +86,10 @@ function BlogList(props) {
                           itemObject={item}
                         />
                       </div>
-                    </div>
+                    </Col>
                   ))
                 }
-              </div>
+              </Row>
             </div>
           </Col>
         </Row>

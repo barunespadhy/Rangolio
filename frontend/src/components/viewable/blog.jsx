@@ -9,8 +9,9 @@ import {
   Container,Row, Col,Spinner, UncontrolledCollapse, Button, ButtonGroup, Card, CardBody
 } from 'reactstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { faLeftLong } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLeftLong, faCopy } from '@fortawesome/free-solid-svg-icons';
+import { faFacebook, faReddit, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
 function Blog(props) {
 
@@ -103,7 +104,7 @@ function Blog(props) {
                       })
                       return false;
                     }}>
-                      Copy Link
+                      <FontAwesomeIcon icon={faCopy}/> Copy Link
                       </Link>
                     </Button>
                     <Button outline>
@@ -112,7 +113,7 @@ function Blog(props) {
                       window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, 'facebook-share-dialog', 'width=800,height=600');
                       return false;
                     }}>
-                      Facebook
+                      <FontAwesomeIcon icon={faFacebook}/> Facebook
                       </Link>
                     </Button>
                     <Button outline>
@@ -121,7 +122,7 @@ function Blog(props) {
                       window.open(`https://www.reddit.com/submit?url=${window.location.href}&title=${blogData.name}`, 'facebook-share-dialog', 'width=800,height=600');
                       return false;
                     }}>
-                      Reddit
+                      <FontAwesomeIcon icon={faReddit}/> Reddit
                       </Link>
                     </Button>
                     <Button outline>
@@ -130,7 +131,7 @@ function Blog(props) {
                       window.open(`https://twitter.com/intent/tweet?text=Check%20out%20this%20article!&url=${window.location.href}`, 'facebook-share-dialog', 'width=800,height=600');
                       return false;
                     }}>
-                      X
+                      <FontAwesomeIcon icon={faXTwitter}/>
                     </Link>
                     </Button>
                   </ButtonGroup>

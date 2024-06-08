@@ -114,7 +114,7 @@ function CardListViewer(props) {
             <Link className={`${props.textColor}`} to={`/${props.resourceType}/${itemObject.id}`}>
               Open this resource
             </Link>
-            <Button color='danger' onClick={() => showModal()} className="m-2">Delete Blog</Button>
+            <Button color='danger' onClick={() => showModal()} className="m-2">Delete Category</Button>
             </CardText>
           </CardBody>
         </Card>
@@ -154,7 +154,6 @@ function CardListViewer(props) {
               Unset featured blog
             </Button>
           </ButtonGroup>
-
         </Card>
       )
   }

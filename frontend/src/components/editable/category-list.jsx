@@ -106,7 +106,7 @@ function Blogs(props) {
   if (GlobalTheme && ThemeConfig) {
     return (
       <Container fluid className={`p-0 mb-2 ${ThemeConfig[GlobalTheme].background}`}>
-        <Col xs="3" className="d-none d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/`)} className="ms-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
+        <Col xs="3" className="d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/`)} className="ms-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
         <Row className="justify-content-center align-items-center">
           <Col className="d-flex flex-column align-items-center">
             <div className="w-100">

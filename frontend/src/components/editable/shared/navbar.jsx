@@ -2,15 +2,11 @@
 import {
   Navbar,
   NavbarBrand,
-  UncontrolledCollapse,
-  Row,
-  Col,
   Nav,
   NavItem,
-  NavLink,
   Container,
   Spinner,
-  Button, ButtonGroup, Label, Input
+  Button, ButtonGroup
 } from 'reactstrap';
 import { useState, useEffect } from 'react';
 import EditableMediaService from '../../../services/editable-media-service'

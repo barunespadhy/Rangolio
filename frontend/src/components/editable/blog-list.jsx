@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { useEffect, useState } from 'react';
 import EditableDataService from '../../services/editable-data-service';
 import CardListViewer from './shared/card-list-viewer';
@@ -11,10 +10,8 @@ import {
   Row,
   Col,
   Button,
-  CardImg,
   CardTitle,
-  CardText,
-  CardBody
+  CardBody,
 } from 'reactstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { faLeftLong } from '@fortawesome/free-solid-svg-icons';
@@ -94,7 +91,7 @@ function BlogList(props) {
   if (GlobalTheme && ThemeConfig) {
 return (
   <Container fluid className={`mb-2 p-0 ${ThemeConfig[GlobalTheme].background}`}>
-    <Col xs="3" className="d-none d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/`)} className="ms-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
+    <Col className="d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/`)} className="ms-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
     <CategoryBar currentPage={categoryID} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} />
     <Row className="justify-content-center align-items-center">
       <Col className="d-flex flex-column align-items-center">
@@ -122,11 +119,11 @@ return (
               itemObject={featuredBlogData}
             /> : ''
           }
-          <div className="row">
+          <Row>
             {categoryData === 'loading' ? <Spinner /> :
               categoryData.blogMetadata.map((item, index) => (
-                <div className="col-3" key={item.blog_id}>
-                  <div className={`p-2 ${ThemeConfig[GlobalTheme].textColor}`}>
+                <Col key={item.blog_id}>
+                  <div className={`p-2 ml-2 ${ThemeConfig[GlobalTheme].textColor}`}>
                     <CardListViewer
                       totalItems={categoryData.blogMetadata.length}
                       featuredBlog={categoryData.featuredBlog}
@@ -139,10 +136,10 @@ return (
                       itemObject={item}
                     />
                   </div>
-                </div>
+                </Col>
               ))
             }
-          </div>
+          </Row>
         </div>
       </Col>
     </Row>

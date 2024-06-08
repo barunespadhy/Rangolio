@@ -1,5 +1,6 @@
 #######################Django related imports####################
 import os
+import shutil
 import random
 from rest_framework import generics, status
 from rest_framework.views import APIView
@@ -104,6 +105,22 @@ class BlogDeleteAPIView(generics.DestroyAPIView):
     queryset            = Blog.objects.all()
     serializer_class    = BlogSerializer
     lookup_field        = 'blog_id'
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.remove_directory(instance)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def remove_directory(self, instance):
+        print(f"Deleting media files for {instance}")
+        media_folder = os.path.join(settings.MEDIA_ROOT, 'rangolio_data', 'blog', str(instance.blog_id))
+        try:
+            shutil.rmtree(media_folder)
+            print(f"Directory '{media_folder}' and all its contents have been removed")
+        except Exception as e:
+             print(f"Failed to remove {media_folder}. Reason: {e}")
+
 ####################################################################
 
 
@@ -163,3 +180,13 @@ class ListMedia(APIView):
             return Response({'message': 'File deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({'error': 'File not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class Publish(APIView):
+    def get(self, request, deploy_type, format=None):
+        self.create_json()
+        return Response({"deploy_type": deploy_type}, status=status.HTTP_200_OK)
+
+    def create_json(self):
+        print(UserData.objects.all())
+        print(Category.objects.all())
+        print(Blog.objects.all())

@@ -102,7 +102,7 @@ function Blog(props) {
     <Container fluid className={`${ThemeConfig[GlobalTheme].background}`}>
       <ModalComponent modalText={modalText} modalTitle={modalTitle} modal={modal} toggle={toggle} confirmAction={deleteResource}/>
       <MediaUpload setMedia={setCoverImage} notificationToggler={props.notificationToggler} modal={fileModal} toggle={toggleFileModal} resourceType='blog' resourceId={blogData.id}></MediaUpload>
-      <Col xs="3" className="d-none d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/${blogData.parentCategory}`)} className="ms-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
+      <Col xs="3" className="d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/${blogData.parentCategory}`)} className="ms-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
       <CategoryBar currentPage={blogData.parentCategory} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
       <Row className="mb-4">
         <Col className="p-0">
@@ -118,7 +118,6 @@ function Blog(props) {
       </Row>
       <Row className="mr-2 ml-2 mb-2 mt-1 blogContent">
         <Col xs="3" className="d-none d-md-block"></Col>
-
         <Col xs={`${window.screen.width >= 765 ? '6':''}`}>
           <Button color='danger' onClick={() => showModal()} className="mb-5">Delete Blog</Button>
           <ButtonGroup className="mb-5 ms-5">
@@ -158,7 +157,6 @@ function Blog(props) {
         </Col>
         <Col xs="3" className="d-none d-md-block"></Col>
       </Row>
-
       <Row className={`my-2 ${ThemeConfig[GlobalTheme].background}`}>
         <Col>
           <hr style={{"borderColor": `${ThemeConfig[GlobalTheme].borderColor}`}} />
@@ -166,7 +164,6 @@ function Blog(props) {
       </Row>
       <Row className="mr-2 ml-2 mt-1">
       <Col xs="3" className="d-none d-md-block"></Col>
-
         <Col className={`blogContent ${ThemeConfig[GlobalTheme].textColor}`} style={{marginBottom: '25px'}}>
           <EditorComponent notificationToggler={props.notificationToggler} setContent={setBlogContent} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} content={blogContent} resourceType='blog' resourceId={blogData.id}/>
           <ButtonGroup className='mt-4'>
@@ -174,7 +171,6 @@ function Blog(props) {
             <Button color={ThemeConfig[GlobalTheme].buttonColor} outline>Publish Data</Button>
           </ButtonGroup>
         </Col>
-
       <Col xs="3" className="d-none d-md-block"></Col>
       </Row>
     </Container>
