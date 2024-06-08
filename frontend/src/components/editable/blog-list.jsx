@@ -91,7 +91,7 @@ function BlogList(props) {
   if (GlobalTheme && ThemeConfig) {
 return (
   <Container fluid className={`mb-2 p-0 ${ThemeConfig[GlobalTheme].background}`}>
-    <Col className="d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/`)} className="ms-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
+    <Col className="d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/`)} className="ms-5 mt-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
     <CategoryBar currentPage={categoryID} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} />
     <Row className="justify-content-center align-items-center">
       <Col className="d-flex flex-column align-items-center">
