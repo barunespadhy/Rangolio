@@ -46,6 +46,7 @@ function Blog(props) {
         setBlogData(response.data)
         const parsedContent = parse(response.data.contentBody, { replace });
         setBlogContent(parsedContent);
+        document.title = response.data.name
       }
     );
   }, []);

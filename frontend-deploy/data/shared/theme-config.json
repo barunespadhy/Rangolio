@@ -1,0 +1,43 @@
+{
+  "defaultTheme": "darkTheme",
+  "darkTheme": {
+    "theme": "Dark Mode",
+    "background": "bg-dark",
+    "textColor": "text-white",
+    "linkBackground": "bg-light",
+    "linkTextColor": "text-black",
+    "captionColor": "#8a8a8a",
+    "fontAwesomeIcon": "faSun",
+    "borderColor": "secondary",
+    "buttonColor": "light",
+    "navBar": {
+      "navBarTheme": "navbar-dark",
+      "background": "bg-dark",
+      "buttonColor": "light"
+    },
+    "footer": {
+      "background": "bg-dark",
+      "text": "text-white"
+    }
+  },
+  "lightTheme": {
+    "theme": "Light Mode",
+    "background": "bg-light",
+    "textColor": "text-black",
+    "linkBackground": "bg-dark",
+    "linkTextColor": "text-white",
+    "captionColor": "#605f5f",
+    "fontAwesomeIcon": "faMoon",
+    "borderColor": "secondary",
+    "buttonColor": "dark",
+    "navBar": {
+      "navBarTheme": "navbar-light",
+      "background": "bg-light",
+      "buttonColor": "black"
+    },
+    "footer": {
+      "background": "bg-light",
+      "text": "text-black"
+    }
+  }
+}

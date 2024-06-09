@@ -33,6 +33,7 @@ function Blogs(props) {
     DataService.getData('category/category-metadata').then(response =>
       setCategoryMetadata(response.data)
     );
+    document.title = 'Categories'
   }, []);
 
   if (GlobalTheme && ThemeConfig) {

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Container, Spinner, Row, Col } from 'reactstrap';
 import parse from 'html-react-parser';
 import MediaService from '../services/media-service'
@@ -20,6 +21,10 @@ function HomePage(props) {
       }
     }
   };
+
+  useEffect(() => {
+    document.title = UserData.name
+  }, [])
 
   const UserData = props.UserData ? props.UserData : <Spinner> Loading... </Spinner>
   const GlobalTheme = props.GlobalTheme;

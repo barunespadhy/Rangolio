@@ -12,7 +12,15 @@ function Publish(props) {
     const fetchPublishMethods = async () => {
         try {
             const response = await EditableDataService.getData('/data/publish/methods/');
-            setPublishMethods(response.data)
+            let publishMethods = []
+            Object.entries(response.data).map(([key, value]) => (
+                publishMethods.push({
+                    "key_name": key,
+                    "name": value["name"]
+                })
+            ))
+            console.log(publishMethods)
+            setPublishMethods(publishMethods)
         } catch (error) {
             props.notificationToggler('Error fetching methods', 'danger')
         }

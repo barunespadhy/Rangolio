@@ -34,6 +34,7 @@ function BlogList(props) {
     DataService.getData(`category/${categoryID}/category-data`).then(response =>{
         setCategoryData(response.data);
         setFeaturedBlogData(response.data.blogMetadata.find(blog => blog.id === response.data.featuredBlog))
+        document.title = 'Blogs in ' + response.data.name
       }
     );
   }, [categoryID]);
