@@ -26,4 +26,5 @@ def server_deploy():
     
     
 def github_deploy():
+    server_deploy()
     print("Deploying via github")

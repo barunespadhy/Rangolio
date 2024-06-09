@@ -12,12 +12,12 @@
     "buttonColor": "light",
     "navBar": {
       "navBarTheme": "navbar-dark",
-      "background": "bg-dark",
+      "background": "bg-secondary",
       "buttonColor": "light"
     },
     "footer": {
-      "background": "bg-dark",
-      "text": "text-white"
+      "background": "bg-secondary",
+      "text": "text-black"
     }
   },
   "lightTheme": {
@@ -32,12 +32,12 @@
     "buttonColor": "dark",
     "navBar": {
       "navBarTheme": "navbar-light",
-      "background": "bg-light",
-      "buttonColor": "black"
+      "background": "bg-secondary",
+      "buttonColor": "light"
     },
     "footer": {
-      "background": "bg-light",
-      "text": "text-black"
+      "background": "bg-secondary",
+      "text": "text-white"
     }
   }
 }
