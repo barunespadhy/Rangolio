@@ -1,0 +1,28 @@
+[
+  {
+    "id": "15a7bf3a-9084-4117-99b1-5a89910f9fba",
+    "name": "Test Category",
+    "coverImage": "",
+    "tagLine": "Test Tagline",
+    "description": "Test Description",
+    "featuredBlog": null,
+    "blogMetadata": [
+      {
+        "id": "ea9d56bc-ef66-48ae-a6e2-ff51b0142f8a",
+        "name": "Test Blog1",
+        "description": "Test Description",
+        "coverimage": "blog/ea9d56bc-ef66-48ae-a6e2-ff51b0142f8a/media/5eBEABea9d56bc-ef66-48ae-a6e2-ff51b0142f8aaholmes_canada.jpg",
+        "tagLine": "Test Tagline",
+        "parentCategory": "15a7bf3a-9084-4117-99b1-5a89910f9fba"
+      },
+      {
+        "id": "8ebfc361-d0c3-459e-9e9f-708b4783512b",
+        "name": "Blog2",
+        "description": "Enter a description",
+        "coverimage": "",
+        "tagLine": "Enter a tagline",
+        "parentCategory": "15a7bf3a-9084-4117-99b1-5a89910f9fba"
+      }
+    ]
+  }
+]

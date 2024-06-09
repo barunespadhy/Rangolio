@@ -1,0 +1,68 @@
+a {
+  text-decoration: none !important;
+  color: inherit !important;
+  border: none !important;
+}
+
+.app-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+}
+
+.blogContent a{
+  border-radius: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  transition-duration: 0.1s;
+}
+
+.blogContent a:hover{
+  border-radius: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  transition-duration: 0.1s;
+}
+
+.blogContent{
+  font-size: 20px
+}
+
+.tiptap blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid grey;
+}
+
+.tiptap.ProseMirror {
+  margin-top: 20px;
+  border: solid grey;
+  border-radius: 10px;
+  padding: 1em;
+}
+
+.blogContent img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.image-text {
+  display: block;
+  padding: 5px 0;
+}
