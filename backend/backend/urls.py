@@ -37,8 +37,9 @@ from apimanager.publish_views import (
 )
 
 urlpatterns = [
+    
+    # API Views
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
     path('data/shared/user-data/', UserDataListAPIView.as_view(), name='user-data-list-view'),
     path('data/shared/update/user-data/', UserDataUpdateAPIView.as_view(), name='user-data-update-view'),
     path('data/shared/theme-config/', ThemeDataListAPIView.as_view(), name='theme-data-list-view'),
@@ -56,6 +57,12 @@ urlpatterns = [
     path('data/media/<str:resource_type>/<str:resource_id>/', ListMedia.as_view(), name='list-media'),
     path('data/publish/methods/', PublishMethods.as_view(), name='publish-methods'),
     path('data/publish/<str:deploy_type>/', Publish.as_view(), name='publish'),
+
+    # Frontend Views
+    path('', views.index, name='index'),
+    path('categories', views.index, name='index'),
+    path('categories/<str:website_slug>', views.index, name='index'),
+    path('blog/<str:website_slug>', views.index, name='index'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
