@@ -14,6 +14,7 @@ import Blog from './components/blog';
 import Header from './components/shared/navbar';
 import Footer from './components/shared/footer';
 import Notification from './components/shared/notification';
+import NotFound from './components/shared/not-found';
 
 //Import Services
 import DataService from './services/data-service'
@@ -62,6 +63,7 @@ function App() {
             <Route path="/categories" element={<CategoryList notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
             <Route path="/categories/:categoryID" element={<BlogList notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
             <Route path="/blog/:blogID" element={<Blog notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
+            <Route path="*" element={<NotFound validRoutes={['categories', 'blog']} GlobalTheme={globalTheme} ThemeConfig={themeConfig}/>} />
           </Routes>
         </div>
         <Footer className="footer" ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />
