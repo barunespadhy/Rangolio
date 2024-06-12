@@ -35,6 +35,15 @@ a {
   width: 65%;
 }
 
+@media only screen and (max-width: 765px){
+.blogContent img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+}
+
 .tiptap blockquote {
   padding-left: 1rem;
   border-left: 2px solid grey;
