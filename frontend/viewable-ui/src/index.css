@@ -10,6 +10,10 @@ a {
   height: 100vh;
 }
 
+.blogContent{
+  font-size: 20px
+}
+
 .blogContent a{
   border-radius: 5px;
   padding-left: 5px;
@@ -24,8 +28,11 @@ a {
   transition-duration: 0.1s;
 }
 
-.blogContent{
-  font-size: 20px
+.blogContent img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 65%;
 }
 
 .tiptap blockquote {
@@ -38,13 +45,6 @@ a {
   border: solid grey;
   border-radius: 10px;
   padding: 1em;
-}
-
-.blogContent img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 70%;
 }
 
 .image-container {

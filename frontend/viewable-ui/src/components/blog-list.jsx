@@ -26,7 +26,7 @@ function BlogList(props) {
   const GlobalTheme = props.GlobalTheme;
   const ThemeConfig = props.ThemeConfig;
 
-  const [categoryData, setCategoryData] = useState('loading');
+  const [categoryData, setCategoryData] = useState(null);
   const [featuredBlogData, setFeaturedBlogData] = useState('loading');
   const [currentPage, setCurrentPage] = useState('loading');
   
@@ -50,7 +50,7 @@ function BlogList(props) {
               <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{ width: "100%", border: "none" }}>
                 <CardBody>
                   <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
-                    {`Blogs in ${categoryData.name}`}
+                    {categoryData ? `Blogs in ${categoryData.name}`:`Loading blogs ${<Spinner/>}`}
                   </CardTitle>
                 </CardBody>
               </Card>
@@ -70,7 +70,7 @@ function BlogList(props) {
                 /> : ''
               }
               <Row>
-                {categoryData === 'loading' ? <Spinner /> :
+                {categoryData ?
                   categoryData.blogMetadata.map((item, index) => (
                     <Col key={item.blog_id}>
                       <div className={`p-2 ml-2 ${ThemeConfig[GlobalTheme].textColor}`}>
@@ -86,7 +86,7 @@ function BlogList(props) {
                         />
                       </div>
                     </Col>
-                  ))
+                  )) : <Spinner />
                 }
               </Row>
             </div>

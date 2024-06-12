@@ -145,7 +145,7 @@ class Publish(APIView):
         if not string:
             return ''
         if content_type == 'content_media':
-            return string.replace('http://127.0.0.1:8000/media', '')
+            return string.replace('<img src="http://127.0.0.1:8000/media', '<img src="')
         else:
             return string.replace('http://127.0.0.1:8000/media/data/', '')
     

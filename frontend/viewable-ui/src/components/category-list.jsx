@@ -27,7 +27,7 @@ function Blogs(props) {
   const GlobalTheme = props.GlobalTheme;
   const ThemeConfig = props.ThemeConfig;
 
-  const [categoryMetadata, setCategoryMetadata] = useState([]);
+  const [categoryMetadata, setCategoryMetadata] = useState(null);
 
   useEffect(() => {
     DataService.getData('category/category-metadata').then(response =>
@@ -55,9 +55,9 @@ function Blogs(props) {
             </div>
             {/* Bottom Section - Category Metadata or Spinner */}
             <div className="" style={{ width: '70%', margin: 'auto' }}>
-              {categoryMetadata.length > 0 ? 
-                categoryMetadata.map((item, index) => (
-                  <CardListViewer 
+              {categoryMetadata ?
+                categoryMetadata.length > 0 ? categoryMetadata.map((item, index) => (
+                  <CardListViewer
                     key={item.id}
                     totalItems={categoryMetadata.length} 
                     cardType={"longCard"} 
@@ -67,7 +67,7 @@ function Blogs(props) {
                     borderColor={ThemeConfig[GlobalTheme].borderColor}
                     itemObject={item}
                   />
-                )) : <Spinner />}
+                )) : '' : <Spinner />}
             </div>
           </Col>
         </Row>

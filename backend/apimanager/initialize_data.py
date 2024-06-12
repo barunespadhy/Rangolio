@@ -1,5 +1,5 @@
 userdata = {
-	"name": "Jhon Doe",
+	"name": "John Doe",
 	"intro_content": "<p>Write something about yourself</p>",
 	"profile_photo": "",
 	"default_theme": "darkTheme",
