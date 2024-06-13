@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import EditableDataService from '../../services/editable-data-service';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Button, Spinner, ListGroup, ListGroupItem, ButtonGroup } from 'reactstrap';
+import { Container, Row, Col, Button, Spinner, ButtonGroup } from 'reactstrap';
 
 function CategoryBar(props) {
 

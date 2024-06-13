@@ -10,7 +10,6 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ModalComponent from './modal-component';
-import MediaUpload from './media-upload.jsx'
 
 function CardListViewer(props) {
 

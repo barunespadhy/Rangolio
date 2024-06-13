@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner } from 'reactstrap';
 import EditableDataService from '../../services/editable-data-service';
 
 function Publish(props) {
     const [publishMethods, setPublishMethods] = useState(null)
+    const [publishSpinner, setPublishSpinner] = useState(false)
     
     useEffect(() => {
         fetchPublishMethods()
@@ -19,7 +20,6 @@ function Publish(props) {
                     "name": value["name"]
                 })
             ))
-            console.log(publishMethods)
             setPublishMethods(publishMethods)
         } catch (error) {
             props.notificationToggler('Error fetching methods', 'danger')
@@ -28,10 +28,13 @@ function Publish(props) {
     
     const publishData = async (deploy_method) => {
         try {
+            setPublishSpinner(true)
             const response = await EditableDataService.getData(`/data/publish/${deploy_method}/`);
             props.notificationToggler('Deployment Sucess')
+            setPublishSpinner(false)
         } catch (error) {
             props.notificationToggler('Deployment Failed', 'danger')
+            setPublishSpinner(false)
         }
     };
     
@@ -56,6 +59,11 @@ function Publish(props) {
                                     </Button>
                                 </div>
                             ):""
+                    }
+                    { publishSpinner ?
+                        <h5>
+                            Publishing <Spinner />
+                        </h5> : ""
                     }
                 </ModalBody>
                 <ModalFooter>
