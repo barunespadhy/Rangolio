@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 ]
 
 DEPLOY_CONFIG = {
-    "DEPLOY_LOCATION": os.path.join(BASE_DIR, '../frontend-deploy/')
+    "DEPLOY_LOCATION": os.path.join(BASE_DIR, '../frontend/viewable-ui/dist')
 }
 
 REST_FRAMEWORK = {
