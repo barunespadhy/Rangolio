@@ -1,7 +1,5 @@
 /*
-
   extension credits: Angelika Tyborska: https://angelika.me/2023/02/26/how-to-add-editing-image-alt-text-tiptap/
-
 */
 
 import Image from '@tiptap/extension-image'
@@ -32,7 +30,7 @@ function ImageNode(props) {
               <span>!</span>
             }
             { alt ?
-              <span className="text">Alt text: "{alt}".</span>:
+              <span className="text">Alt text: &ldquo;{alt}&ldquo;.</span>:
               <span className="text">Alt text missing.</span>
             }
             <Button className="edit" type="button" onClick={onEditAlt}>

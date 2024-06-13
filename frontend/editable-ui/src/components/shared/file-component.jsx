@@ -4,8 +4,6 @@ import EditableDataService from '../../services/editable-data-service';
 
 function FileComponent(props) {
   const [file, setFile] = useState(null);
-  const [resourceType, setResourceType] = useState('');
-  const [resourceId, setResourceId] = useState('');
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);  // Assuming single file upload
@@ -20,7 +18,7 @@ function FileComponent(props) {
     formData.append('resource_id', props.resourceId);
 
     try {
-      const response = await EditableDataService.createData('/data/upload/', formData);
+      await EditableDataService.createData('/data/upload/', formData);
       props.notificationToggler('Media uploaded successfully')
     } catch (error) {
       props.notificationToggler('Media upload failed', 'danger')

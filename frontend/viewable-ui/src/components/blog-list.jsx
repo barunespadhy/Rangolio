@@ -28,57 +28,55 @@ function BlogList(props) {
 
   const [categoryData, setCategoryData] = useState(null);
   const [featuredBlogData, setFeaturedBlogData] = useState('loading');
-  const [currentPage, setCurrentPage] = useState('loading');
   
   useEffect(() => {
     DataService.getData(`category/${categoryID}/category-data`).then(response =>{
-        setCategoryData(response.data);
-        setFeaturedBlogData(response.data.blogMetadata.find(blog => blog.id === response.data.featuredBlog))
-        document.title = 'Blogs in ' + response.data.name
-      }
-    );
+      setCategoryData(response.data);
+      setFeaturedBlogData(response.data.blogMetadata.find(blog => blog.id === response.data.featuredBlog))
+      document.title = 'Blogs in ' + response.data.name
+    });
   }, [categoryID]);
 
   if (GlobalTheme && ThemeConfig) {
     return (
       <Container fluid className={`mb-2 p-0 ${ThemeConfig[GlobalTheme].background}`}>
-        <Col className="d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/`)} className="ms-5 mt-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
+        <Col className="d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate('/categories/')} className="ms-5 mt-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
         <CategoryBar currentPage={categoryID} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig} />
         <Row className="justify-content-center align-items-center">
           <Col className="d-flex flex-column align-items-center">
             <div className="w-100">
-              <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{ width: "100%", border: "none" }}>
+              <Card className={`my-2 ${ThemeConfig[GlobalTheme].background}`} style={{ width: '100%', border: 'none' }}>
                 <CardBody>
-                  <CardTitle style={{ display: "grid" }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag="h1">
+                  <CardTitle style={{ display: 'grid' }} className={`${ThemeConfig[GlobalTheme].textColor} justify-content-center`} tag='h1'>
                     {categoryData ? `Blogs in ${categoryData.name}`:`Loading blogs ${<Spinner/>}`}
                   </CardTitle>
                 </CardBody>
               </Card>
             </div>
-            <div className="container">
+            <div className='container'>
               {
                 featuredBlogData ?
-                <CardListViewer
-                  key={featuredBlogData.id}
-                  totalItems={featuredBlogData === 'nodata' ? 0 : 1}
-                  cardType={"longCard"}
-                  resourceType={"blog"}
-                  textColor={ThemeConfig[GlobalTheme].textColor}
-                  bgColor={ThemeConfig[GlobalTheme].background}
-                  borderColor={ThemeConfig[GlobalTheme].borderColor}
-                  itemObject={featuredBlogData}
-                /> : ''
+                  <CardListViewer
+                    key={featuredBlogData.id}
+                    totalItems={featuredBlogData === 'nodata' ? 0 : 1}
+                    cardType={'longCard'}
+                    resourceType={'blog'}
+                    textColor={ThemeConfig[GlobalTheme].textColor}
+                    bgColor={ThemeConfig[GlobalTheme].background}
+                    borderColor={ThemeConfig[GlobalTheme].borderColor}
+                    itemObject={featuredBlogData}
+                  /> : ''
               }
               <Row>
                 {categoryData ?
-                  categoryData.blogMetadata.map((item, index) => (
+                  categoryData.blogMetadata.map((item) => (
                     <Col key={item.blog_id}>
                       <div className={`p-2 ml-2 ${ThemeConfig[GlobalTheme].textColor}`}>
                         <CardListViewer
                           totalItems={categoryData.blogMetadata.length}
                           featuredBlog={categoryData.featuredBlog}
-                          cardType={"smallCard"}
-                          resourceType={"blog"}
+                          cardType={'smallCard'}
+                          resourceType={'blog'}
                           textColor={ThemeConfig[GlobalTheme].textColor}
                           bgColor={ThemeConfig[GlobalTheme].background}
                           borderColor={ThemeConfig[GlobalTheme].borderColor}

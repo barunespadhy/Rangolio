@@ -1,5 +1,5 @@
 import React from 'react';
-import { Collapse, Button, CardBody, Card, Alert } from 'reactstrap';
+import { Collapse, CardBody, Card, Alert } from 'reactstrap';
 
 function Notification(props) {
   return (

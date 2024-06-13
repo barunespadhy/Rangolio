@@ -27,7 +27,7 @@ function MediaLister(props) {
         props.notificationToggler('Media deleted')
         fetchMedia()
       })
-      .catch(error => {
+      .catch(() => {
         props.notificationToggler('Error deleting media', 'danger')
       });
   };

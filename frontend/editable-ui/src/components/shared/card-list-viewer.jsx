@@ -46,11 +46,11 @@ function CardListViewer(props) {
         setTaglineFieldInvalid(false)
     }
     props.addToIdsToUpdate({
-      "id": props.id,
-      "name": nameField.current.value,
-      "featuredBlog": "",
-      "description": descriptionField.current.value,
-      "tagLine": taglineField.current.value,
+      'id': props.id,
+      'name': nameField.current.value,
+      'featuredBlog': '',
+      'description': descriptionField.current.value,
+      'tagLine': taglineField.current.value,
     })
   }
 
@@ -71,71 +71,71 @@ function CardListViewer(props) {
     if (props.resourceType === 'categories')
       return (
         <>
-        <ModalComponent modalText={modalText} modalTitle={modalTitle} modal={modal} toggle={toggle} confirmAction={deleteResource}/>
-        <Card color={props.borderColor} outline className={`my-2 ${props.bgColor}`} style={{"width": props.cardType === "smallCard" ? "18rem": "100%"}}>
-          <CardBody>
-            <CardTitle className={`mb-3 ${props.textColor}`} tag="h5">
-              <InputGroup>
-                <InputGroupText>
-                    Name
-                </InputGroupText>
-                <Input defaultValue={itemObject.name} invalid={nameFieldInvalid} innerRef={nameField} onChange={() => handleInputUpdate(nameField.current.value, 'nameField')}/>
-                {nameFieldInvalid ? <FormFeedback tooltip className="mt-1">
-                This field cannot be empty
-              </FormFeedback>:''}
-              </InputGroup>
-            </CardTitle>
-            <CardText className={`${props.textColor}`}>
-              <InputGroup>
-                <InputGroupText>
-                    Description
-                </InputGroupText>
-                <Input defaultValue={itemObject.description} invalid={descriptionFieldInvalid} innerRef={descriptionField} onChange={() => handleInputUpdate(descriptionField.current.value, 'descriptionField')}/>
-                {descriptionFieldInvalid ? <FormFeedback tooltip className="mt-1">
-                This field cannot be empty
-              </FormFeedback>:''}
-              </InputGroup>
-            </CardText>
-            <CardText>
-              <small className={`${props.textColor}`}>
+          <ModalComponent modalText={modalText} modalTitle={modalTitle} modal={modal} toggle={toggle} confirmAction={deleteResource}/>
+          <Card color={props.borderColor} outline className={`my-2 ${props.bgColor}`} style={{'width': props.cardType === 'smallCard' ? '18rem': '100%'}}>
+            <CardBody>
+              <CardTitle className={`mb-3 ${props.textColor}`} tag='h5'>
                 <InputGroup>
                   <InputGroupText>
-                    Tagline
+                      Name
                   </InputGroupText>
-                  <Input defaultValue={itemObject.tagLine} invalid={taglineFieldInvalid} innerRef={taglineField} onChange={() => handleInputUpdate(taglineField.current.value, 'taglineField')} />
-                  {taglineFieldInvalid ? <FormFeedback tooltip className="mt-1">
-                This field cannot be empty
-              </FormFeedback>:''}
+                  <Input defaultValue={itemObject.name} invalid={nameFieldInvalid} innerRef={nameField} onChange={() => handleInputUpdate(nameField.current.value, 'nameField')}/>
+                  {nameFieldInvalid ? <FormFeedback tooltip className='mt-1'>
+                  This field cannot be empty
+                  </FormFeedback>:''}
                 </InputGroup>
-              </small>
-            </CardText>
-            <CardText>
-            <Link className={`${props.textColor}`} to={`/${props.resourceType}/${itemObject.id}`}>
-              Open this resource
-            </Link>
-            <Button color='danger' onClick={() => showModal()} className="m-2">Delete Category</Button>
-            </CardText>
-          </CardBody>
-        </Card>
+              </CardTitle>
+              <CardText className={`${props.textColor}`}>
+                <InputGroup>
+                  <InputGroupText>
+                      Description
+                  </InputGroupText>
+                  <Input defaultValue={itemObject.description} invalid={descriptionFieldInvalid} innerRef={descriptionField} onChange={() => handleInputUpdate(descriptionField.current.value, 'descriptionField')}/>
+                  {descriptionFieldInvalid ? <FormFeedback tooltip className='mt-1'>
+                  This field cannot be empty
+                  </FormFeedback>:''}
+                </InputGroup>
+              </CardText>
+              <CardText>
+                <small className={`${props.textColor}`}>
+                  <InputGroup>
+                    <InputGroupText>
+                      Tagline
+                    </InputGroupText>
+                    <Input defaultValue={itemObject.tagLine} invalid={taglineFieldInvalid} innerRef={taglineField} onChange={() => handleInputUpdate(taglineField.current.value, 'taglineField')} />
+                    {taglineFieldInvalid ? <FormFeedback tooltip className='mt-1'>
+                      This field cannot be empty
+                    </FormFeedback>:''}
+                  </InputGroup>
+                </small>
+              </CardText>
+              <CardText>
+                <Link className={`${props.textColor}`} to={`/${props.resourceType}/${itemObject.id}`}>
+                  Open this resource
+                </Link>
+                <Button color='danger' onClick={() => showModal()} className='m-2'>Delete Category</Button>
+              </CardText>
+            </CardBody>
+          </Card>
         </>
       )
     else
       return (
-        <Card color={props.borderColor} outline className={`my-2 ${props.bgColor}`} style={{"width": props.cardType === "smallCard" ? "18rem": "100%"}}>
-          {itemObject.coverImage !== "" ? <CardImg src={EditableMediaService.getMedia(itemObject.coverImage)} style={{ "height": "180px", "objectFit": "cover" }} top width="100%" /> : ""}
+        <Card color={props.borderColor} outline className={`my-2 ${props.bgColor}`} style={{'width': props.cardType === 'smallCard' ? '18rem': '100%'}}>
+          {itemObject.coverImage !== '' ? <CardImg src={EditableMediaService.getMedia(itemObject.coverImage)} style={{ 'height': '180px', 'objectFit': 'cover' }} top width='100%' /> : ''}
           <CardBody>
             <Link to={`/${props.resourceType}/${itemObject.id}`}>
-            <CardTitle className={`${props.textColor}`} tag="h3">
-              {itemObject.name}
-            </CardTitle>
-            <CardText className={`${props.textColor}`} tag="h5">
-              {itemObject.description}
-            </CardText>
-            <CardText tag="h6">
-              <small className={`${props.textColor}`}>
+              <CardTitle className={`${props.textColor}`} tag='h3'>
+                {itemObject.name}
+              </CardTitle>
+              <CardText className={`${props.textColor}`} tag='h5'>
+                {itemObject.description}
+              </CardText>
+              <CardText tag='h6'>
+                <small className={`${props.textColor}`}>
                   {itemObject.tagLine}
-              </small>
-            </CardText>
+                </small>
+              </CardText>
             </Link>
           </CardBody>
           <ButtonGroup>
@@ -158,6 +158,6 @@ function CardListViewer(props) {
   }
   else
     return(<h3 className={`${props.textColor}`}>No items found in this section</h3>)
-  }
+}
 
 export default CardListViewer

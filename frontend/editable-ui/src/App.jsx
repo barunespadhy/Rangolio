@@ -21,9 +21,9 @@ import EditableDataService from './services/editable-data-service'
 function App() {
   const [userData, setUserData] = useState(null);
   const [themeConfig, setThemeConfig] = useState(null);
-  const [globalTheme, setGlobalTheme] = useState("lightTheme");
+  const [globalTheme, setGlobalTheme] = useState('lightTheme');
   const [isOpen, setIsOpen] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState("")
+  const [notificationMessage, setNotificationMessage] = useState('')
 
   const notificationToggler = (message, color) => {
     setIsOpen(true)
@@ -45,25 +45,24 @@ function App() {
 
   const setConfigData = () => {
     EditableDataService.getData('/data/shared/user-data/').then( response => {
-        let responseData = response.data[0]
-        setUserData({
-          "name": responseData["name"],
-          "introContent": responseData["intro_content"],
-          "profilePhoto": responseData["profile_photo"],
-          "builtWith": responseData["built_with"]
-        })
-        document.title = responseData.name
-      }
-    )
+      let responseData = response.data[0]
+      setUserData({
+        'name': responseData['name'],
+        'introContent': responseData['intro_content'],
+        'profilePhoto': responseData['profile_photo'],
+        'builtWith': responseData['built_with']
+      })
+      document.title = responseData.name
+    })
+
     EditableDataService.getData('/data/shared/theme-config/').then( response =>{
-        let responseData = response.data[0]
-        setThemeConfig({
-          "defaultTheme": responseData["default_theme"],
-          "darkTheme": JSON.parse(responseData["dark_theme"]),
-          "lightTheme": JSON.parse(responseData["light_theme"])
-        })
-      }
-    )
+      let responseData = response.data[0]
+      setThemeConfig({
+        'defaultTheme': responseData['default_theme'],
+        'darkTheme': JSON.parse(responseData['dark_theme']),
+        'lightTheme': JSON.parse(responseData['light_theme'])
+      })
+    })
   }
 
   useEffect(() => {
@@ -75,23 +74,23 @@ function App() {
   }
 
   if (themeConfig && userData && globalTheme)
-  return (
-    <div className="app-container">
-      <Router>
-        <Header className="header" ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} notificationToggler={notificationToggler} setInfo={setInfo} />
-        <div className={`p-0 ${themeConfig[globalTheme].background}`}>
-          <Routes>
-            <Route path="/" element={<Home notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} setInfo={setInfo} />} />
-            <Route path="/categories" element={<CategoryList notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
-            <Route path="/categories/:categoryID" element={<BlogList notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
-            <Route path="/blog/:blogID" element={<Blog notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
-          </Routes>
-        </div>
-        <Footer notificationToggler={notificationToggler} setInfo={setInfo} className="footer" ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />
-        <Notification style={{width: '20%'}} className="fixed-top" isOpen={isOpen} message={notificationMessage} />
-      </Router>
-    </div>
-  );
+    return (
+      <div className='app-container'>
+        <Router>
+          <Header className='header' ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} notificationToggler={notificationToggler} setInfo={setInfo} />
+          <div className={`p-0 ${themeConfig[globalTheme].background}`}>
+            <Routes>
+              <Route path='/' element={<Home notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} setInfo={setInfo} />} />
+              <Route path='/categories' element={<CategoryList notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
+              <Route path='/categories/:categoryID' element={<BlogList notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
+              <Route path='/blog/:blogID' element={<Blog notificationToggler={notificationToggler} GlobalTheme={globalTheme} ThemeConfig={themeConfig} />} />
+            </Routes>
+          </div>
+          <Footer notificationToggler={notificationToggler} setInfo={setInfo} className='footer' ThemeSwitcher={themeSwitcher} GlobalTheme={globalTheme} ThemeConfig={themeConfig} UserData={userData} />
+          <Notification style={{width: '20%'}} className='fixed-top' isOpen={isOpen} message={notificationMessage} />
+        </Router>
+      </div>
+    );
 }
 
 export default App;

@@ -15,7 +15,7 @@ function HomePage(props) {
         node.attribs.target = '_blank';
       }
       if (node.name === 'img') {
-        const newClasses = `img-fluid mt-2 mb-2 rounded mx-auto d-block`;
+        const newClasses = 'img-fluid mt-2 mb-2 rounded mx-auto d-block';
         const existingClasses = node.attribs.class ? `${node.attribs.class} ` : '';
         node.attribs.class = `${existingClasses}${newClasses}`;
       }
@@ -29,29 +29,29 @@ function HomePage(props) {
   const UserData = props.UserData ? props.UserData : <Spinner> Loading... </Spinner>
   const GlobalTheme = props.GlobalTheme;
   const ThemeConfig = props.ThemeConfig;
-  const introContent = props.UserData ? parse(props.UserData.introContent, { replace }) : ""
+  const introContent = props.UserData ? parse(props.UserData.introContent, { replace }) : ''
 
   if (GlobalTheme && ThemeConfig) 
-  return (
-    <Container fluid className={`p-0 mt-5 ${ThemeConfig[GlobalTheme].background}`}>
-      <div className="d-flex flex-column justify-content-center align-items-center min-vh-82">
-        <Row className="mb-4">
-          <Col xs="3" className="d-none d-md-block"></Col>
-          <Col className="p-0">
-            {UserData.profilePhoto !== "" ? <img style={{ width: '180px', height: '180px', objectFit: 'cover' }} className="rounded-circle" src={MediaService.getMedia(UserData.profilePhoto)} /> : ""}
-          </Col>
-          <Col xs="3" className="d-none d-md-block"></Col>
-        </Row>
-        <Row className={`mb-5 mt-2 ${ThemeConfig[GlobalTheme].textColor}`}>
-          <Col xs="3" className="d-none d-md-block"></Col>
-          <Col className="p-4 blogContent">
-            <div className={`blogContent ${ThemeConfig[GlobalTheme].textColor}`}>{introContent}</div>
-          </Col>
-          <Col xs="3" className="d-none d-md-block"></Col>
-        </Row>
-      </div>
-    </Container>
-  );
+    return (
+      <Container fluid className={`p-0 mt-5 ${ThemeConfig[GlobalTheme].background}`}>
+        <div className='d-flex flex-column justify-content-center align-items-center min-vh-82'>
+          <Row className='mb-4'>
+            <Col xs='3' className='d-none d-md-block'></Col>
+            <Col className='p-0'>
+              {UserData.profilePhoto !== '' ? <img style={{ width: '180px', height: '180px', objectFit: 'cover' }} className='rounded-circle' src={MediaService.getMedia(UserData.profilePhoto)} /> : ''}
+            </Col>
+            <Col xs='3' className='d-none d-md-block'></Col>
+          </Row>
+          <Row className={`mb-5 mt-2 ${ThemeConfig[GlobalTheme].textColor}`}>
+            <Col xs='3' className='d-none d-md-block'></Col>
+            <Col className='p-4 blogContent'>
+              <div className={`blogContent ${ThemeConfig[GlobalTheme].textColor}`}>{introContent}</div>
+            </Col>
+            <Col xs='3' className='d-none d-md-block'></Col>
+          </Row>
+        </div>
+      </Container>
+    );
 }
 
 export default HomePage;
