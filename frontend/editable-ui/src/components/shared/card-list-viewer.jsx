@@ -111,7 +111,9 @@ function CardListViewer(props) {
               </CardText>
               <CardText>
                 <Link className={`${props.textColor}`} to={`/${props.resourceType}/${itemObject.id}`}>
-                  Open this resource
+                  <Button color='success'>
+                    Open this resource
+                  </Button>
                 </Link>
                 <Button color='danger' onClick={() => showModal()} className='m-2'>Delete Category</Button>
               </CardText>
@@ -138,21 +140,26 @@ function CardListViewer(props) {
               </CardText>
             </Link>
           </CardBody>
-          <ButtonGroup>
-            <Button
-              outline
-              active={itemObject.id === props.featuredBlog}
-              onClick={() => props.updateFeaturedBlog(itemObject.id)}
-            >
-              Set this as featured
-            </Button>
-            <Button
-              outline
-              onClick={() => props.updateFeaturedBlog('')}
-            >
-              Unset featured blog
-            </Button>
-          </ButtonGroup>
+          {
+            itemObject.id === props.featuredBlog ?
+              <ButtonGroup>
+                <Button
+                  outline
+                  active={itemObject.id === props.featuredBlog}
+                  color={props.buttonColor}
+                  onClick={() => props.updateFeaturedBlog(itemObject.id)}
+                >
+                  Set this as featured
+                </Button>
+                <Button
+                  outline
+                  color={props.buttonColor}
+                  onClick={() => props.updateFeaturedBlog('')}
+                >
+                  Unset featured blog
+                </Button>
+              </ButtonGroup> : ''
+          }
         </Card>
       )
   }

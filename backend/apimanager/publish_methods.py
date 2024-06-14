@@ -3,7 +3,10 @@ import os
 import shutil
 import subprocess
 import tkinter as tk
+from rest_framework import status
 from tkinter import simpledialog
+from tkinter import messagebox
+import urllib.parse
 
 deployment_methods = {
     "server_deploy": {
@@ -23,10 +26,12 @@ def invokeDialogueBox(title, message, type):
         input_data = simpledialog.askstring(title, message)
     if type == 'password':
         input_data = simpledialog.askstring(title, message, show='*')
+    if type == 'message':
+        messagebox.showinfo(title, message)
 
     root.destroy()
-
     return input_data
+
 def copyData(data_location, deploy_location):
     if not os.path.exists(data_location):
         print("The source directory does not exist.")
@@ -41,9 +46,14 @@ def copyData(data_location, deploy_location):
         except Exception as e:
             print(f"Error occurred: {e}")
 def server_deploy():
-    data_location = f'{settings.BASE_DIR}/deploy/'
-    deploy_location = settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]+'/server'
-    copyData(data_location, deploy_location)
+    try:
+        data_location = f'{settings.BASE_DIR}/deploy/'
+        deploy_location = settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]+'/server'
+        copyData(data_location, deploy_location)
+        return {'message': 'Server deployment successful', 'status': status.HTTP_200_OK}
+    except Exception as e:
+        print (f"An error occurred: {str(e)}")
+        return {'message': str(e), 'status': status.HTTP_500_INTERNAL_SERVER_ERROR}
 
 def github_deploy():
     print("Deploying via github")
@@ -55,6 +65,8 @@ def github_deploy():
     git_commands["git_config_name"] = ['git', 'config', '--local', 'user.name']
     git_commands["git_commit"] = ['git', 'commit', '-m', 'Update website']
     git_commands["git_branch"] = ['git', 'branch', '-m', 'main']
+    git_commands["git_get_origin_url"] = ['git', 'remote', 'get-url', 'origin']
+    git_commands["git_set_origin_url"] = ['git', 'remote', 'set-url', 'origin']
     git_commands["git_add_url"] = ['git', 'remote', 'add', 'origin']
     git_commands["git_push"] = ['git', 'push', '-u', 'origin', 'main']
 
@@ -65,42 +77,54 @@ def github_deploy():
     copyData(data_location, deploy_location)
     
     if not os.path.exists(f'{deploy_location}/.git'):
-        github_init(deploy_location, git_commands)
-        gh_pages_deploy(deploy_location, git_commands)
+        try:
+            github_init(deploy_location, git_commands)
+            gh_pages_deploy(deploy_location, git_commands)
+            return {'message': 'Github deployment successful', 'status': status.HTTP_200_OK}
+        except Exception as e:
+            print (f"An error occurred: {str(e)}")
+            return {'message': str(e), 'status': status.HTTP_500_INTERNAL_SERVER_ERROR}
+
     else:
-        gh_pages_deploy(deploy_location, git_commands)
+        try:
+            gh_pages_deploy(deploy_location, git_commands)
+            return {'message': 'Github deployment successful', 'status': status.HTTP_200_OK}
+        except Exception as e:
+            print (f"An error occurred: {str(e)}")
+            return {'message': str(e), 'status': status.HTTP_500_INTERNAL_SERVER_ERROR}
+
 
 def github_init(deploy_location, git_commands):
-     email = invokeDialogueBox('Github Deploy', 'Enter your github email', 'text')
-     name = invokeDialogueBox('Github Deploy', 'Enter your name', 'text')
-     username = invokeDialogueBox('Github Deploy', 'Enter your username', 'text')
-     password = invokeDialogueBox('Github Deploy', 'Enter your github token', 'password')
-     remote_url = f'https://{username}:{password}@github.com/{username}/{username}.github.io.git'
+    email = invokeDialogueBox('Github Deploy', 'Enter your github email', 'text')
+    name = invokeDialogueBox('Github Deploy', 'Enter your name', 'text')
+    username = invokeDialogueBox('Github Deploy', 'Enter your username', 'text')
+    password = invokeDialogueBox('Github Deploy', 'Enter your github token', 'password')
+    remote_url = f'https://{username}:{password}@github.com/{username}/{username}.github.io.git'
 
-     try:
-         subprocess.run(git_commands["git_init"], cwd=deploy_location, check=True, text=True, capture_output=True)
-         subprocess.run((git_commands["git_config_email"]).append(email), cwd=deploy_location, check=True, text=True, capture_output=True)
-         subprocess.run((git_commands["git_config_name"]).append(name), cwd=deploy_location, check=True, text=True, capture_output=True)
-         subprocess.run(git_commands["git_add"], cwd=deploy_location, check=True, text=True, capture_output=True)
-         subprocess.run(git_commands["git_commit"], cwd=deploy_location, check=True, text=True, capture_output=True)
-         subprocess.run(git_commands["git_branch"], cwd=deploy_location, check=True, text=True, capture_output=True)
-         subprocess.run((git_commands["git_add_url"]).append(remote_url), cwd=deploy_location, check=True, text=True, capture_output=True)
-         subprocess.run(git_commands["git_push"], cwd=deploy_location, check=True, text=True, capture_output=True)
-     except subprocess.CalledProcessError as e:
-         print (f"Failed to add remote: {e.stderr}")
-     except Exception as e:
-         print (f"An error occurred: {str(e)}")
+    subprocess.run(git_commands["git_init"], cwd=deploy_location, check=True, text=True, capture_output=True)
+    subprocess.run((git_commands["git_config_email"]).append(email), cwd=deploy_location, check=True, text=True, capture_output=True)
+    subprocess.run((git_commands["git_config_name"]).append(name), cwd=deploy_location, check=True, text=True, capture_output=True)
+    subprocess.run(git_commands["git_add"], cwd=deploy_location, check=True, text=True, capture_output=True)
+    subprocess.run(git_commands["git_commit"], cwd=deploy_location, check=True, text=True, capture_output=True)
+    subprocess.run(git_commands["git_branch"], cwd=deploy_location, check=True, text=True, capture_output=True)
+    subprocess.run((git_commands["git_add_url"]).append(remote_url), cwd=deploy_location, check=True, text=True, capture_output=True)
+    subprocess.run(git_commands["git_push"], cwd=deploy_location, check=True, text=True, capture_output=True)
 
 
 def gh_pages_deploy(deploy_location, git_commands):
-    try:
-        subprocess.run(git_commands["git_add"], cwd=deploy_location, check=True, text=True, capture_output=True)
-        subprocess.run(git_commands["git_commit"], cwd=deploy_location, check=True, text=True, capture_output=True)
-        subprocess.run(git_commands["git_push"], cwd=deploy_location, check=True, text=True, capture_output=True)
-    except subprocess.CalledProcessError as e:
-        return f"Failed to add remote: {e.stderr}"
-    except Exception as e:
-        return f"An error occurred: {str(e)}"
+    subprocess.run(git_commands["git_pull"], cwd=deploy_location, check=True, text=True, capture_output=True)
+    origin_url_subprocess = subprocess.run(git_commands["git_get_origin_url"], cwd=deploy_location, check=True, text=True, capture_output=True)
+    origin_url = origin_url_subprocess.stdout.strip()
+    parsed_url = urllib.parse.urlparse(origin_url)
+    if not '@' in parsed_url.netloc:
+        username = invokeDialogueBox('Github Deploy', 'Enter your username', 'text')
+        password = invokeDialogueBox('Github Deploy', 'Enter your github token', 'password')
+        netloc = f"{username}:{password}@{parsed_url.hostname}"
+        new_url = urllib.parse.urlunparse(parsed_url._replace(netloc=netloc))
+        subprocess.run(git_commands["git_set_origin_url"] + [new_url], cwd=deploy_location, check=True, text=True, capture_output=True)
+    subprocess.run(git_commands["git_add"], cwd=deploy_location, check=True, text=True, capture_output=True)
+    subprocess.run(git_commands["git_commit"], cwd=deploy_location, check=True, text=True, capture_output=True)
+    subprocess.run(git_commands["git_push"], cwd=deploy_location, check=True, text=True, capture_output=True)
 
 
 def create_404_page(deploy_location):

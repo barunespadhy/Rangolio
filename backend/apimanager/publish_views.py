@@ -34,8 +34,8 @@ class Publish(APIView):
         storage = CustomStorage()
         self.delete_old_data()
         self.create_json(storage)
-        self.execute_deploy(deploy_type)
-        return Response({"deploy_type": deploy_type}, status=status.HTTP_200_OK)
+        response = self.execute_deploy(deploy_type)
+        return Response(response['message'], response['status'])
     
     
     def delete_old_data(self):
@@ -152,7 +152,14 @@ class Publish(APIView):
     
     
     def execute_deploy(self, deploy_type):
+        response = {
+            'message': 'Something failed',
+            'status': status.HTTP_500_INTERNAL_SERVER_ERROR
+        }
+
         if deploy_type == "server_deploy":
-            server_deploy()
+            response = server_deploy()
         if deploy_type == "github_deploy":
-            github_deploy()
+            response = github_deploy()
+
+        return response

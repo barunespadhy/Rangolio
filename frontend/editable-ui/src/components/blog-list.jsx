@@ -131,6 +131,7 @@ function BlogList(props) {
                           textColor={ThemeConfig[GlobalTheme].textColor}
                           bgColor={ThemeConfig[GlobalTheme].background}
                           borderColor={ThemeConfig[GlobalTheme].borderColor}
+                          buttonColor={ThemeConfig[GlobalTheme].buttonColor}
                           itemObject={item}
                         />
                       </div>
