@@ -50,8 +50,11 @@ def github_deploy():
     git_commands = {}
     git_commands["git_init"] = ['git', 'init']
     git_commands["git_add"] = ['git', 'add', '.']
+    git_commands["git_config_email"] = ['git', 'config', '--local', 'user.email']
+    git_commands["git_config_name"] = ['git', 'config', '--local', 'user.name']
     git_commands["git_commit"] = ['git', 'commit', '-m', '"Update website"']
     git_commands["git_branch"] = ['git', 'branch', '-m', 'main']
+    git_commands["git_add_url"] = ['git', 'remote', 'add', 'origin']
     git_commands["git_push"] = ['git', 'push', '-u', 'origin', 'main']
 
     data_location = f'{settings.BASE_DIR}/deploy/'
@@ -70,17 +73,20 @@ def github_deploy():
         gh_pages_deploy(deploy_location, git_commands)
 
 def github_init(deploy_location, git_commands):
+     email = invokeDialogueBox('Github Deploy', 'Enter your github email', 'text')
+     name = invokeDialogueBox('Github Deploy', 'Enter your name', 'text')
      username = invokeDialogueBox('Github Deploy', 'Enter your username', 'text')
-     password = invokeDialogueBox('Github Deploy', 'Enter your password', 'password')
+     password = invokeDialogueBox('Github Deploy', 'Enter your github token', 'password')
      remote_url = f'https://{username}:{password}@github.com/{username}/{username}.github.io.git'
-     git_add_url = ['git', 'remote', 'add', 'origin', remote_url]
 
      try:
          subprocess.run(git_commands["git_init"], cwd=deploy_location, check=True, text=True, capture_output=True)
+         subprocess.run((git_commands["git_config_email"]).append(email), cwd=deploy_location, check=True, text=True, capture_output=True)
+         subprocess.run((git_commands["git_config_name"]).append(name), cwd=deploy_location, check=True, text=True, capture_output=True)
          subprocess.run(git_commands["git_add"], cwd=deploy_location, check=True, text=True, capture_output=True)
          subprocess.run(git_commands["git_commit"], cwd=deploy_location, check=True, text=True, capture_output=True)
          subprocess.run(git_commands["git_branch"], cwd=deploy_location, check=True, text=True, capture_output=True)
-         subprocess.run(git_add_url, cwd=deploy_location, check=True, text=True, capture_output=True)
+         subprocess.run((git_commands["git_add_url"]).append(remote_url), cwd=deploy_location, check=True, text=True, capture_output=True)
          subprocess.run(git_commands["git_push"], cwd=deploy_location, check=True, text=True, capture_output=True)
      except subprocess.CalledProcessError as e:
          print (f"Failed to add remote: {e.stderr}")
@@ -105,7 +111,7 @@ def create_404_page(deploy_location):
         <html>
             <head>
                 <meta charset="utf-8">
-                <title>Single Page Apps for GitHub Pages</title>
+                <title>Rangoio</title>
                 <script type="text/javascript">
                     var pathSegmentsToKeep = 0;
                     var l = window.location;
