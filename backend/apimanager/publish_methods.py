@@ -50,9 +50,10 @@ def github_deploy():
     git_commands = {}
     git_commands["git_init"] = ['git', 'init']
     git_commands["git_add"] = ['git', 'add', '.']
+    git_commands["git_pull"] = ['git', 'pull']
     git_commands["git_config_email"] = ['git', 'config', '--local', 'user.email']
     git_commands["git_config_name"] = ['git', 'config', '--local', 'user.name']
-    git_commands["git_commit"] = ['git', 'commit', '-m', '"Update website"']
+    git_commands["git_commit"] = ['git', 'commit', '-m', 'Update website']
     git_commands["git_branch"] = ['git', 'branch', '-m', 'main']
     git_commands["git_add_url"] = ['git', 'remote', 'add', 'origin']
     git_commands["git_push"] = ['git', 'push', '-u', 'origin', 'main']
@@ -60,9 +61,6 @@ def github_deploy():
     data_location = f'{settings.BASE_DIR}/deploy/'
     deploy_location = settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]+'/ghpages'
 
-    run_gh_build = ['npm', 'run', 'build:ghpages']
-
-    subprocess.run(run_gh_build, cwd=settings.DEPLOY_CONFIG["DEPLOY_LOCATION"].replace('/dist', ''), check=True, text=True, capture_output=True)
     create_404_page(deploy_location)
     copyData(data_location, deploy_location)
     

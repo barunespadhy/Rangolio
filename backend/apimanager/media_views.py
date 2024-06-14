@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.files.storage import default_storage
 from django.conf import settings
+from PIL import Image
+import io
 
 from .serializers import (
     MediaSerializer
@@ -14,6 +16,23 @@ from .serializers import (
 
 class MediaUpload(APIView):
     parser_classes = (MultiPartParser, FormParser)
+
+    def reduce_image_quality(self, image, quality=20):
+        try:
+            img = Image.open(image)
+            img_io = io.BytesIO()
+
+            # Handle different image modes
+            if img.mode in ("RGBA", "P"):
+                img = img.convert("RGB")
+
+            img_format = img.format if img.format else 'JPEG'
+            img.save(img_io, format=img_format, quality=quality)
+            img_io.seek(0)
+            return img_io
+        except Exception as e:
+            print(f"Error reducing image quality: {e}")
+            return image
 
     def post(self, request, *args, **kwargs):
         file_serializer = MediaSerializer(data=request.data)
@@ -29,11 +48,19 @@ class MediaUpload(APIView):
                     file_path = f"{file_path_base}/{resource_type}/{resource_id}/media/{file_unique_slug+resource_id+f.name}"
                 else:
                     file_path = f"{file_path_base}/{resource_type}/media/{file_unique_slug+resource_id+f.name}"
-                default_storage.save(file_path, f)
+
+                # Reduce image quality if the file is an image
+                if f.content_type.startswith('image'):
+                    reduced_image = self.reduce_image_quality(f, quality=65)
+                    default_storage.save(file_path, reduced_image)
+                else:
+                    # Save non-image files directly
+                    default_storage.save(file_path, f)
 
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ListMedia(APIView):
     def get(self, request, resource_type, resource_id, format=None):

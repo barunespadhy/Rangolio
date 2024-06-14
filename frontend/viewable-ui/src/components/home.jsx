@@ -43,7 +43,7 @@ function HomePage(props) {
         </Row>
         <Row className={`mb-5 mt-2 ${ThemeConfig[GlobalTheme].textColor}`}>
           <Col xs='3' className='d-none d-md-block'></Col>
-          <Col className='p-4 blogContent'>
+          <Col className='p-2 blogContent'>
             <div className={`blogContent ${ThemeConfig[GlobalTheme].textColor}`}>{introContent}</div>
           </Col>
           <Col xs='3' className='d-none d-md-block'></Col>
