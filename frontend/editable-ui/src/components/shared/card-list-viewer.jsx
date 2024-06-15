@@ -72,7 +72,7 @@ function CardListViewer(props) {
       return (
         <>
           <ModalComponent modalText={modalText} modalTitle={modalTitle} modal={modal} toggle={toggle} confirmAction={deleteResource}/>
-          <Card color={props.borderColor} outline className={`my-2 ${props.bgColor}`} style={{'width': props.cardType === 'smallCard' ? '18rem': '100%'}}>
+          <Card outline className={`my-2 ${props.borderColor} ${props.bgColor}`} style={{'width': props.cardType === 'smallCard' ? '18rem': '100%'}}>
             <CardBody>
               <CardTitle className={`mb-3 ${props.textColor}`} tag='h5'>
                 <InputGroup>
@@ -123,7 +123,7 @@ function CardListViewer(props) {
       )
     else
       return (
-        <Card color={props.borderColor} outline className={`my-2 ${props.bgColor}`} style={{'width': props.cardType === 'smallCard' ? '18rem': '100%'}}>
+        <Card outline className={`my-2  ${props.borderColor} ${props.bgColor}`} style={{'width': props.cardType === 'smallCard' ? '18rem': '100%'}}>
           {itemObject.coverImage !== '' ? <CardImg src={EditableMediaService.getMedia(itemObject.coverImage)} style={{ 'height': '180px', 'objectFit': 'cover' }} top width='100%' /> : ''}
           <CardBody>
             <Link to={`/${props.resourceType}/${itemObject.id}`}>

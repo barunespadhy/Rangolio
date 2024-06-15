@@ -110,7 +110,8 @@ function Blog(props) {
                 <img
                   src={EditableMediaService.getMedia(blogData.coverImage)}
                   alt='Banner'
-                  style={{ width: '100%', height: 'auto', maxHeight: '20vh', objectFit: 'cover' }}
+                  className='rounded'
+                  style={{ width: '100%', height: 'auto', maxHeight: '50vh', objectFit: 'cover' }}
                 />:''
             }
           </Col>

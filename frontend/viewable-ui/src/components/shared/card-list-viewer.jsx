@@ -14,10 +14,10 @@ function CardListViewer(props) {
 
   if (props.totalItems > 0 && itemObject && Object.keys(itemObject).length !== 0)
     return (
-      <Card color={props.borderColor} outline className={`my-2 ${props.bgColor}`} style={{'width': props.cardType === 'smallCard' ? '18rem': '100%'}}>
-        {itemObject.coverImage ? <CardImg src={MediaService.getMedia(itemObject.coverImage)} style={{ 'height': '180px', 'objectFit': 'cover' }} top width='100%' /> : ''}
-        <CardBody>
-          <Link to={`/${props.resourceType}/${itemObject.id}`}>
+      <Card outline className={`my-2 ${props.borderColor} ${props.bgColor}`} style={{'width': props.cardType === 'smallCard' ? '18rem': '100%'}}>
+        <Link to={`/${props.resourceType}/${itemObject.id}`}>
+          {itemObject.coverImage ? <CardImg src={MediaService.getMedia(itemObject.coverImage)} style={{ 'height': '180px', 'objectFit': 'cover' }} top width='100%' /> : ''}
+          <CardBody>
             <CardTitle className={`${props.textColor}`} tag='h5'>
               {itemObject.name}
             </CardTitle>
@@ -29,8 +29,8 @@ function CardListViewer(props) {
                 {itemObject.tagLine}
               </small>
             </CardText>
-          </Link>
-        </CardBody>
+          </CardBody>
+        </Link>
       </Card>
     )
   else

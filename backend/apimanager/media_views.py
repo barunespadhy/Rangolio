@@ -49,9 +49,10 @@ class MediaUpload(APIView):
                 else:
                     file_path = f"{file_path_base}/{resource_type}/media/{file_unique_slug+resource_id+f.name}"
 
-                # Reduce image quality if the file is an image
+                # Reduce image quality if the file is an images
+                print(f.content_type)
                 if f.content_type.startswith('image'):
-                    reduced_image = self.reduce_image_quality(f, quality=65)
+                    reduced_image = self.reduce_image_quality(f, quality=40)
                     default_storage.save(file_path, reduced_image)
                 else:
                     # Save non-image files directly
