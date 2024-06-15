@@ -145,7 +145,7 @@ function Blog(props) {
         </Row>
         <Row className={`my-2 ${ThemeConfig[GlobalTheme].background}`}>
           <Col>
-            <hr style={{'borderColor': `${ThemeConfig[GlobalTheme].borderColor}`}} />
+            <hr className={`${ThemeConfig[GlobalTheme].borderColor}`} />
           </Col>
         </Row>
 
