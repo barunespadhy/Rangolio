@@ -111,6 +111,7 @@ function BlogList(props) {
                     totalItems={featuredBlogData === 'nodata' ? 0 : 1}
                     cardType={'longCard'}
                     resourceType={'blog'}
+                    showSetFeaturedBlog={false}
                     textColor={ThemeConfig[GlobalTheme].textColor}
                     bgColor={ThemeConfig[GlobalTheme].background}
                     borderColor={ThemeConfig[GlobalTheme].borderColor}
@@ -125,6 +126,7 @@ function BlogList(props) {
                         <CardListViewer
                           totalItems={categoryData.blogMetadata.length}
                           featuredBlog={categoryData.featuredBlog}
+                          showSetFeaturedBlog={true}
                           updateFeaturedBlog={updateFeaturedBlog}
                           cardType={'smallCard'}
                           resourceType={'blog'}

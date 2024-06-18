@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 ]
 
 DEPLOY_CONFIG = {
+    "VIEWABLE_UI_LOCATION": os.path.join(BASE_DIR, '../frontend/viewable-ui'),
     "DEPLOY_LOCATION": os.path.join(BASE_DIR, '../frontend/viewable-ui/dist')
 }
 

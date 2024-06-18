@@ -141,7 +141,7 @@ function CardListViewer(props) {
             </Link>
           </CardBody>
           {
-            itemObject.id === props.featuredBlog ?
+            props.showSetFeaturedBlog ?
               <ButtonGroup>
                 <Button
                   outline
