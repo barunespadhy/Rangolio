@@ -1,5 +1,6 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QInputDialog, QWidget, QLineEdit, QMessageBox
+from PyQt6.QtCore import Qt
 
 
 def get_text_input(title, message, widget):
@@ -56,7 +57,11 @@ def show_message_box(title, message, widget):
 def draw_dialogue_box(title, message, dialogue_box_type):
     app = QApplication(sys.argv)
     widget = QWidget()
-    widget.setWindowTitle('Password Dialog')
+    widget.setWindowFlag(Qt.WindowType.Window
+    widget.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
+    widget.show()
+    widget.raise_()
+    widget.activateWindow()
     
     if dialogue_box_type == 'textbox':
         return get_text_input(title, message, widget)
