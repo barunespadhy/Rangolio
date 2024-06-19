@@ -57,7 +57,7 @@ def show_message_box(title, message, widget):
 def draw_dialogue_box(title, message, dialogue_box_type):
     app = QApplication(sys.argv)
     widget = QWidget()
-    widget.setWindowFlag(Qt.WindowType.Window
+    widget.setWindowFlag(Qt.WindowType.Window)
     widget.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
     widget.show()
     widget.raise_()
