@@ -11,18 +11,16 @@ from .dialogue_box import (
 )
 
 from .publish_methods_github import (
-    create_404_page,
     git_existing_repo_setup,
     github_init,
     github_pages_deploy
-
 )
 
 deployment_methods = {
-    "server_deploy": {
+    "server": {
         "name": "Server Deploy"
     },
-    "github_deploy": {
+    "ghpages": {
         "name": "Github Deploy"
     }
 }
@@ -30,12 +28,7 @@ deployment_methods = {
 
 def server_deploy():
     try:
-        copy_content(
-            settings.DEPLOY_CONFIG["EDITOR_DATA_LOCATION"],
-            f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/server/data',
-            'folder',
-            'remove_and_copy'
-        )
+        copy_data_and_html('server')
         return {'message': 'Server deployment successful', 'status': status.HTTP_200_OK}
     except Exception as e:
         print(f"An error occurred: {str(e)}")
@@ -60,18 +53,9 @@ def github_deploy():
     }
 
     deploy_location = settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]+'/ghpages'
-
-    create_404_page(deploy_location)
-    copy_content(
-        settings.DEPLOY_CONFIG["EDITOR_DATA_LOCATION"],
-        f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/ghpages/data',
-        'folder',
-        'remove_and_copy'
-    )
-    
+    copy_data_and_html('ghpages')
     if not os.path.exists(f'{deploy_location}/.git'):
         try:
-
             existing_repo = draw_dialogue_box(
                 'Github Deploy',
                 'Do you have an existing repository with Rangolio on github?',
@@ -94,3 +78,24 @@ def github_deploy():
         except Exception as e:
             print(f"An error occurred: {str(e)}")
             return {'message': str(e), 'status': status.HTTP_500_INTERNAL_SERVER_ERROR}
+
+
+def copy_data_and_html(deploy_type):
+    copy_content(
+        settings.DEPLOY_CONFIG["EDITOR_DATA_LOCATION"],
+        f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/{deploy_type}/data',
+        'folder',
+        'remove_and_copy'
+    )
+    copy_content(
+        f'{settings.DEPLOY_CONFIG["EDITOR_HTML_LOCATION"]}/categories',
+        f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/{deploy_type}/categories',
+        'folder',
+        'remove_and_copy'
+    )
+    copy_content(
+        f'{settings.DEPLOY_CONFIG["EDITOR_HTML_LOCATION"]}/blog',
+        f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/{deploy_type}/blog',
+        'folder',
+        'remove_and_copy'
+    )

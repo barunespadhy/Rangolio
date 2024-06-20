@@ -4,10 +4,13 @@ import shutil
 import subprocess
 import urllib.parse
 
+from .utilities import (
+    copy_content
+)
+
 from .dialogue_box import (
     draw_dialogue_box
 )
-
 
 def github_init(deploy_location, git_commands):
     user_details_defined = git_check_user_details(deploy_location, git_commands)
@@ -74,15 +77,44 @@ def git_check_user_details(deploy_location, git_commands):
 
 def git_update_viewable_ui(deploy_location, dist_folder_name, build_frontend=False):
     shutil.move(deploy_location, f'{deploy_location}.temp')
+
     if build_frontend:
         subprocess.run(["npm", 'run', 'build:ghpages'], cwd=settings.DEPLOY_CONFIG["VIEWABLE_UI_LOCATION"], check=True,
                        text=True, capture_output=True)
+
     shutil.move(f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/{dist_folder_name}', f'{deploy_location}')
-    shutil.copy(f'{deploy_location}.temp/index.html', deploy_location)
-    shutil.copy(f'{deploy_location}.temp/404.html', deploy_location)
-    shutil.copytree(f'{deploy_location}.temp/assets', f'{deploy_location}/assets', dirs_exist_ok=True)
-    if os.path.exists(f'{deploy_location}.temp/data'):
-        shutil.copytree(f'{deploy_location}.temp/data', f'{deploy_location}/data', dirs_exist_ok=True)
+
+    copy_content(
+        f'{deploy_location}.temp/index.html',
+        deploy_location,
+        'file',
+        'remove_and_copy'
+    )
+    copy_content(
+        f'{deploy_location}.temp/assets',
+        f'{deploy_location}/assets',
+        'folder',
+        'remove_and_copy'
+    )
+    copy_content(
+        f'{deploy_location}.temp/data',
+        f'{deploy_location}/data',
+        'folder',
+        'remove_and_copy'
+    )
+    copy_content(
+        f'{deploy_location}.temp/categories',
+        f'{deploy_location}/categories',
+        'folder',
+        'remove_and_copy'
+    )
+    copy_content(
+        f'{deploy_location}.temp/blog',
+        f'{deploy_location}/blog',
+        'folder',
+        'remove_and_copy'
+    )
+
     shutil.rmtree(f'{deploy_location}.temp')
     
     
@@ -124,34 +156,3 @@ def github_pages_deploy(deploy_location, git_commands):
     subprocess.run(git_commands["git_add"], cwd=deploy_location, check=True, text=True, capture_output=True)
     subprocess.run(git_commands["git_commit"], cwd=deploy_location, check=True, text=True, capture_output=True)
     subprocess.run(git_commands["git_push"], cwd=deploy_location, check=True, text=True, capture_output=True)
-
-
-def create_404_page(deploy_location):
-    html_content = """
-    <!DOCTYPE html>
-        <html>
-            <head>
-                <meta charset="utf-8">
-                <title>Rangoio</title>
-                <script type="text/javascript">
-                    var pathSegmentsToKeep = 0;
-                    var l = window.location;
-                    l.replace(
-                        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-                        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-                        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-                        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-                        l.hash
-                    );
-                </script>
-            </head>
-            <body>
-            </body>
-        </html>
-    """
-
-    with open(f'{deploy_location}/404.html', 'w') as file:
-        file.write(html_content)
-
-    print("404 page created successfully.")
-    

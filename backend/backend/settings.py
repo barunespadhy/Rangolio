@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 DEPLOY_CONFIG = {
     "VIEWABLE_UI_LOCATION": os.path.join(BASE_DIR, '../frontend/viewable-ui'),
     "DEPLOY_LOCATION": os.path.join(BASE_DIR, '../frontend/viewable-ui/dist'),
+    "EDITOR_HTML_LOCATION": os.path.join(BASE_DIR, 'deploy/html'),
     "EDITOR_DATA_LOCATION": os.path.join(BASE_DIR, 'deploy/data'),
     "EDITOR_MEDIA_LOCATION": os.path.join(BASE_DIR, 'media/data')
 }
