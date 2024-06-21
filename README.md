@@ -9,6 +9,3 @@ Start using Rangolio today to create beautiful, professional portfolio websites 
 ## Instructions
 
 Ofcourse I could create instructions here, but what better tool to showcase ability to create content than the tool itself! Head over to [instrctions](https://barunes.io/blog/975fda0e-6f2b-4f7b-9268-2d75dea61b0f) on prepping your github account to setup rangolio.
-
-
-
