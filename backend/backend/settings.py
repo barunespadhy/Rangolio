@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 ]
 
 DEPLOY_CONFIG = {
+    "RANGOLIO_LOCATION": os.path.join(BASE_DIR, '..'),
     "VIEWABLE_UI_LOCATION": os.path.join(BASE_DIR, '../frontend/viewable-ui'),
     "DEPLOY_LOCATION": os.path.join(BASE_DIR, '../frontend/viewable-ui/dist'),
     "EDITOR_HTML_LOCATION": os.path.join(BASE_DIR, 'deploy/html'),
