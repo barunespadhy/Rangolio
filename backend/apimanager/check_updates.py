@@ -26,15 +26,21 @@ def update_rangolio(rangolio_location):
     # Update server
     shutil.move(settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]+'/server',
                 f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/server.old')
+
     run_npm_command('npm_run', f'{rangolio_location}/frontend/viewable-ui', ['build:server'])
-    git_update_viewable_ui(f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/server', 'server.old')
+    git_update_viewable_ui(f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/server.old', 'server', False)
+    shutil.move(settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]+'/server.old',
+                f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/server')
+
     
     # Update ghpages
     shutil.move(settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]+'/ghpages',
                 f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/ghpages.old')
     
     run_npm_command('npm_run', f'{rangolio_location}/frontend/viewable-ui', ['build:ghpages'])
-    git_update_viewable_ui(f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/ghpages', 'ghpages.old')
+    git_update_viewable_ui(f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/ghpages.old', 'ghpages', False)
+    shutil.move(settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]+'/ghpages.old',
+                f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/ghpages')
     
     # Update editor-ui
     run_npm_command('npm_run', f'{rangolio_location}/frontend/editable-ui', ['build'])
