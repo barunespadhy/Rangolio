@@ -37,20 +37,6 @@ def server_deploy():
 
 def github_deploy():
     print("Deploying via github")
-    git_commands = {
-        "git_init": ['git', 'init'],
-        "git_add": ['git', 'add', '.'],
-        "git_pull": ['git', 'pull'],
-        "git_config_email": ['git', 'config', '--local', 'user.email'],
-        "git_config_name": ['git', 'config', '--local', 'user.name'],
-        "git_commit": ['git', 'commit', '-m', 'Update website'],
-        "git_branch": ['git', 'branch', '-m', 'main'],
-        "git_get_origin_url": ['git', 'remote', 'get-url', 'origin'],
-        "git_set_origin_url": ['git', 'remote', 'set-url', 'origin'],
-        "git_add_url": ['git', 'remote', 'add', 'origin'],
-        "git_push": ['git', 'push', '-u', 'origin', 'main'],
-        "git_clone": ['git', 'clone']
-    }
 
     deploy_location = settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]+'/ghpages'
     copy_data_and_html('ghpages')
@@ -62,10 +48,10 @@ def github_deploy():
                 'confirmation'
             )
             if existing_repo:
-                git_existing_repo_setup(deploy_location, git_commands)
+                git_existing_repo_setup(deploy_location)
             else:
-                github_init(deploy_location, git_commands)
-            github_pages_deploy(deploy_location, git_commands)
+                github_init(deploy_location)
+            github_pages_deploy(deploy_location)
             return {'message': 'Github deployment successful', 'status': status.HTTP_200_OK}
         except Exception as e:
             print(f"An error occurred: {str(e)}")
@@ -73,7 +59,7 @@ def github_deploy():
 
     else:
         try:
-            github_pages_deploy(deploy_location, git_commands)
+            github_pages_deploy(deploy_location)
             return {'message': 'Github deployment successful', 'status': status.HTTP_200_OK}
         except Exception as e:
             print(f"An error occurred: {str(e)}")

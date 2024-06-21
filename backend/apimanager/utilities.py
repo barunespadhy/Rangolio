@@ -21,12 +21,11 @@ def copy_content(source, destination, content_type, copy_type='merge'):
             print(f'Error occurred: {e}')
 
 
-def run_git_command(operation, deploy_location, parameter=None):
-    if not parameter:
-        parameter=[]
+def run_git_command(operation, command_location, parameter=None):
     git_commands = {
         "git_init": ['git', 'init'],
         "git_add": ['git', 'add', '.'],
+        "git_fetch_origin": ['git', 'fetch', 'origin'],
         "git_pull": ['git', 'pull'],
         "git_config_email": ['git', 'config', '--local', 'user.email'],
         "git_config_name": ['git', 'config', '--local', 'user.name'],
@@ -36,12 +35,38 @@ def run_git_command(operation, deploy_location, parameter=None):
         "git_set_origin_url": ['git', 'remote', 'set-url', 'origin'],
         "git_add_url": ['git', 'remote', 'add', 'origin'],
         "git_push": ['git', 'push', '-u', 'origin', 'main'],
-        "git_clone": ['git', 'clone']
+        "git_clone": ['git', 'clone'],
+        "git_diff": ['git', 'diff']
     }
-    try:
-        subprocess_operation = subprocess.run(git_commands[operation] + parameter, cwd=deploy_location, check=True, text=True, capture_output=True)
-        subprocess_output = subprocess_operation.stdout.strip()
-    except subprocess.CalledProcessError as e:
-        subprocess_output = None
+    return run_command(operation, command_location, git_commands, parameter)
 
-    return subprocess_output
+
+def run_npm_command(operation, command_location, parameter=None):
+    npm_commands = {
+        "npm_install": ['npm', 'install', '-i'],
+        "npm_run": ['npm', 'run'],
+    }
+    return run_command(operation, command_location, npm_commands, parameter)
+
+
+def run_django_command(operation, command_location, parameter=None):
+    npm_commands = {
+        "collectstatic": ['python', 'manage.py', 'collectstatic', '--no-input'],
+        "makemigrations": ['python', 'manage.py', 'makemigrations'],
+        "migrate": ['python', 'manage.py', 'migrate'],
+    }
+    return run_command(operation, command_location, npm_commands, parameter)
+
+
+def run_command(operation, command_location, command_map_list, parameter=None):
+    if not parameter:
+        parameter=[]
+
+    try:
+        subprocess_operation = subprocess.run(command_map_list[operation] + parameter, cwd=command_location, check=True, text=True, capture_output=True)
+        subprocess_output = subprocess_operation.stdout.strip()
+        subprocess_returncode = subprocess_operation.returncode
+        subprocess_result = {'subprocess_output': subprocess_output, 'subprocess_returncode': subprocess_returncode}
+        return subprocess_result
+    except subprocess.CalledProcessError as e:
+        return None
