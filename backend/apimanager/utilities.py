@@ -36,7 +36,7 @@ def run_git_command(operation, command_location, parameter=None):
         "git_add_url": ['git', 'remote', 'add', 'origin'],
         "git_push": ['git', 'push', '-u', 'origin', 'main'],
         "git_clone": ['git', 'clone'],
-        "git_diff": ['git', 'diff', 'origin/main']
+        "git_diff": ['git', 'diff']
     }
     return run_command(operation, command_location, git_commands, parameter)
 

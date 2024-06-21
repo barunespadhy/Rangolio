@@ -53,7 +53,7 @@ print ('Checking for updates')
 rangolio_location = settings.DEPLOY_CONFIG["RANGOLIO_LOCATION"]
 
 run_git_command('git_fetch_origin', rangolio_location)
-updates = run_git_command('git_diff', rangolio_location)
+updates = run_git_command('git_diff', rangolio_location, ['origin/development'])
 print (updates)
 if updates['subprocess_output'] and updates['subprocess_returncode'] == 0:
     update_confirmation = draw_dialogue_box('Software Update', 'Would you like to update rangolio?', 'confirmation')
