@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import DataService from '../../services/data-service';
-import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button, Spinner, ButtonGroup } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 
 function CategoryBar(props) {
 
+  let navigate = useNavigate();
   const [categoryMetadata, setCategoryMetadata] = useState([]);
 
   useEffect(() => {
@@ -34,13 +35,13 @@ function CategoryBar(props) {
                     <Button
                       key={item.id}
                       className="btn-lg"
+                      onClick={() => navigate(`/categories/${item.id}`)}
                       color={`${ThemeConfig[GlobalTheme].buttonColor}`}
                       outline
                       active={props.currentPage === item.id}
                     >
-                      <Link className="p-3" to={`/categories/${item.id}`}>
-                        {item.name}
-                      </Link></Button>
+                      {item.name}
+                    </Button>
                   )) : <Spinner />
                 }
               </ButtonGroup>

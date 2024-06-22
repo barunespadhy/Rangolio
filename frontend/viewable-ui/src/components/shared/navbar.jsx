@@ -12,10 +12,11 @@ import { useState, useEffect } from 'react';
 import MediaService from '../../services/media-service'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon, faPen } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Header(props) {
 
+  let navigate = useNavigate();
   const GlobalTheme = props.GlobalTheme;
   const ThemeConfig = props.ThemeConfig;
   const UserData = props.UserData;
@@ -45,19 +46,15 @@ function Header(props) {
                     src={MediaService.getMedia(UserData.profilePhoto)}
                   /> : ''
               }
-              <Button color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ''}`} size='lg'>
-                <Link to='/'>
-                  { UserData ? UserData.name : <Spinner> Loading... </Spinner> }
-                </Link>
+              <Button onClick={() => navigate('/')} aria-label='Go to Home page' color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ''}`} size='lg'>
+                { UserData ? UserData.name : <Spinner> Loading... </Spinner> }
               </Button>
             </NavbarBrand>
             <Nav className='ml-lg-auto' navbar>
               <NavItem>
                 <ButtonGroup style={{marginTop: '15px', marginBottom: '15px'}}>
-                  <Button color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ''}`}>
-                    <Link to='/categories'>
-                      <FontAwesomeIcon icon={faPen} /> Blogs
-                    </Link>
+                  <Button onClick={() => navigate('/categories')} style={{marginRight: '10px', borderRadius: '6px 0px 0px 6px'}} aria-label='Go to categories' color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ''}`}>
+                    <FontAwesomeIcon icon={faPen} /> Blogs
                   </Button>
                   <Button
                     color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ''}`}

@@ -8,7 +8,7 @@ import CategoryBar from './shared/category-bar';
 import {
   Container,Row, Col,Spinner, UncontrolledCollapse, Button, ButtonGroup, Card, CardBody
 } from 'reactstrap';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLeftLong, faCopy } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faReddit, faXTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -41,6 +41,31 @@ function Blog(props) {
     }
   };
 
+  const shareButton = (event, shareTarget) => {
+    if (shareTarget === 'copy'){
+      event.preventDefault();
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        props.notificationToggler('Link copied')
+      })
+      return false;
+    }
+    if (shareTarget === 'facebook'){
+      event.preventDefault();
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, 'facebook-share-dialog', 'width=800,height=600');
+      return false;
+    }
+    if (shareTarget === 'reddit'){
+      event.preventDefault();
+      window.open(`https://www.reddit.com/submit?url=${window.location.href}&title=${blogData.name}`, 'facebook-share-dialog', 'width=800,height=600');
+      return false;
+    }
+    if (shareTarget === 'x'){
+      event.preventDefault();
+      window.open(`https://twitter.com/intent/tweet?text=Check%20out%20this%20article!&url=${window.location.href}`, 'facebook-share-dialog', 'width=800,height=600');
+      return false;
+    }
+  }
+
   useEffect(() => {
     DataService.getData(`blog/${blogID}/blog-data`).then(response =>{
       setBlogData(response.data)
@@ -60,7 +85,7 @@ function Blog(props) {
   if (GlobalTheme && ThemeConfig) {
     return (
       <Container fluid className={`${ThemeConfig[GlobalTheme].background}`}>
-        <Col xs="3" className="d-md-block"><Button color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/${blogData.parentCategory}`)} className="ms-5 mt-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
+        <Col xs="3" className="d-md-block"><Button aria-label='Go to blogs' color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => navigate(`/categories/${blogData.parentCategory}`)} className="ms-5 mt-5" outline><FontAwesomeIcon icon={faLeftLong}/></Button></Col>
         <CategoryBar currentPage={blogData.parentCategory} GlobalTheme={GlobalTheme} ThemeConfig={ThemeConfig}/>
         <Row className="mb-4">
           <Col className="p-0">
@@ -83,6 +108,7 @@ function Blog(props) {
             <div>
               <Button
                 color="primary"
+                aria-label='Share this blog'
                 id="toggler"
                 style={{
                   marginBottom: '1rem'
@@ -97,43 +123,17 @@ function Blog(props) {
                       vertical
                       className="my-2"
                     >
-                      <Button outline>
-                        <Link className="p-3" to="#" onClick={(e) => {
-                          e.preventDefault();
-                          navigator.clipboard.writeText(window.location.href).then(() => {
-                            props.notificationToggler('Link copied')
-                          })
-                          return false;
-                        }}>
-                          <FontAwesomeIcon icon={faCopy}/> Copy Link
-                        </Link>
+                      <Button aria-label='copy link' outline onClick={(event) => shareButton(event,'copy')}>
+                        <FontAwesomeIcon icon={faCopy}/> Copy Link
                       </Button>
-                      <Button outline>
-                        <Link className="p-3" to="#" onClick={(e) => {
-                          e.preventDefault();
-                          window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, 'facebook-share-dialog', 'width=800,height=600');
-                          return false;
-                        }}>
-                          <FontAwesomeIcon icon={faFacebook}/> Facebook
-                        </Link>
+                      <Button onClick={(event) => shareButton(event, 'facebook')} aria-label='share to Facebook' outline>
+                        <FontAwesomeIcon icon={faFacebook}/> Facebook
                       </Button>
-                      <Button outline>
-                        <Link className="p-3" to="#" onClick={(e) => {
-                          e.preventDefault();
-                          window.open(`https://www.reddit.com/submit?url=${window.location.href}&title=${blogData.name}`, 'facebook-share-dialog', 'width=800,height=600');
-                          return false;
-                        }}>
-                          <FontAwesomeIcon icon={faReddit}/> Reddit
-                        </Link>
+                      <Button onClick={(event) => shareButton(event, 'reddit')} aria-label='share to Reddit' outline>
+                        <FontAwesomeIcon icon={faReddit}/> Reddit
                       </Button>
-                      <Button outline>
-                        <Link className="p-3" to="#" onClick={(e) => {
-                          e.preventDefault();
-                          window.open(`https://twitter.com/intent/tweet?text=Check%20out%20this%20article!&url=${window.location.href}`, 'facebook-share-dialog', 'width=800,height=600');
-                          return false;
-                        }}>
-                          <FontAwesomeIcon icon={faXTwitter}/>
-                        </Link>
+                      <Button onClick={(event) => shareButton(event, 'x')} aria-label='share to X' outline>
+                        <FontAwesomeIcon icon={faXTwitter}/>
                       </Button>
                     </ButtonGroup>
                   </CardBody>

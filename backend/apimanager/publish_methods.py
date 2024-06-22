@@ -40,6 +40,7 @@ def github_deploy():
 
     deploy_location = settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]+'/ghpages'
     copy_data_and_html('ghpages')
+    print("All data and HTML successfully copied to target folder")
     if not os.path.exists(f'{deploy_location}/.git'):
         try:
             existing_repo = draw_dialogue_box(
@@ -51,6 +52,7 @@ def github_deploy():
                 git_existing_repo_setup(deploy_location)
             else:
                 github_init(deploy_location)
+
             github_pages_deploy(deploy_location)
             return {'message': 'Github deployment successful', 'status': status.HTTP_200_OK}
         except Exception as e:

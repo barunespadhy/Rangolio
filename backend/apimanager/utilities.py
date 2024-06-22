@@ -15,7 +15,7 @@ def copy_content(source, destination, content_type, copy_type='merge'):
             else:
                 if copy_type == 'remove_and_copy' and os.path.exists(destination):
                     os.remove(destination)
-                shutil.copy(source, destination)
+                shutil.copy2(source, destination)
             print(f'{content_type} copied successfully from {source} to {destination}')
         except Exception as e:
             print(f'Error occurred: {e}')
@@ -69,4 +69,4 @@ def run_command(operation, command_location, command_map_list, parameter=None):
         subprocess_result = {'subprocess_output': subprocess_output, 'subprocess_returncode': subprocess_returncode}
         return subprocess_result
     except subprocess.CalledProcessError as e:
-        return None
+        return {'subprocess_output': None, 'subprocess_returncode': 1}

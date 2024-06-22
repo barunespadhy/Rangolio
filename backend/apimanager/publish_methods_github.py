@@ -79,9 +79,10 @@ def git_update_viewable_ui(deploy_location, dist_folder_name, copy_index_and_ass
     shutil.move(f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/{dist_folder_name}', f'{deploy_location}')
 
     if copy_index_and_asset:
+        print("Copying index.html and assets")
         copy_content(
             f'{deploy_location}.temp/index.html',
-            deploy_location,
+            f'{deploy_location}/index.html',
             'file',
             'remove_and_copy'
         )
@@ -91,6 +92,8 @@ def git_update_viewable_ui(deploy_location, dist_folder_name, copy_index_and_ass
             'folder',
             'remove_and_copy'
         )
+    else:
+        print("Skipping index.html and assets folder")
     copy_content(
         f'{deploy_location}.temp/data',
         f'{deploy_location}/data',
@@ -135,11 +138,12 @@ def github_pages_deploy(deploy_location):
 
     user_email = run_git_command("git_config_email", deploy_location)
     user_name = run_git_command("git_config_name", deploy_location)
-    repo_name = run_git_command("git_get_origin_url", deploy_location).split("/").pop()
+    repo_name = run_git_command("git_get_origin_url", deploy_location)
+    repo_name = repo_name['subprocess_output'].split("/").pop()
 
     deploy_confirmation = draw_dialogue_box(
         'Github Deploy',
-        f'Deploying as {user_name.subprocess_output} with email {user_email.subprocess_output} to {repo_name.subprocess_output}',
+        f'Deploying as {user_name["subprocess_output"]} with email {user_email["subprocess_output"]} to {repo_name}',
         'confirmation'
     )
 
@@ -147,8 +151,8 @@ def github_pages_deploy(deploy_location):
         run_git_command('git_pull', deploy_location)
         print("completed git pull")
         origin_url = run_git_command('git_get_origin_url', deploy_location)
-        print("Got origin as "+str(origin_url.subprocess_output))
-        parsed_url = urllib.parse.urlparse(origin_url.subprocess_output)
+        print("Got origin as "+str(origin_url["subprocess_output"]))
+        parsed_url = urllib.parse.urlparse(origin_url["subprocess_output"])
         print(parsed_url)
         if not '@' in parsed_url.netloc:
             username = draw_dialogue_box('Github Deploy', 'Enter your username', 'textbox')
