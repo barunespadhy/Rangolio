@@ -37,7 +37,7 @@ a {
     }
 }
 
-.tiptap blockquote {
+.blogContent blockquote {
   padding-left: 1rem;
   border-left: 2px solid grey;
 }
