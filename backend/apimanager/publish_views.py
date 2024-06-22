@@ -84,7 +84,7 @@ class Publish(APIView):
         html_soup = BeautifulSoup(html_file_content, 'lxml')
 
         html_soup.title.string = json_content['name']
-        meta_description = html_soup.new_tag('meta', attrs={'name': 'description', 'content': f'{json_content["name"]}. Learn more about {json_content["name"]}'})
+        meta_description = html_soup.new_tag('meta', attrs={'name': 'description', 'content': f'This is the portfolio and blog of {json_content["name"]}'})
         meta_robots = html_soup.new_tag('meta', attrs={'name': 'robots', 'content': 'index, follow'})
         html_soup.head.append(meta_description)
         html_soup.head.append(meta_robots)
