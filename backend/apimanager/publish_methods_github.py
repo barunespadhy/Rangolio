@@ -73,12 +73,9 @@ def git_check_user_details(deploy_location):
 
 
 def git_update_viewable_ui(deploy_location, dist_folder_name, copy_index_and_asset=True):
-    # deploy_location = server.old ; dist_folder_name = server
-
-    # server.old -> server.old.temp
+    
     shutil.move(deploy_location, f'{deploy_location}.temp')
 
-    # server -> server.old
     shutil.move(f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/{dist_folder_name}', f'{deploy_location}')
 
     if copy_index_and_asset:

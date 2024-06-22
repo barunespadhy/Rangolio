@@ -54,7 +54,7 @@ def update_rangolio(rangolio_location):
     run_django_command('makemigrations', f'{rangolio_location}/backend')
     run_django_command('migrate', f'{rangolio_location}/backend')
     
-    
+
 print ('Checking for updates')
 rangolio_location = settings.DEPLOY_CONFIG["RANGOLIO_LOCATION"]
 
@@ -63,6 +63,10 @@ updates = run_git_command('git_diff', rangolio_location, ['origin/main'])
 if updates['subprocess_output'] and updates['subprocess_returncode'] == 0:
     update_confirmation = draw_dialogue_box('Software Update', 'Would you like to update rangolio?', 'confirmation')
     if update_confirmation:
-        update_rangolio(rangolio_location)
+        try:
+            update_rangolio(rangolio_location)
+            draw_dialogue_box('Update', 'The Update was successful', 'confirmation')
+        except:
+            draw_dialogue_box('Update', 'The Update was unsuccessful', 'confirmation')
 else:
     print('No updates')

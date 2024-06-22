@@ -36,19 +36,20 @@ function Header(props) {
           expand='lg'>
           <Container>
             <NavbarBrand>
-              <Link to='/'>
-                {
-                  UserData.profilePhoto !== '' ?
-                    <img
-                      style={{ width: '40px', height: '40px', objectFit: 'cover', 'marginRight': '10px' }}
-                      className='rounded-circle'
-                      src={MediaService.getMedia(UserData.profilePhoto)}
-                    /> : ''
-                }
-                <Button color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ''}`} size='lg'>
+              {
+                UserData.profilePhoto !== '' ?
+                  <img
+                    style={{ width: '40px', height: '40px', objectFit: 'cover', 'marginRight': '10px' }}
+                    className='rounded-circle'
+                    alt={UserData.name}
+                    src={MediaService.getMedia(UserData.profilePhoto)}
+                  /> : ''
+              }
+              <Button color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ''}`} size='lg'>
+                <Link to='/'>
                   { UserData ? UserData.name : <Spinner> Loading... </Spinner> }
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </NavbarBrand>
             <Nav className='ml-lg-auto' navbar>
               <NavItem>

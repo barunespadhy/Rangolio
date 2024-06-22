@@ -60,7 +60,7 @@ class Publish(APIView):
             print(f"The directory {data_directory} does not exist.")
 
     def create_json_and_html(self, json_storage, html_storage, deploy_type):
-        self.create_user_data_json(UserData.objects.first(), json_storage)
+        self.create_user_data_json_and_html(UserData.objects.first(), json_storage, html_storage, deploy_type)
         self.create_theme_data_json(UserData.objects.first(), json_storage)
         self.create_category_data_json_and_html(Category, json_storage, html_storage, deploy_type)
         self.create_blog_data_json_and_html(Blog.objects.all(), json_storage, html_storage, deploy_type, UserData.objects.first())
@@ -70,7 +70,7 @@ class Publish(APIView):
             'folder',
         )
 
-    def create_user_data_json(self, instance, json_storage):
+    def create_user_data_json_and_html(self, instance, json_storage, html_storage, deploy_type):
         json_content = {
             "name": instance.name,
             "introContent": self.sanitize_media_link(instance.intro_content, 'content_media'),
@@ -78,6 +78,22 @@ class Publish(APIView):
             "builtWith": instance.built_with
         }
         self.save_json(json_content, 'shared/user-data.json', json_storage)
+
+        html_file = open(f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/{deploy_type}/index.html', "r")
+        html_file_content = html_file.read()
+        html_soup = BeautifulSoup(html_file_content, 'lxml')
+
+        html_soup.title.string = json_content['name']
+        meta_description = html_soup.new_tag('meta', attrs={'name': 'description', 'content': f'{json_content['name']}. Learn more about {json_content['name']}'})
+        meta_robots = html_soup.new_tag('meta', attrs={'name': 'robots', 'content': 'index, follow'})
+        html_soup.head.append(meta_description)
+        html_soup.head.append(meta_robots)
+        html_storage.save(f'index.html', ContentFile(str(html_soup).encode('utf-8')))
+        copy_content(f'{settings.DEPLOY_CONFIG["EDITOR_HTML_LOCATION"]}/index.html',
+            f'{settings.DEPLOY_CONFIG["DEPLOY_LOCATION"]}/{deploy_type}/index.html',
+            'file',
+            'remove_and_copy'
+        )
 
     def create_theme_data_json(self, instance, json_storage):
         json_content = {
