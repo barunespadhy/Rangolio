@@ -348,7 +348,9 @@ const extensions = [
   }),
   Underline,
   Blockquote,
-  CustomImageExtension,
+  CustomImageExtension.configure({
+    htmlAttributes: ['height', 'width']
+  }),
   TextAlign.configure({
     types: ['heading', 'paragraph'],
   }),
