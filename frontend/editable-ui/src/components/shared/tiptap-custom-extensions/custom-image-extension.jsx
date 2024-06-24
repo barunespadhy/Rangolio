@@ -1,3 +1,7 @@
+/*
+  Initital inspiration for this custom tiptap node: Angelika Tyborska: https://angelika.me/2023/02/26/how-to-add-editing-image-alt-text-tiptap/
+*/
+
 import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
 import Image from '@tiptap/extension-image';
 import { Button } from 'reactstrap';

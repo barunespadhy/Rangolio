@@ -37,7 +37,7 @@ function HomePage(props) {
         <Row className='mb-4'>
           <Col xs='3' className='d-none d-md-block'></Col>
           <Col className='p-0'>
-            {UserData.profilePhoto !== '' ? <img style={{ width: '180px', height: '180px', objectFit: 'cover' }} alt={UserData.name} className='mx-auto d-block rounded-circle' src={MediaService.getMedia(UserData.profilePhoto)} /> : ''}
+            {UserData.profilePhoto !== '' ? <img style={{ width: '180px', height: '180px', objectFit: 'cover' }} alt={UserData.name} className='mt-5 mx-auto d-block rounded-circle' src={MediaService.getMedia(UserData.profilePhoto)} /> : ''}
           </Col>
           <Col xs='3' className='d-none d-md-block'></Col>
         </Row>
