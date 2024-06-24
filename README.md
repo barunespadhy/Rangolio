@@ -52,16 +52,16 @@ If you wish to set this up on github, you need to follow some pre-requisites fir
 
 For understanding how deployment works, see the wiki: [Deployment](https://github.com/barunespadhy/rangolio/wiki/Deployment)
 
-Start the Editor UI backend by first running:
+Start the Editor UI backend by first going to `rangolio/backend` and then running (depending on your OS):
 
-For Windows, run:
+Windows:
 
 ```
 .\venv\Scripts\activate.bat
 python manage.py runserver
 ```
 
-For Linux based distros run:
+Linux:
 
 ```
 source .env/bin/activate
