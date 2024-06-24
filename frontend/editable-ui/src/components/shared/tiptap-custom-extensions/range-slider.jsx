@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Label, FormGroup, Container } from 'reactstrap';
 function RangeSlider (props) {
-  const [value, setValue] = useState(props.defaultValue || props.min);
+  const [value, setValue] = useState(props.value || props.defaultValue);
 
   const handleChange = (e) => {
     setValue(e.target.value);

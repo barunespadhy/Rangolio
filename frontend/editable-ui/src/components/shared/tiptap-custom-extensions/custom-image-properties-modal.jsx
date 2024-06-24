@@ -22,7 +22,7 @@ function CustomImagePropertiesModal(props) {
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={props.toggle}>
-              Ok
+              Done
           </Button>{' '}
         </ModalFooter>
       </Modal>

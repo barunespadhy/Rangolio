@@ -88,6 +88,8 @@ function ImageNode(props) {
         toggle={toggle}
         setAlt={setAlt}
         alt={alt}
+        width={width}
+        height={height}
         imageRef={imageRef}
         setWidth={handleSetWidth}
         setHeight={handleSetHeight}
