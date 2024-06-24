@@ -52,7 +52,27 @@ If you wish to set this up on github, you need to follow some pre-requisites fir
 
 For understanding how deployment works, see the wiki: [Deployment](https://github.com/barunespadhy/rangolio/wiki/Deployment)
 
-For a TL;DR server deployment, just install `serve` npm package `npm -g install serve`, and then in the viewable ui frontend folder `rangolio/frontend/viewable-ui`, serve the server build:
+Start the Editor UI backend by first running:
+
+For Windows, run:
+
+```
+.\venv\Scripts\activate.bat
+python manage.py runserver
+```
+
+For Linux based distros run:
+
+```
+source .env/bin/activate
+python manage.py runserver
+```
+
+The Editor UI will be accessible at [http://127.0.0.1:8000/]([http://127.0.0.1:8000/)
+
+Navigate around the UI, but keep in mind to click 'Publish' and then choose 'server' to make an initial data deployment first. Without this, the viewable UI won't start.
+
+For a TL;DR Viewable UI server deployment, just install `serve` npm package `npm -g install serve`, and then in the viewable ui frontend folder `rangolio/frontend/viewable-ui`, serve the server build:
 ```
 serve -s dist/server -p 4871
 ```
