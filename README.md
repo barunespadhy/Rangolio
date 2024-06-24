@@ -9,7 +9,7 @@ Why Rangolio, when there's like, millions of different blog creation platforms? 
 
 - You need a platform to post blogs with as minimal setup as possible
 - You don't really care much about theming, and [this website's](https://barunes.io) theme is good enough for you
-- You don't have any infrastructure of you own to post blogs (having purchased a domain name is a plus!), although Rangolio can be setup on a server as well
+- You don't have any infrastructure of your own to post blogs (having purchased a domain name is a plus!), although Rangolio can be setup on a server as well
 
 ## Rangolio does a few things differently, adding convenience.
 
