@@ -60,6 +60,17 @@ function Blog(props) {
     toggle()
   }
 
+  const setCoverImageWidth = () => {
+    EditableDataService.updateData(`/data/blog/update/${blogID}/`,{
+      'full_width_cover_image': !blogData.fullWidthCoverImage
+    }).then(() => {
+      props.notificationToggler('Blog data saved!');
+      getInfo()
+    }).catch(() => {
+      props.notificationToggler('Failed to update blog!', 'danger');
+    });
+  }
+
   const deleteResource = () => {
     EditableDataService.deleteData(`/data/blog/delete/${blogData.id}/`).then(() => {
       props.notificationToggler('Blog successfully deleted')
@@ -79,6 +90,7 @@ function Blog(props) {
         'description': responseData['description'],
         'tagLine': responseData['tagline'],
         'coverImage': responseData['cover_image'],
+        'fullWidthCoverImage': responseData['full_width_cover_image'],
         'parentCategory': responseData['parent_category']
       })
       setBlogContent(responseData['content_body'])
@@ -110,8 +122,8 @@ function Blog(props) {
                 <img
                   src={EditableMediaService.getMedia(blogData.coverImage)}
                   alt='Banner'
-                  className='rounded'
-                  style={{ width: '100%', height: 'auto', maxHeight: '50vh', objectFit: 'cover' }}
+                  className={`rounded ${blogData.fullWidthCoverImage ? '' : 'mx-auto d-block'}`}
+                  style={{ width: blogData.fullWidthCoverImage ? '100%' : 'auto', height: 'auto', maxHeight: '50vh', objectFit: 'cover' }}
                 />:''
             }
           </Col>
@@ -136,6 +148,9 @@ function Blog(props) {
               Remove Cover Image
               </Button>
             </ButtonGroup>
+            <Button outline active={blogData.fullWidthCoverImage} color={ThemeConfig[GlobalTheme].buttonColor} onClick={() => setCoverImageWidth()} className='mb-5 ms-3'>
+            Full Width Image: {blogData.fullWidthCoverImage ? 'Yes' : 'No'}
+            </Button>
             <InputGroup className='mb-3'>
               <InputGroupText>Name</InputGroupText>
               <Input innerRef={nameField} defaultValue={blogData.name} />

@@ -26,5 +26,6 @@ class Blog(models.Model):
 	description 	= models.CharField(null=False, blank=False, max_length=200)
 	tagline			= models.CharField(null=False, blank=False, max_length=200)
 	cover_image 	= models.CharField(null=True, blank=True, max_length=500)
+	full_width_cover_image = models.BooleanField(default=True)
 	content_body	= models.CharField(default='<p></p>', null=False, blank=False, max_length=100000)
 	parent_category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="blogs")

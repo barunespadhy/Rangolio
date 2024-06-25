@@ -93,9 +93,9 @@ function Blog(props) {
               blogData.coverImage ?
                 <img
                   src={MediaService.getMedia(blogData.coverImage)}
-                  alt="Banner"
-                  className='rounded'
-                  style={{ width: '100%', height: 'auto', maxHeight: '50vh', objectFit: 'cover' }}
+                  alt='Banner'
+                  className={`rounded ${blogData.fullWidthCoverImage ? '' : 'mx-auto d-block'}`}
+                  style={{ width: blogData.fullWidthCoverImage ? '100%' : 'auto', height: 'auto', maxHeight: '50vh', objectFit: 'cover' }}
                 />:''
             }
           </Col>

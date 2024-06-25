@@ -134,6 +134,7 @@ class Publish(APIView):
                     "name": eachBlog.name,
                     "description": eachBlog.description,
                     "coverImage": self.sanitize_media_link(eachBlog.cover_image),
+                    "fullWidthCoverImage": eachBlog.full_width_cover_image,
                     "tagLine": eachBlog.tagline,
                     "parentCategory": str(eachBlog.parent_category.category_id),
                     "contentBody": self.sanitize_media_link(eachBlog.content_body, 'content_media')

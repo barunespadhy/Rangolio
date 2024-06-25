@@ -49,6 +49,7 @@ class BlogSerializer(serializers.ModelSerializer):
 			'description',
 			'tagline',
 			'cover_image',
+			'full_width_cover_image',
 			'content_body',
 			'parent_category'
 		]
@@ -76,6 +77,7 @@ class UnifiedCategoryBlogSerializer(serializers.ModelSerializer):
 			'name': blog.name,
 			'description': blog.description,
 			'cover_image': blog.cover_image,
+			'full_width_cover_image': blog.full_width_cover_image,
 			'tagline': blog.tagline,
 			'parent_category': blog.parent_category.category_id
 		} for blog in blogs]
