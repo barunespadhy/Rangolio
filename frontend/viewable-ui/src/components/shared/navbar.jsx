@@ -1,7 +1,6 @@
 // Update import paths based on your Argon source location
 import {
   Navbar,
-  NavbarBrand,
   Nav,
   NavItem,
   Container,
@@ -36,20 +35,18 @@ function Header(props) {
         <Navbar className={`navbar-horizontal ${ThemeConfig[GlobalTheme].navBar['navBarTheme']} ${ThemeConfig[GlobalTheme].navBar['background']}`}
           expand='lg'>
           <Container>
-            <NavbarBrand>
-              {
-                UserData.profilePhoto !== '' ?
-                  <img
-                    style={{ width: '40px', height: '40px', objectFit: 'cover', 'marginRight': '10px' }}
-                    className='rounded-circle'
-                    alt={UserData.name}
-                    src={MediaService.getMedia(UserData.profilePhoto)}
-                  /> : ''
-              }
-              <Button onClick={() => navigate('/')} aria-label='Go to Home page' color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ''}`} size='lg'>
-                { UserData ? UserData.name : <Spinner> Loading... </Spinner> }
-              </Button>
-            </NavbarBrand>
+            {
+              UserData.profilePhoto !== '' ?
+                <img
+                  style={{ width: '40px', height: '40px', objectFit: 'cover', 'marginRight': '10px' }}
+                  className='rounded-circle'
+                  alt={UserData.name}
+                  src={MediaService.getMedia(UserData.profilePhoto)}
+                /> : ''
+            }
+            <Button onClick={() => navigate('/')} aria-label='Go to Home page' color={`${ThemeConfig ? ThemeConfig[GlobalTheme].navBar['buttonColor'] : ''}`} size='lg'>
+              { UserData ? UserData.name : <Spinner> Loading... </Spinner> }
+            </Button>
             <Nav className='ml-lg-auto' navbar>
               <NavItem>
                 <ButtonGroup style={{marginTop: '15px', marginBottom: '15px'}}>

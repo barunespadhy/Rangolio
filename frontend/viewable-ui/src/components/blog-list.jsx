@@ -70,7 +70,7 @@ function BlogList(props) {
               <Row>
                 {categoryData ?
                   categoryData.blogMetadata.map((item) => (
-                    <Col key={item.blog_id}>
+                    <Col key={`blogitem.${item.blog_id}`}>
                       <div className={`p-2 ml-2 ${ThemeConfig[GlobalTheme].textColor}`}>
                         <CardListViewer
                           totalItems={categoryData.blogMetadata.length}
